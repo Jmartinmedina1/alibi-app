@@ -24,9 +24,11 @@ export const SUSPECT_IMAGES: Record<string, any> = {
   rosa: require('../../assets/game/suspects/rosa.png'),
   'skater-leo': require('../../assets/game/suspects/skater-leo.png'),
   sunny: require('../../assets/game/suspects/sunny.png'),
+  'granny-dot': require('../../assets/game/suspects/granny-dot.png'),
+  'big-tony': require('../../assets/game/suspects/big-tony.png'),
 };
 /** Until their portraits are added, these suspects show an emoji badge. */
-export const SUSPECT_FALLBACK: Record<string, string> = { 'granny-dot': '👵', 'big-tony': '🧃' };
+export const SUSPECT_FALLBACK: Record<string, string> = {};
 
 export const INSPECTOR = {
   default: require('../../assets/game/inspector.png'),
