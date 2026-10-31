@@ -255,6 +255,7 @@ function OptionCard(props: { card: ViewCard; lang: Lang; chosen: boolean; disabl
         pressed && { transform: [{ scale: 0.98 }] },
       ]}
     >
+      {card.joker && <Text style={st.jokerTag}>🃏 JOKER</Text>}
       <Tr lang={props.lang} text={card.text} style={st.optionText} />
       {card.real != null && (
         <Text style={st.heat}>{card.real ? '📍' + '🔥'.repeat(card.heat ?? 1) : ''}</Text>
@@ -311,6 +312,7 @@ export function React_(p: PhaseProps) {
             <Text style={{ fontWeight: '700', color: C.ink }}>{target?.name}</Text>
           </View>
           <Text style={st.qSmall}>{ex.topic ? QUESTIONS[ex.topic][lang].toUpperCase() : ''}</Text>
+          {ex.picked?.joker && <Text style={st.jokerTag}>🃏 JOKER</Text>}
           <TypeText text={ex.picked?.text ?? ''} lang={lang} />
           {ex.timedOut && <Text style={{ color: C.red, fontStyle: 'italic', marginTop: 4 }}>{t(lang, 'stammers')}</Text>}
         </Paper>
@@ -686,6 +688,7 @@ const st = StyleSheet.create({
   option: { backgroundColor: C.paper, borderRadius: 8, padding: 14, borderWidth: 1, borderColor: C.manilaDark, flexDirection: 'row', alignItems: 'center', gap: 8 },
   optionText: { flex: 1, color: C.ink, fontSize: 16, lineHeight: 21 },
   heat: { fontSize: 12 },
+  jokerTag: { fontSize: 11, fontWeight: '900', letterSpacing: 1.5, color: '#8a3fb0', marginBottom: 2 },
   sent: { color: C.green, fontSize: 22, fontWeight: '900' },
   cone: { width: 0, height: 0, borderLeftWidth: 90, borderRightWidth: 90, borderBottomWidth: 130, borderLeftColor: 'transparent', borderRightColor: 'transparent', borderBottomColor: 'rgba(255,214,140,0.16)' },
   banner: { backgroundColor: C.amber, borderRadius: 8, padding: 8 },

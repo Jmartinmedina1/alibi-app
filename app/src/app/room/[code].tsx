@@ -4,6 +4,7 @@ import { GameScreen } from '../../components/GameScreen';
 import { ProfileGate } from '../../components/ProfileGate';
 import { Btn, Face, Inspector, Small } from '../../components/ui';
 import { Chip } from '../../components/Chip';
+import { GameOptions } from '../../components/GameOptions';
 import { langForPack, t } from '../../lib/i18n';
 import { serverUrl, useRoom, type GameConn } from '../../lib/net';
 import { setSavedRoom, type Profile } from '../../lib/profile';
@@ -87,6 +88,7 @@ function Lobby({ conn, lang, onExit }: { conn: GameConn; lang: 'en' | 'es'; onEx
               <Chip key={n} active={v.settings.rounds === n} onPress={() => set({ rounds: n })} title={t(lang, n === 2 ? 'quick' : n === 3 ? 'normal' : 'long')} />
             ))}
           </View>
+          <GameOptions lang={lang} difficulty={v.settings.difficulty} joker={!!v.settings.joker} onChange={set} />
           <Btn big label={t(lang, 'startGame')} disabled={!enough} onPress={() => conn.send({ type: 'start' })} />
         </>
       ) : (

@@ -1,0 +1,722 @@
+{
+ "espanol-islas-galapagos": {
+  "food": [
+   {
+    "es": "Comí una galleta y una iguana me miró con envidia.",
+    "en": "I ate a cookie and an iguana stared at me with envy."
+   },
+   {
+    "es": "Comí mientras un cangrejo rojo bailaba en mi roca.",
+    "en": "I ate while a red crab danced on my rock."
+   }
+  ],
+  "sound": [
+   {
+    "es": "Escuché a un lobo marino roncar más fuerte que mi papá.",
+    "en": "I heard a sea lion snore louder than my dad."
+   },
+   {
+    "es": "Oí a una iguana estornudar sal sobre mis zapatos.",
+    "en": "I heard an iguana sneeze salt onto my shoes."
+   }
+  ],
+  "people": [
+   {
+    "es": "Vi a un turista pedirle permiso a un lobo marino para pasar.",
+    "en": "I saw a tourist ask a sea lion for permission to pass."
+   },
+   {
+    "es": "Vi a una turista bucear con un pingüino al lado.",
+    "en": "I saw a tourist snorkel right next to a penguin."
+   }
+  ],
+  "object": [
+   {
+    "es": "Llevaba calcetines azules para que las aves me aceptaran.",
+    "en": "I wore blue socks so the birds would accept me."
+   },
+   {
+    "es": "Llevaba un reloj para medir la siesta de una tortuga gigante.",
+    "en": "I brought a watch to time a giant tortoise's nap."
+   }
+  ],
+  "leaving": [
+   {
+    "es": "Me fui porque una iguana se sentó en mi toalla.",
+    "en": "I left because an iguana sat on my towel."
+   },
+   {
+    "es": "Me fui cuando un pelícano se interesó demasiado en mi gorra.",
+    "en": "I left when a pelican got too interested in my cap."
+   }
+  ],
+  "where": [
+   {
+    "es": "Estaba en una roca negra, en la fila detrás de veinte iguanas.",
+    "en": "I was on a black rock, in line behind twenty iguanas."
+   },
+   {
+    "es": "Estaba en la sala de siestas de los lobos marinos.",
+    "en": "I was in the sea lions' nap room."
+   }
+  ],
+  "doing": [
+   {
+    "es": "Estaba jugando a quién se mueve menos con una iguana.",
+    "en": "I was playing 'who moves less' with an iguana."
+   },
+   {
+    "es": "Estaba nadando y una tortuga marina me adelantó.",
+    "en": "I was swimming and a sea turtle passed me."
+   }
+  ]
+ },
+ "espanol-salar-uyuni": {
+  "food": [
+   {
+    "es": "Comí papas fritas sin sal, porque había sal por todas partes.",
+    "en": "I ate unsalted fries, since there was salt everywhere."
+   },
+   {
+    "es": "Comí en una mesa hecha de bloques de sal.",
+    "en": "I ate at a table made of salt blocks."
+   }
+  ],
+  "sound": [
+   {
+    "es": "Oí a alguien gritar que estaba caminando sobre las nubes.",
+    "en": "I heard someone shout that they were walking on the clouds."
+   },
+   {
+    "es": "Escuché a un fotógrafo gritar: «¡Más atrás, más pequeño!».",
+    "en": "I heard a photographer yell: \"Further back, smaller!\""
+   }
+  ],
+  "people": [
+   {
+    "es": "Vi a un guía «sostener» a toda mi familia en su mano.",
+    "en": "I saw a guide \"hold\" my whole family in his hand."
+   },
+   {
+    "es": "Vi a una abuela fingir que pisaba un dinosaurio de juguete.",
+    "en": "I saw a grandma pretend to step on a toy dinosaur."
+   }
+  ],
+  "object": [
+   {
+    "es": "Llevaba un dinosaurio de juguete para parecer en peligro.",
+    "en": "I brought a toy dinosaur to look like I was in danger."
+   },
+   {
+    "es": "Llevaba bloqueador hasta en las orejas por el reflejo.",
+    "en": "I wore sunscreen even on my ears because of the glare."
+   }
+  ],
+  "leaving": [
+   {
+    "es": "Me fui porque mis botas se volvieron blancas de sal.",
+    "en": "I left because my boots turned white with salt."
+   },
+   {
+    "es": "Me fui cuando mi papá se cansó de ser el gigante de las fotos.",
+    "en": "I left when my dad got tired of being the giant in the photos."
+   }
+  ],
+  "where": [
+   {
+    "es": "Estaba en un hotel donde hasta la cama era de sal.",
+    "en": "I was in a hotel where even the bed was made of salt."
+   },
+   {
+    "es": "Estaba parado sobre las nubes, pero con los pies mojados.",
+    "en": "I was standing on the clouds, but with wet feet."
+   }
+  ],
+  "doing": [
+   {
+    "es": "Estaba probando mi dedo para ver si era sal de verdad.",
+    "en": "I was tasting my finger to see if it was really salt."
+   },
+   {
+    "es": "Estaba fingiendo salir de una lata de sopa gigante.",
+    "en": "I was pretending to climb out of a giant soup can."
+   }
+  ]
+ },
+ "espanol-selva-costa-rica": {
+  "food": [
+   {
+    "es": "Comí una banana y un mono me miró muy ofendido.",
+    "en": "I ate a banana and a monkey looked very offended."
+   },
+   {
+    "es": "Comí gallo pinto tan lento como un perezoso.",
+    "en": "I ate gallo pinto as slowly as a sloth."
+   }
+  ],
+  "sound": [
+   {
+    "es": "Escuché un mono aullador y pensé que era un dinosaurio.",
+    "en": "I heard a howler monkey and thought it was a dinosaur."
+   },
+   {
+    "es": "Oí a una rana diminuta cantar más fuerte que yo.",
+    "en": "I heard a tiny frog sing louder than me."
+   }
+  ],
+  "people": [
+   {
+    "es": "Vi a un guía esperar diez minutos a que un perezoso parpadeara.",
+    "en": "I saw a guide wait ten minutes for a sloth to blink."
+   },
+   {
+    "es": "Vi a una turista saludar a una hoja que era un insecto.",
+    "en": "I saw a tourist greet a leaf that was actually a bug."
+   }
+  ],
+  "object": [
+   {
+    "es": "Llevaba un impermeable, pero la selva me mojó igual.",
+    "en": "I wore a raincoat, but the jungle soaked me anyway."
+   },
+   {
+    "es": "Llevaba una lupa para buscar ranas más pequeñas que mi uña.",
+    "en": "I brought a magnifying glass to find frogs smaller than my nail."
+   }
+  ],
+  "leaving": [
+   {
+    "es": "Me fui porque un perezoso tardó una hora en saludarme.",
+    "en": "I left because a sloth took an hour to say hi."
+   },
+   {
+    "es": "Me fui cuando un tucán me miró como si el raro fuera yo.",
+    "en": "I left when a toucan looked at me like I was the weird one."
+   }
+  ],
+  "where": [
+   {
+    "es": "Estaba debajo de un árbol que también era casa de monos.",
+    "en": "I was under a tree that was also a monkey house."
+   },
+   {
+    "es": "Estaba en un puente colgante, saludando a un tucán.",
+    "en": "I was on a hanging bridge, waving at a toucan."
+   }
+  ],
+  "doing": [
+   {
+    "es": "Estaba haciendo una carrera con un perezoso, y casi pierdo.",
+    "en": "I was racing a sloth, and I almost lost."
+   },
+   {
+    "es": "Estaba buscando una rana de ojos rojos que me buscaba a mí.",
+    "en": "I was looking for a red-eyed frog that was looking for me."
+   }
+  ]
+ },
+ "espanol-patagonia-viento": {
+  "food": [
+   {
+    "es": "Comí un sándwich y el viento se comió la mitad.",
+    "en": "I ate a sandwich and the wind ate half of it."
+   },
+   {
+    "es": "Comí cordero asado sujetando el plato con las dos manos.",
+    "en": "I ate roast lamb holding my plate with both hands."
+   }
+  ],
+  "sound": [
+   {
+    "es": "Escuché al viento silbar mi nombre... o eso creí.",
+    "en": "I heard the wind whistle my name... or so I thought."
+   },
+   {
+    "es": "Oí un glaciar crujir como un helado gigante.",
+    "en": "I heard a glacier crack like a giant ice cream."
+   }
+  ],
+  "people": [
+   {
+    "es": "Vi a un excursionista caminar inclinado como los árboles.",
+    "en": "I saw a hiker walking bent over like the trees."
+   },
+   {
+    "es": "Vi a un guía saludar a un guanaco como a un viejo amigo.",
+    "en": "I saw a guide greet a guanaco like an old friend."
+   }
+  ],
+  "object": [
+   {
+    "es": "Llevaba piedras en los bolsillos para no salir volando.",
+    "en": "I had rocks in my pockets so I wouldn't fly away."
+   },
+   {
+    "es": "Llevaba tres chaquetas, una encima de la otra.",
+    "en": "I wore three jackets, one on top of the other."
+   }
+  ],
+  "leaving": [
+   {
+    "es": "Me fui porque el viento me empujó de vuelta al auto.",
+    "en": "I left because the wind pushed me back to the car."
+   },
+   {
+    "es": "Me fui cuando mi mapa salió volando hacia otro país.",
+    "en": "I left when my map flew off toward another country."
+   }
+  ],
+  "where": [
+   {
+    "es": "Estaba en un sendero donde el viento era más fuerte que yo.",
+    "en": "I was on a trail where the wind was stronger than me."
+   },
+   {
+    "es": "Estaba frente a un hielo azul más grande que mi escuela.",
+    "en": "I was in front of blue ice bigger than my school."
+   }
+  ],
+  "doing": [
+   {
+    "es": "Estaba caminando hacia adelante, pero avanzaba hacia atrás.",
+    "en": "I was walking forward, but moving backward."
+   },
+   {
+    "es": "Estaba abriendo los brazos para volar como un cóndor.",
+    "en": "I was spreading my arms to fly like a condor."
+   }
+  ]
+ },
+ "espanol-cataratas-iguazu": {
+  "food": [
+   {
+    "es": "Comí chipá, pero la cascada lo mojó primero.",
+    "en": "I ate chipá, but the waterfall got it wet first."
+   },
+   {
+    "es": "Comí una empanada y un coatí intentó quitármela.",
+    "en": "I ate an empanada and a coati tried to take it."
+   }
+  ],
+  "sound": [
+   {
+    "es": "Escuché a un tucán quejarse del ruido del agua.",
+    "en": "I heard a toucan complain about the noise of the water."
+   },
+   {
+    "es": "Oí a un coatí abrir mi mochila con mucho talento.",
+    "en": "I heard a coati open my backpack very skillfully."
+   }
+  ],
+  "people": [
+   {
+    "es": "Vi a un coatí revisar mochilas como un guardia.",
+    "en": "I saw a coati checking backpacks like a guard."
+   },
+   {
+    "es": "Vi a un turista con capa salir más mojado que sin ella.",
+    "en": "I saw a tourist in a poncho get wetter than without it."
+   }
+  ],
+  "object": [
+   {
+    "es": "Llevaba una capa, pero mis calcetines no se enteraron.",
+    "en": "I wore a poncho, but my socks didn't get the message."
+   },
+   {
+    "es": "Llevaba la mochila cerrada con tres nudos por los coatíes.",
+    "en": "I tied my backpack with three knots because of the coatis."
+   }
+  ],
+  "leaving": [
+   {
+    "es": "Me fui cuando un coatí se llevó mi bolsa de galletas.",
+    "en": "I left when a coati took my bag of cookies."
+   },
+   {
+    "es": "Me fui porque ya tenía un arcoíris en cada foto.",
+    "en": "I left because I already had a rainbow in every photo."
+   }
+  ],
+  "where": [
+   {
+    "es": "Estaba en una pasarela, más mojado que un pez.",
+    "en": "I was on a walkway, wetter than a fish."
+   },
+   {
+    "es": "Estaba en un lugar con mariposas, arcoíris y ducha gratis.",
+    "en": "I was somewhere with butterflies, rainbows, and a free shower."
+   }
+  ],
+  "doing": [
+   {
+    "es": "Estaba duchándome con ropa sin querer.",
+    "en": "I was accidentally taking a shower with my clothes on."
+   },
+   {
+    "es": "Estaba contando cascadas y perdí la cuenta en la número cien.",
+    "en": "I was counting waterfalls and lost count at number one hundred."
+   }
+  ]
+ },
+ "espanol-chichen-itza-equinoccio": {
+  "food": [
+   {
+    "es": "Comí cochinita pibil esperando que bajara una serpiente.",
+    "en": "I ate cochinita pibil while waiting for a snake to come down."
+   },
+   {
+    "es": "Comí panuchos y aplaudí entre mordida y mordida.",
+    "en": "I ate panuchos and clapped between bites."
+   }
+  ],
+  "sound": [
+   {
+    "es": "Escuché a cien turistas aplaudir para oír un pájaro.",
+    "en": "I heard a hundred tourists clap to hear a bird."
+   },
+   {
+    "es": "Oí a mi abuelo aplaudir sin parar para probar el eco.",
+    "en": "I heard my grandpa clap nonstop to test the echo."
+   }
+  ],
+  "people": [
+   {
+    "es": "Vi a cientos de personas mirar una escalera sin parpadear.",
+    "en": "I saw hundreds of people stare at a staircase without blinking."
+   },
+   {
+    "es": "Vi a un niño buscar la cola de la serpiente de luz.",
+    "en": "I saw a kid look for the tail of the light snake."
+   }
+  ],
+  "object": [
+   {
+    "es": "Llevaba un reloj para saber cuándo llegaba la serpiente.",
+    "en": "I brought a watch to know when the snake would arrive."
+   },
+   {
+    "es": "Llevaba una culebra de juguete por si la de luz no venía.",
+    "en": "I brought a toy snake in case the light one didn't show up."
+   }
+  ],
+  "leaving": [
+   {
+    "es": "Me fui porque la serpiente llegó tarde a su cita.",
+    "en": "I left because the snake was late for its appointment."
+   },
+   {
+    "es": "Me fui cuando unas nubes taparon el show de la serpiente.",
+    "en": "I left when some clouds covered the snake show."
+   }
+  ],
+  "where": [
+   {
+    "es": "Estaba frente a una pirámide que funciona como calendario.",
+    "en": "I was in front of a pyramid that works like a calendar."
+   },
+   {
+    "es": "Estaba en primera fila para ver una serpiente sin escamas.",
+    "en": "I was in the front row to see a snake with no scales."
+   }
+  ],
+  "doing": [
+   {
+    "es": "Estaba aplaudiendo a una pirámide para que me respondiera.",
+    "en": "I was clapping at a pyramid so it would answer me."
+   },
+   {
+    "es": "Estaba contando escalones: trescientos sesenta y cinco.",
+    "en": "I was counting steps: three hundred sixty-five."
+   }
+  ]
+ },
+ "espanol-alhambra-granada": {
+  "food": [
+   {
+    "es": "Comí churros con chocolate y soñé que era un sultán.",
+    "en": "I had churros with chocolate and dreamed I was a sultan."
+   },
+   {
+    "es": "Comí tapas gratis... bueno, venían con mi bebida.",
+    "en": "I ate free tapas... well, they came with my drink."
+   }
+  ],
+  "sound": [
+   {
+    "es": "Escuché a un niño preguntar si los leones bebían agua.",
+    "en": "I heard a kid ask if the lions drank water."
+   },
+   {
+    "es": "Oí a un turista susurrar para no despertar a los leones.",
+    "en": "I heard a tourist whisper so he wouldn't wake the lions."
+   }
+  ],
+  "people": [
+   {
+    "es": "Vi a una abuela posar como reina junto a un estanque.",
+    "en": "I saw a grandma pose like a queen next to a pond."
+   },
+   {
+    "es": "Vi a un niño buscar el león número trece.",
+    "en": "I saw a kid looking for lion number thirteen."
+   }
+  ],
+  "object": [
+   {
+    "es": "Llevaba un cuaderno para copiar dibujos imposibles.",
+    "en": "I brought a notebook to copy impossible patterns."
+   },
+   {
+    "es": "Llevaba una entrada que compré hace tres meses.",
+    "en": "I had a ticket I bought three months ago."
+   }
+  ],
+  "leaving": [
+   {
+    "es": "Me fui porque me mareé mirando el techo decorado.",
+    "en": "I left because I got dizzy looking at the decorated ceiling."
+   },
+   {
+    "es": "Me fui cuando mi hermano quiso adoptar un león de piedra.",
+    "en": "I left when my brother wanted to adopt a stone lion."
+   }
+  ],
+  "where": [
+   {
+    "es": "Estaba en un palacio con más fuentes que mi ciudad.",
+    "en": "I was in a palace with more fountains than my whole town."
+   },
+   {
+    "es": "Estaba en un jardín donde hasta las paredes tenían poemas.",
+    "en": "I was in a garden where even the walls had poems."
+   }
+  ],
+  "doing": [
+   {
+    "es": "Estaba buscando dos dibujos iguales en la pared, sin suerte.",
+    "en": "I was looking for two matching patterns on the wall, no luck."
+   },
+   {
+    "es": "Estaba peinándome en un estanque que parecía espejo.",
+    "en": "I was combing my hair in a pond that looked like a mirror."
+   }
+  ]
+ },
+ "espanol-dia-muertos-ofrenda": {
+  "food": [
+   {
+    "es": "Comí tanto pan de muerto que el abuelo estaría orgulloso.",
+    "en": "I ate so much pan de muerto that Grandpa would be proud."
+   },
+   {
+    "es": "Comí una calavera de azúcar con mi nombre escrito.",
+    "en": "I ate a sugar skull with my name written on it."
+   }
+  ],
+  "sound": [
+   {
+    "es": "Escuché a mi tía contar el mismo chiste del abuelo.",
+    "en": "I heard my aunt tell Grandpa's same old joke."
+   },
+   {
+    "es": "Oí a mi primo cantar la canción de la abuela, desafinado.",
+    "en": "I heard my cousin sing Grandma's song, off-key."
+   }
+  ],
+  "people": [
+   {
+    "es": "Vi a mi abuela regañar al gato por oler los tamales.",
+    "en": "I saw my grandma scold the cat for sniffing the tamales."
+   },
+   {
+    "es": "Vi a mi primo hacer un camino de pétalos hasta la cocina.",
+    "en": "I saw my cousin make a petal path all the way to the kitchen."
+   }
+  ],
+  "object": [
+   {
+    "es": "Llevaba papel picado pegado en el pelo sin saberlo.",
+    "en": "I had papel picado stuck in my hair without knowing it."
+   },
+   {
+    "es": "Llevaba las galletas favoritas de la abuela y no comí ninguna.",
+    "en": "I brought Grandma's favorite cookies and didn't eat a single one."
+   }
+  ],
+  "leaving": [
+   {
+    "es": "Me fui cuando el gato empezó a jugar con las flores naranjas.",
+    "en": "I left when the cat started playing with the orange flowers."
+   },
+   {
+    "es": "Me fui después de que mi tía nos hiciera cantar tres veces.",
+    "en": "I left after my aunt made us sing three times."
+   }
+  ],
+  "where": [
+   {
+    "es": "Estaba en una casa que olía a cempasúchil hasta el baño.",
+    "en": "I was in a house that smelled like marigolds, even the bathroom."
+   },
+   {
+    "es": "Estaba en una sala con más velas que un pastel gigante.",
+    "en": "I was in a room with more candles than a giant cake."
+   }
+  ],
+  "doing": [
+   {
+    "es": "Estaba cortando papel picado y me salió un perrito.",
+    "en": "I was cutting papel picado and it came out as a puppy."
+   },
+   {
+    "es": "Estaba contando las historias del abuelo con su misma voz.",
+    "en": "I was telling Grandpa's stories in his very own voice."
+   }
+  ]
+ },
+ "espanol-camino-santiago": {
+  "food": [
+   {
+    "es": "Comí pulpo y conté sus patas antes de cada bocado.",
+    "en": "I ate octopus and counted its legs before each bite."
+   },
+   {
+    "es": "Comí caldo caliente y le conté mis ampollas a la cocinera.",
+    "en": "I had hot broth and told the cook all about my blisters."
+   }
+  ],
+  "sound": [
+   {
+    "es": "Escuché a alguien decir «¡Buen camino!» cien veces.",
+    "en": "I heard someone say \"Buen camino!\" a hundred times."
+   },
+   {
+    "es": "Oí a un peregrino roncar en seis idiomas.",
+    "en": "I heard a pilgrim snore in six languages."
+   }
+  ],
+  "people": [
+   {
+    "es": "Vi a una vaca mirarme como si la peregrina fuera ella.",
+    "en": "I saw a cow look at me as if she were the pilgrim."
+   },
+   {
+    "es": "Vi a un señor caminar con una concha más grande que su cara.",
+    "en": "I saw a man walking with a shell bigger than his face."
+   }
+  ],
+  "object": [
+   {
+    "es": "Llevaba calcetines de repuesto para mis calcetines de repuesto.",
+    "en": "I carried spare socks for my spare socks."
+   },
+   {
+    "es": "Llevaba un paraguas porque aquí llovía hasta con sol.",
+    "en": "I carried an umbrella because here it rained even in the sun."
+   }
+  ],
+  "leaving": [
+   {
+    "es": "Me fui cuando mis botas pidieron vacaciones.",
+    "en": "I left when my boots asked for a vacation."
+   },
+   {
+    "es": "Me fui muy temprano para ganar una cama en el albergue.",
+    "en": "I left very early to win a bed at the hostel."
+   }
+  ],
+  "where": [
+   {
+    "es": "Estaba en un albergue donde roncaban hasta las botas.",
+    "en": "I was at a hostel where even the boots were snoring."
+   },
+   {
+    "es": "Estaba bajo un hórreo, pensando que era una casa de duendes.",
+    "en": "I was under a hórreo, thinking it was a house for elves."
+   }
+  ],
+  "doing": [
+   {
+    "es": "Estaba caminando como pingüino por culpa de mis ampollas.",
+    "en": "I was walking like a penguin because of my blisters."
+   },
+   {
+    "es": "Estaba secando mis calcetines en la mochila, como banderas.",
+    "en": "I was drying my socks on my backpack, like flags."
+   }
+  ]
+ },
+ "espanol-rapa-nui-moai": {
+  "food": [
+   {
+    "es": "Comí plátanos mientras un caballo salvaje me vigilaba.",
+    "en": "I ate bananas while a wild horse kept an eye on me."
+   },
+   {
+    "es": "Comí una empanada de atún mirando el océano más grande.",
+    "en": "I ate a tuna empanada looking at the biggest ocean."
+   }
+  ],
+  "sound": [
+   {
+    "es": "Escuché a un guía decir una palabra rapanui que no supe repetir.",
+    "en": "I heard a guide say a Rapanui word I couldn't repeat."
+   },
+   {
+    "es": "Oí a un niño preguntar por qué las caras de piedra no sonríen.",
+    "en": "I heard a kid ask why the stone faces never smile."
+   }
+  ],
+  "people": [
+   {
+    "es": "Vi a un niño buscar las piernas de una cabeza de piedra.",
+    "en": "I saw a kid looking for the legs of a stone head."
+   },
+   {
+    "es": "Vi a una guía contar cómo «caminaban» las figuras de piedra.",
+    "en": "I saw a guide tell how the stone figures \"walked.\""
+   }
+  ],
+  "object": [
+   {
+    "es": "Llevaba binoculares para ver una nariz de piedra desde lejos.",
+    "en": "I brought binoculars to see a stone nose from far away."
+   },
+   {
+    "es": "Llevaba un sombrero, pero el viento lo mandó a mil kilómetros.",
+    "en": "I wore a hat, but the wind sent it a thousand kilometers away."
+   }
+  ],
+  "leaving": [
+   {
+    "es": "Me fui porque un caballo salvaje quería mi lugar en la foto.",
+    "en": "I left because a wild horse wanted my spot in the photo."
+   },
+   {
+    "es": "Me fui cuando el viento me peinó como una escoba.",
+    "en": "I left when the wind styled my hair like a broom."
+   }
+  ],
+  "where": [
+   {
+    "es": "Estaba en el lugar más lejos de todo, y sin señal.",
+    "en": "I was in the place farthest from everything, with no signal."
+   },
+   {
+    "es": "Estaba en una colina donde caras gigantes me miraban de reojo.",
+    "en": "I was on a hill where giant faces watched me out of the corner of their eyes."
+   }
+  ],
+  "doing": [
+   {
+    "es": "Estaba buscando la figura de piedra con sombrero rojo.",
+    "en": "I was looking for the stone figure with the red hat."
+   },
+   {
+    "es": "Estaba posando de espaldas al mar, igual que las figuras.",
+    "en": "I was posing with my back to the sea, just like the figures."
+   }
+  ]
+ }
+}

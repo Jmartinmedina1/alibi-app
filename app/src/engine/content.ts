@@ -15,6 +15,10 @@ export interface Location {
   fullName: string;
   clues: string[];
   hint: string;
+  hintEasy?: string;
+  hintHard?: string;
+  /** Joker mode: 2 extra-ridiculous answers per topic. */
+  jokers?: Record<Topic, string[]>;
   facts: { en?: string; es?: string }[];
   cards: Record<Topic, LocCard[]>;
   vocab?: { es: string; en: string }[];

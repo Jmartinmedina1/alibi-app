@@ -1,19 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { addBot, apply, createGame, tick } from '../engine/engine';
-import type { Action, Pack } from '../engine/types';
+import type { Action, Difficulty, Pack } from '../engine/types';
 import { viewFor, type View } from '../engine/view';
 import type { GameConn } from './net';
 import type { Profile } from './profile';
 
 /** Practice: the same engine runs on the phone, with 3 bots. No network needed. */
-export function usePractice(profile: Profile, opts: { pack: Pack; startAsLiar: boolean }): GameConn {
+export function usePractice(profile: Profile, opts: { pack: Pack; startAsLiar: boolean; difficulty?: Difficulty; joker?: boolean }): GameConn {
   const game = useRef(
     (() => {
       const now = Date.now();
       const g = createGame({
         code: 'SOLO',
         host: { id: profile.id, name: profile.name, emoji: profile.emoji },
-        settings: { practice: true, pack: opts.pack, rounds: 2, startAsLiar: opts.startAsLiar, difficulty: 'medium' },
+        settings: { practice: true, pack: opts.pack, rounds: 2, startAsLiar: opts.startAsLiar, difficulty: opts.difficulty ?? 'medium', joker: !!opts.joker },
         now,
       });
       addBot(g);

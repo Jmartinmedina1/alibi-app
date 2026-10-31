@@ -1,0 +1,722 @@
+{
+ "espanol-zocalo-ciudad-mexico": {
+  "food": [
+   {
+    "es": "Comí tantos esquites que el vaso pidió vacaciones.",
+    "en": "I ate so many esquites that the cup asked for a vacation."
+   },
+   {
+    "es": "Comí un elote mientras el viento me robaba la servilleta.",
+    "en": "I ate corn on the cob while the wind stole my napkin."
+   }
+  ],
+  "sound": [
+   {
+    "es": "Escuché un organillo tocar la misma canción cien veces.",
+    "en": "I heard a street organ play the same song a hundred times."
+   },
+   {
+    "es": "Escuché a la catedral dar la hora justo en mi selfie.",
+    "en": "I heard the cathedral strike the hour right during my selfie."
+   }
+  ],
+  "people": [
+   {
+    "es": "Vi a un organillero pedir monedas con su gorra.",
+    "en": "I saw an organ grinder ask for coins with his cap."
+   },
+   {
+    "es": "Vi a un globo escaparse rumbo al Palacio Nacional.",
+    "en": "I saw a balloon escape toward the National Palace."
+   }
+  ],
+  "object": [
+   {
+    "es": "Llevaba diez globos y casi salí volando sobre la plaza.",
+    "en": "I was carrying ten balloons and almost flew over the plaza."
+   },
+   {
+    "es": "Llevaba una foto de la catedral con mi dedo en medio.",
+    "en": "I had a photo of the cathedral with my finger in the middle."
+   }
+  ],
+  "leaving": [
+   {
+    "es": "Me fui cuando la burbuja gigante me ganó la carrera.",
+    "en": "I left when the giant bubble beat me in a race."
+   },
+   {
+    "es": "Me fui cuando la abuela anunció que ya era hora de comer.",
+    "en": "I left when Grandma announced it was time to eat."
+   }
+  ],
+  "where": [
+   {
+    "es": "Estaba bajo la bandera gigante, buscando su sombra.",
+    "en": "I was under the giant flag, looking for its shade."
+   },
+   {
+    "es": "Estaba entre la catedral y el palacio, sin saber cuál ver.",
+    "en": "I was between the cathedral and the palace, not knowing which to look at."
+   }
+  ],
+  "doing": [
+   {
+    "es": "Estaba contando las ventanas del Palacio. Perdí la cuenta.",
+    "en": "I was counting the Palace windows. I lost count."
+   },
+   {
+    "es": "Estaba intentando abrazar la plaza entera para una foto.",
+    "en": "I was trying to hug the whole plaza for a photo."
+   }
+  ]
+ },
+ "espanol-mercado-oaxaca": {
+  "food": [
+   {
+    "es": "Comí un chapulín y juro que me guiñó un ojo.",
+    "en": "I ate a grasshopper and I swear it winked at me."
+   },
+   {
+    "es": "Comí pan con chocolate hasta tener bigote café.",
+    "en": "I ate bread with hot chocolate until I had a brown mustache."
+   }
+  ],
+  "sound": [
+   {
+    "es": "Escuché a un chapulín saltar de la bolsa de un turista.",
+    "en": "I heard a grasshopper jump out of a tourist's bag."
+   },
+   {
+    "es": "Escuché a una señora decir 'pruebe' más de cien veces.",
+    "en": "I heard a lady say 'try some' more than a hundred times."
+   }
+  ],
+  "people": [
+   {
+    "es": "Vi a un niño estudiar los dulces como un científico.",
+    "en": "I saw a kid study the candy like a scientist."
+   },
+   {
+    "es": "Vi a un turista negociar con un chapulín. Ganó el chapulín.",
+    "en": "I saw a tourist negotiate with a grasshopper. The grasshopper won."
+   }
+  ],
+  "object": [
+   {
+    "es": "Llevaba una tlayuda como paraguas para el sol.",
+    "en": "I was using a tlayuda as an umbrella for the sun."
+   },
+   {
+    "es": "Llevaba quesillo enrollado como una bola de estambre.",
+    "en": "I had string cheese rolled up like a ball of yarn."
+   }
+  ],
+  "leaving": [
+   {
+    "es": "Me fui cuando un chapulín se subió a mi sombrero.",
+    "en": "I left when a grasshopper climbed onto my hat."
+   },
+   {
+    "es": "Me fui después de mi tercera taza de chocolate. O cuarta.",
+    "en": "I left after my third cup of hot chocolate. Or fourth."
+   }
+  ],
+  "where": [
+   {
+    "es": "Estaba atrapado entre una montaña de chiles y otra de pan.",
+    "en": "I was trapped between a mountain of chiles and one of bread."
+   },
+   {
+    "es": "Estaba junto al comal, haciéndome amigo del humo.",
+    "en": "I was next to the griddle, making friends with the smoke."
+   }
+  ],
+  "doing": [
+   {
+    "es": "Estaba contando las patas de un chapulín antes de comerlo.",
+    "en": "I was counting a grasshopper's legs before eating it."
+   },
+   {
+    "es": "Estaba probando los siete moles para elegir mi favorito.",
+    "en": "I was tasting all seven moles to pick my favorite."
+   }
+  ]
+ },
+ "espanol-la-boca-buenos-aires": {
+  "food": [
+   {
+    "es": "Comí una empanada tan caliente que le soplé una canción.",
+    "en": "I ate an empanada so hot I blew it a whole song."
+   },
+   {
+    "es": "Comí un alfajor y quedé cubierto de azúcar como un fantasma.",
+    "en": "I ate an alfajor and got covered in sugar like a ghost."
+   }
+  ],
+  "sound": [
+   {
+    "es": "Escuché un bandoneón respirar más fuerte que yo.",
+    "en": "I heard a bandoneon breathe louder than me."
+   },
+   {
+    "es": "Escuché los tacos de un bailarín como una máquina de escribir.",
+    "en": "I heard a dancer's heels like a typewriter."
+   }
+  ],
+  "people": [
+   {
+    "es": "Vi a un perro bailar tango mejor que mi tío.",
+    "en": "I saw a dog dance tango better than my uncle."
+   },
+   {
+    "es": "Vi una casa con más colores que mi caja de crayones.",
+    "en": "I saw a house with more colors than my crayon box."
+   }
+  ],
+  "object": [
+   {
+    "es": "Llevaba un bandoneón de recuerdo y no sé tocarlo.",
+    "en": "I had a souvenir bandoneon and I don't know how to play it."
+   },
+   {
+    "es": "Llevaba una rosa en la boca para mi clase de tango.",
+    "en": "I had a rose in my mouth for my tango lesson."
+   }
+  ],
+  "leaving": [
+   {
+    "es": "Me fui cuando me invitaron a bailar tango y entré en pánico.",
+    "en": "I left when they invited me to dance tango and I panicked."
+   },
+   {
+    "es": "Me fui cuando ya no cabían más colores en mi cámara.",
+    "en": "I left when my camera couldn't fit any more colors."
+   }
+  ],
+  "where": [
+   {
+    "es": "Estaba en un balcón de chapa, saludando como estatua.",
+    "en": "I was on a sheet-metal balcony, waving like a statue."
+   },
+   {
+    "es": "Estaba entre una casa amarilla, una azul y una roja. Mareado.",
+    "en": "I was between a yellow, a blue, and a red house. Dizzy."
+   }
+  ],
+  "doing": [
+   {
+    "es": "Estaba aprendiendo tango y le pisé el pie a todos.",
+    "en": "I was learning tango and stepped on everyone's feet."
+   },
+   {
+    "es": "Estaba posando con una pareja de tango de cartón.",
+    "en": "I was posing with a cardboard tango couple."
+   }
+  ]
+ },
+ "espanol-plaza-mayor-madrid": {
+  "food": [
+   {
+    "es": "Comí churros con chocolate y me manché hasta las cejas.",
+    "en": "I ate churros with chocolate and got it on my eyebrows."
+   },
+   {
+    "es": "Comí calamares y conté los anillos como un detective.",
+    "en": "I ate fried squid and counted the rings like a detective."
+   }
+  ],
+  "sound": [
+   {
+    "es": "Escuché a una paloma reclamar mi bocadillo con fuerza.",
+    "en": "I heard a pigeon loudly demand my sandwich."
+   },
+   {
+    "es": "Escuché mi eco rebotar en todos los arcos de la plaza.",
+    "en": "I heard my echo bounce off every arch in the plaza."
+   }
+  ],
+  "people": [
+   {
+    "es": "Vi a una paloma posar sobre el sombrero del rey de bronce.",
+    "en": "I saw a pigeon perch on the bronze king's hat."
+   },
+   {
+    "es": "Vi a una estatua humana estornudar sin moverse.",
+    "en": "I saw a human statue sneeze without moving."
+   }
+  ],
+  "object": [
+   {
+    "es": "Llevaba un bocadillo escondido de las palomas en mi gorra.",
+    "en": "I had a sandwich hidden from the pigeons in my cap."
+   },
+   {
+    "es": "Llevaba un mapa con todas las salidas. Me perdí igual.",
+    "en": "I had a map with every exit. I got lost anyway."
+   }
+  ],
+  "leaving": [
+   {
+    "es": "Me fui cuando las palomas formaron un comité contra mí.",
+    "en": "I left when the pigeons formed a committee against me."
+   },
+   {
+    "es": "Me fui por un arco y volví a entrar por otro.",
+    "en": "I left through one arch and came back in through another."
+   }
+  ],
+  "where": [
+   {
+    "es": "Estaba debajo del caballo del rey, buscando sombra.",
+    "en": "I was under the king's horse, looking for shade."
+   },
+   {
+    "es": "Estaba en una terraza, defendiendo mi mesa de las palomas.",
+    "en": "I was on a café terrace, defending my table from pigeons."
+   }
+  ],
+  "doing": [
+   {
+    "es": "Estaba saludando al rey de bronce. No me contestó.",
+    "en": "I was saying hi to the bronze king. He didn't answer."
+   },
+   {
+    "es": "Estaba contando los balcones de la plaza. Eran muchísimos.",
+    "en": "I was counting the plaza's balconies. There were tons."
+   }
+  ]
+ },
+ "espanol-cartagena-amurallada": {
+  "food": [
+   {
+    "es": "Comí una arepa de huevo y el huevo intentó escapar.",
+    "en": "I ate an egg arepa and the egg tried to escape."
+   },
+   {
+    "es": "Comí fruta de una palenquera y me salió jugo hasta el codo.",
+    "en": "I ate fruit from a palenquera and juice ran to my elbow."
+   }
+  ],
+  "sound": [
+   {
+    "es": "Escuché a un caballo de coche tararear con el músico.",
+    "en": "I heard a carriage horse hum along with the musician."
+   },
+   {
+    "es": "Escuché mi sombrero despedirse con el viento del mar.",
+    "en": "I heard my hat say goodbye in the sea breeze."
+   }
+  ],
+  "people": [
+   {
+    "es": "Vi a un turista intentar llevar fruta en la cabeza. Mal.",
+    "en": "I saw a tourist try carrying fruit on his head. Badly."
+   },
+   {
+    "es": "Vi a una iguana tomar el sol mejor que los turistas.",
+    "en": "I saw an iguana sunbathe better than the tourists."
+   }
+  ],
+  "object": [
+   {
+    "es": "Llevaba un abanico que trabajó más que yo.",
+    "en": "I had a fan that worked harder than I did."
+   },
+   {
+    "es": "Llevaba un sombrero amarrado con tres nudos contra el viento.",
+    "en": "I had a hat tied with three knots against the wind."
+   }
+  ],
+  "leaving": [
+   {
+    "es": "Me fui cuando el sol se metió al mar y yo quería seguirlo.",
+    "en": "I left when the sun dove into the sea and I wanted to follow."
+   },
+   {
+    "es": "Me fui en coche de caballos porque mis pies se rindieron.",
+    "en": "I left by horse carriage because my feet gave up."
+   }
+  ],
+  "where": [
+   {
+    "es": "Estaba sobre la muralla, persiguiendo mi sombrero.",
+    "en": "I was on the city wall, chasing my hat."
+   },
+   {
+    "es": "Estaba bajo un balcón con flores, escondido del calor.",
+    "en": "I was under a flowered balcony, hiding from the heat."
+   }
+  ],
+  "doing": [
+   {
+    "es": "Estaba sudando más que la botella de agua fría.",
+    "en": "I was sweating more than my cold water bottle."
+   },
+   {
+    "es": "Estaba contando cañones viejos en la muralla.",
+    "en": "I was counting old cannons on the city wall."
+   }
+  ]
+ },
+ "espanol-quinceanera": {
+  "food": [
+   {
+    "es": "Comí pastel tan rápido que llegué antes que la festejada.",
+    "en": "I ate cake so fast I got there before the birthday girl."
+   },
+   {
+    "es": "Comí arroz y pollo debajo de la mesa de postres.",
+    "en": "I ate rice and chicken under the dessert table."
+   }
+  ],
+  "sound": [
+   {
+    "es": "Escuché al DJ decir 'quince' más de quince veces.",
+    "en": "I heard the DJ say 'fifteen' more than fifteen times."
+   },
+   {
+    "es": "Escuché el vestido de la festejada hacer frufrú en la escalera.",
+    "en": "I heard the birthday girl's dress go swish on the stairs."
+   }
+  ],
+  "people": [
+   {
+    "es": "Vi a la tía buscar primos con un megáfono imaginario.",
+    "en": "I saw an aunt hunt for cousins with an imaginary megaphone."
+   },
+   {
+    "es": "Vi a los chambelanes ensayar el vals en el estacionamiento.",
+    "en": "I saw the escorts rehearse the waltz in the parking lot."
+   }
+  ],
+  "object": [
+   {
+    "es": "Llevaba la tiara de la festejada. No me pregunten por qué.",
+    "en": "I had the birthday girl's tiara. Don't ask why."
+   },
+   {
+    "es": "Llevaba un recuerdo con el número quince en todos lados.",
+    "en": "I had a party favor with the number fifteen all over it."
+   }
+  ],
+  "leaving": [
+   {
+    "es": "Me fui cuando la tía me encontró detrás de los postres.",
+    "en": "I left when my aunt found me behind the desserts."
+   },
+   {
+    "es": "Me fui cuando el vestido ocupó toda la pista.",
+    "en": "I left when the dress took up the whole dance floor."
+   }
+  ],
+  "where": [
+   {
+    "es": "Estaba debajo de la falda del vestido. Era como una carpa.",
+    "en": "I was under the dress's skirt. It was like a tent."
+   },
+   {
+    "es": "Estaba escondido detrás de la mesa de postres, otra vez.",
+    "en": "I was hiding behind the dessert table, again."
+   }
+  ],
+  "doing": [
+   {
+    "es": "Estaba cargando la cola del vestido como un ayudante.",
+    "en": "I was carrying the dress's train like an assistant."
+   },
+   {
+    "es": "Estaba bailando el vals con una silla para practicar.",
+    "en": "I was waltzing with a chair to practice."
+   }
+  ]
+ },
+ "espanol-panaderia-madrugada": {
+  "food": [
+   {
+    "es": "Comí una concha y quedé cubierto de azúcar hasta las orejas.",
+    "en": "I ate a concha and got sugar up to my ears."
+   },
+   {
+    "es": "Comí un bolillo tan caliente que lo pasé de mano en mano.",
+    "en": "I ate a roll so hot I tossed it from hand to hand."
+   }
+  ],
+  "sound": [
+   {
+    "es": "Escuché las pinzas chocar como castañuelas de pan.",
+    "en": "I heard the tongs clack like bread castanets."
+   },
+   {
+    "es": "Escuché un bostezo tan grande que despertó al horno.",
+    "en": "I heard a yawn so big it woke up the oven."
+   }
+  ],
+  "people": [
+   {
+    "es": "Vi al panadero con harina hasta en las cejas.",
+    "en": "I saw the baker with flour even on his eyebrows."
+   },
+   {
+    "es": "Vi a un cliente dormido abrazando su bolsa de pan.",
+    "en": "I saw a sleeping customer hugging his bag of bread."
+   }
+  ],
+  "object": [
+   {
+    "es": "Llevaba una charola con tres panes y salí con cinco.",
+    "en": "I had a tray with three pastries and left with five."
+   },
+   {
+    "es": "Llevaba pinzas de pan y casi me las llevo a casa.",
+    "en": "I had bread tongs and almost took them home."
+   }
+  ],
+  "leaving": [
+   {
+    "es": "Me fui cuando el olor a canela me siguió hasta el autobús.",
+    "en": "I left when the cinnamon smell followed me to the bus."
+   },
+   {
+    "es": "Me fui antes del sol, con harina en la nariz.",
+    "en": "I left before sunrise, with flour on my nose."
+   }
+  ],
+  "where": [
+   {
+    "es": "Estaba frente a la vitrina, con la nariz pegada al vidrio.",
+    "en": "I was at the display case with my nose stuck to the glass."
+   },
+   {
+    "es": "Estaba tan cerca del horno que casi salí horneado.",
+    "en": "I was so close to the oven I almost came out baked."
+   }
+  ],
+  "doing": [
+   {
+    "es": "Estaba eligiendo pan con pinzas medio dormido.",
+    "en": "I was picking bread with tongs, half asleep."
+   },
+   {
+    "es": "Estaba comparando conchas para encontrar la más grande.",
+    "en": "I was comparing conchas to find the biggest one."
+   }
+  ]
+ },
+ "espanol-boda-mariachi": {
+  "food": [
+   {
+    "es": "Comí mole y mi camisa blanca ahora es café.",
+    "en": "I ate mole and my white shirt is now brown."
+   },
+   {
+    "es": "Comí tortillas al ritmo de las trompetas.",
+    "en": "I ate tortillas to the beat of the trumpets."
+   }
+  ],
+  "sound": [
+   {
+    "es": "Escuché a la abuela cantar antes que el mariachi.",
+    "en": "I heard Grandma sing before the mariachi did."
+   },
+   {
+    "es": "Escuché un grito de alegría tan largo que me quedé sin aire.",
+    "en": "I heard a joyful shout so long I ran out of breath."
+   }
+  ],
+  "people": [
+   {
+    "es": "Vi a un mariachi con un sombrero más ancho que la mesa.",
+    "en": "I saw a mariachi with a hat wider than the table."
+   },
+   {
+    "es": "Vi al niño de los anillos vigilar la caja como un guardia.",
+    "en": "I saw the ring boy guard the box like a security guard."
+   }
+  ],
+  "object": [
+   {
+    "es": "Llevaba un sombrero de charro prestado y no veía nada.",
+    "en": "I had a borrowed charro hat and couldn't see a thing."
+   },
+   {
+    "es": "Llevaba una servilleta como babero para el mole.",
+    "en": "I wore a napkin as a bib for the mole."
+   }
+  ],
+  "leaving": [
+   {
+    "es": "Me fui cuando el mariachi tocó la misma canción tres veces.",
+    "en": "I left when the mariachi played the same song three times."
+   },
+   {
+    "es": "Me fui con la voz cansada de tanto cantar con el violín.",
+    "en": "I left with my voice tired from singing along with the violin."
+   }
+  ],
+  "where": [
+   {
+    "es": "Estaba debajo del sombrero de un mariachi. Era enorme.",
+    "en": "I was under a mariachi's hat. It was huge."
+   },
+   {
+    "es": "Estaba en la pista, bailando entre trompetas y novios.",
+    "en": "I was on the dance floor, dancing between trumpets and the couple."
+   }
+  ],
+  "doing": [
+   {
+    "es": "Estaba intentando tocar la trompeta. Solo salió aire.",
+    "en": "I was trying to play the trumpet. Only air came out."
+   },
+   {
+    "es": "Estaba cantando una ranchera con la abuela, a todo volumen.",
+    "en": "I was singing a ranchera with Grandma at full volume."
+   }
+  ]
+ },
+ "espanol-futbol-barrio": {
+  "food": [
+   {
+    "es": "Comí una empanada mientras el perro corría con la pelota.",
+    "en": "I ate an empanada while the dog ran off with the ball."
+   },
+   {
+    "es": "Comí naranjas en el medio tiempo como un profesional.",
+    "en": "I ate orange slices at halftime like a pro."
+   }
+  ],
+  "sound": [
+   {
+    "es": "Escuché a un perro ladrar '¡gol!' con la pelota en la boca.",
+    "en": "I heard a dog bark 'goal!' with the ball in its mouth."
+   },
+   {
+    "es": "Escuché a dos papás discutir si la mochila era el poste.",
+    "en": "I heard two dads argue whether the backpack was the goalpost."
+   }
+  ],
+  "people": [
+   {
+    "es": "Vi a un perro meter un gol en la portería de mochilas.",
+    "en": "I saw a dog score a goal in the backpack net."
+   },
+   {
+    "es": "Vi a un portero atajar con la cara. Sigue orgulloso.",
+    "en": "I saw a goalie block with his face. He's still proud."
+   }
+  ],
+  "object": [
+   {
+    "es": "Llevaba mi mochila, que también era la portería.",
+    "en": "I had my backpack, which was also the goalpost."
+   },
+   {
+    "es": "Llevaba una pelota con baba de perro. Mucha baba.",
+    "en": "I had a ball covered in dog drool. Lots of drool."
+   }
+  ],
+  "leaving": [
+   {
+    "es": "Me fui cuando mi mochila dejó de ser portería.",
+    "en": "I left when my backpack stopped being a goalpost."
+   },
+   {
+    "es": "Me fui cuando el perro fue nombrado el mejor jugador.",
+    "en": "I left when the dog was named the best player."
+   }
+  ],
+  "where": [
+   {
+    "es": "Estaba dentro de la portería de mochilas, sin saber por qué.",
+    "en": "I was inside the backpack goal, not knowing why."
+   },
+   {
+    "es": "Estaba en la acera, de árbitro junto a un poste de luz.",
+    "en": "I was on the sidewalk, refereeing next to a lamppost."
+   }
+  ],
+  "doing": [
+   {
+    "es": "Estaba de árbitro sin silbato. Silbaba con la boca.",
+    "en": "I was the referee with no whistle. I whistled with my mouth."
+   },
+   {
+    "es": "Estaba ofreciéndole una empanada al perro a cambio del balón.",
+    "en": "I was offering the dog an empanada in exchange for the ball."
+   }
+  ]
+ },
+ "espanol-nochebuena-andalucia": {
+  "food": [
+   {
+    "es": "Comí un polvorón y estornudé una nube de azúcar.",
+    "en": "I ate a polvorón and sneezed a cloud of sugar."
+   },
+   {
+    "es": "Comí turrón tan duro que casi pido un martillo.",
+    "en": "I ate nougat so hard I almost asked for a hammer."
+   }
+  ],
+  "sound": [
+   {
+    "es": "Escuché una cuchara rascar una botella como si fuera violín.",
+    "en": "I heard a spoon scrape a bottle like it was a violin."
+   },
+   {
+    "es": "Escuché a la abuela decir '¡fuera de mi cocina!' sin mirarme.",
+    "en": "I heard Grandma say 'out of my kitchen!' without looking."
+   }
+  ],
+  "people": [
+   {
+    "es": "Vi a la abuela verme robar un langostino con la espalda.",
+    "en": "I saw Grandma catch me stealing a prawn with her back turned."
+   },
+   {
+    "es": "Vi al abuelo pedir silencio. Nadie le hizo caso.",
+    "en": "I saw Grandpa ask for silence. Nobody listened."
+   }
+  ],
+  "object": [
+   {
+    "es": "Llevaba una oveja del belén en el bolsillo por error.",
+    "en": "I had a nativity-scene sheep in my pocket by mistake."
+   },
+   {
+    "es": "Llevaba una botella y una cuchara: era mi instrumento.",
+    "en": "I had a bottle and a spoon: it was my instrument."
+   }
+  ],
+  "leaving": [
+   {
+    "es": "Me fui cuando la abuela me descubrió con dos langostinos.",
+    "en": "I left when Grandma caught me with two prawns."
+   },
+   {
+    "es": "Me fui cuando ya no cabía ni un polvorón más en la mesa.",
+    "en": "I left when not one more polvorón fit on the table."
+   }
+  ],
+  "where": [
+   {
+    "es": "Estaba debajo de la mesa, comiendo turrón en secreto.",
+    "en": "I was under the table, eating nougat in secret."
+   },
+   {
+    "es": "Estaba junto a la cazuela de barro, oliendo el cordero.",
+    "en": "I was next to the clay pot, smelling the lamb."
+   }
+  ],
+  "doing": [
+   {
+    "es": "Estaba tocando la zambomba más fuerte que todos mis primos.",
+    "en": "I was playing the zambomba louder than all my cousins."
+   },
+   {
+    "es": "Estaba moviendo las ovejas del belén para hacer sitio.",
+    "en": "I was moving the nativity sheep to make room."
+   }
+  ]
+ }
+}

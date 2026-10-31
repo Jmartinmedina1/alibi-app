@@ -1,0 +1,392 @@
+{
+ "party-all-you-can-eat-buffet": {
+  "food": [
+   "I made a sandwich using two waffles and a slice of lasagna.",
+   "I ate soup, tacos, and pudding off one plate in one trip."
+  ],
+  "sound": [
+   "I heard a sneeze guard squeak as a man leaned under it.",
+   "I heard my plate groan under the weight of nine dinner rolls."
+  ],
+  "people": [
+   "I saw a man build a castle out of crab legs.",
+   "I watched a toddler eat only croutons, five plates' worth."
+  ],
+  "object": [
+   "I carried a plate so full it needed a second plate.",
+   "I carried a dinner roll in each pocket for later."
+  ],
+  "leaving": [
+   "I left rolling slightly, like a happy bowling ball.",
+   "I left when the staff started learning my name."
+  ],
+  "where": [
+   "I was camped beside the endless mac and cheese tray.",
+   "I was at the soft-serve machine, building a tower."
+  ],
+  "doing": [
+   "I was planning my plate like a chess grandmaster.",
+   "I was wearing stretchy pants for scientific reasons."
+  ]
+ },
+ "party-fancy-restaurant": {
+  "food": [
+   "I ate a foam that tasted like a cloud's opinion of carrot.",
+   "I ate one pea, served on a plate the size of a hubcap."
+  ],
+  "sound": [
+   "I heard a waiter describe a cracker's entire childhood.",
+   "I heard a man say 'mmm, notes of moss' with a straight face."
+  ],
+  "people": [
+   "I saw a waiter sweep crumbs with a tiny silver comb.",
+   "I watched a man sniff his water like it was perfume."
+  ],
+  "object": [
+   "I found my napkin folded into a swan while I was gone.",
+   "I held a fork so heavy it needed two hands."
+  ],
+  "leaving": [
+   "I left hungry and bought a hot dog on the way home.",
+   "I left after accidentally clapping for the soup."
+  ],
+  "where": [
+   "I was at a table where someone pulled out my chair.",
+   "I was seated so close to the chef I could hear him sigh."
+  ],
+  "doing": [
+   "I was trying to cut a single pea with a steak knife.",
+   "I was pretending the butter sculpture was too pretty to eat."
+  ]
+ },
+ "party-food-truck-festival": {
+  "food": [
+   "I ate a taco wrapped in a pancake wrapped in a pizza.",
+   "I ate fried dough while waiting in line for more fried dough."
+  ],
+  "sound": [
+   "I heard a serving window slide open like a tiny stage curtain.",
+   "I heard a generator and a guitar compete for loudest."
+  ],
+  "people": [
+   "I saw a man order lunch from a truck painted like a lobster.",
+   "I watched a chef wave a spatula like a conductor's baton."
+  ],
+  "object": [
+   "I carried a lemonade the size of a fire extinguisher.",
+   "I carried a buzzer that shook my fries off the tray."
+  ],
+  "leaving": [
+   "I left when my sneakers got stuck to the parking lot.",
+   "I left after the grilled cheese truck ran out of cheese."
+  ],
+  "where": [
+   "I was perched on a curb, guarding a tray of fries.",
+   "I was in a line so long it had its own line."
+  ],
+  "doing": [
+   "I was ranking trucks by how loud their generators were.",
+   "I was dancing to the generator hum. Badly."
+  ]
+ },
+ "party-ice-cream-parlor": {
+  "food": [
+   "I ate a scoop of pickle flavor on a dare.",
+   "I ate a sundae with more cherries on top than ice."
+  ],
+  "sound": [
+   "I heard the whipped cream can make a sad final pfft.",
+   "I heard a kid order a flavor called just 'blue.'"
+  ],
+  "people": [
+   "I saw a grandpa get brain freeze and blame the weather.",
+   "I watched a scoop fall and the whole room gasp."
+  ],
+  "object": [
+   "I carried my cone high like a torch in a parade.",
+   "I found a sprinkle stuck to my eyebrow an hour later."
+  ],
+  "leaving": [
+   "I left before the brain freeze could catch me.",
+   "I left holding an empty cone and a lot of regret."
+  ],
+  "where": [
+   "I was by the freezer glass, fogging it up with my nose.",
+   "I was at the toppings bar, judging everyone's choices."
+  ],
+  "doing": [
+   "I was licking my cone in a spiral like a professional.",
+   "I was asking if sprinkles could be a main course."
+  ]
+ },
+ "party-sushi-conveyor-belt": {
+  "food": [
+   "I ate a mystery plate that had gone around nine times.",
+   "I ate so much wasabi my eyebrows tried to leave."
+  ],
+  "sound": [
+   "I heard a mini track whoosh my order over like a race car.",
+   "I heard a kid narrate every passing plate like a sportscaster."
+  ],
+  "people": [
+   "I saw a man wave goodbye to a plate he didn't grab.",
+   "I watched a kid build a plate tower almost to the ceiling."
+  ],
+  "object": [
+   "I found a little fish-shaped soy sauce bottle in my pocket.",
+   "I held chopsticks like drumsticks and played the belt."
+  ],
+  "leaving": [
+   "I left when my plate tower blocked my view of the belt.",
+   "I left after the same lonely cucumber roll passed me forty times."
+  ],
+  "where": [
+   "I was at the very end of the belt, where plates get lonely.",
+   "I was facing the belt like it was a movie screen."
+  ],
+  "doing": [
+   "I was racing my cousin for the same salmon plate.",
+   "I was cheering every time a dessert plate rolled by."
+  ]
+ },
+ "party-airport-security": {
+  "food": [
+   "I ate my whole yogurt cup so they couldn't take it.",
+   "I ate a banana in four bites right before the X-ray."
+  ],
+  "sound": [
+   "I heard a man explain why his bag was full of spoons.",
+   "I heard the metal detector beep at my belt buckle. Twice."
+  ],
+  "people": [
+   "I saw a grandma's knitting needles cause a big meeting.",
+   "I watched a man take off eleven layers of jackets."
+  ],
+  "object": [
+   "I carried a clear bag of tiny shampoos like a trophy.",
+   "I carried my shoes in my hands like a waiter with soup."
+  ],
+  "leaving": [
+   "I left hopping on one foot, putting a shoe back on.",
+   "I left with my belt in one hand and my dignity in a bin."
+  ],
+  "where": [
+   "I was at the end of the rollers, waiting for my bin.",
+   "I was off to the side while they swabbed my hands."
+  ],
+  "doing": [
+   "I was emptying forty gum wrappers from my pockets.",
+   "I was explaining that my snow globe was not a liquid."
+  ]
+ },
+ "party-cruise-ship": {
+  "food": [
+   "I ate midnight pizza while the floor gently tilted.",
+   "I ate my fourth dessert as the sea rocked my spoon."
+  ],
+  "sound": [
+   "I heard the horn blast so loud my sun hat flew off.",
+   "I heard the deck band play the same island song eight times."
+  ],
+  "people": [
+   "I saw a grandma win the belly-flop contest by the pool.",
+   "I watched a man sunburn into the shape of his lounge chair."
+  ],
+  "object": [
+   "I found a towel folded into a monkey on my pillow.",
+   "I wore a life jacket like a hat during the safety drill."
+  ],
+  "leaving": [
+   "I left the deck when the wind stole my hat overboard.",
+   "I left late at port because I got lost on deck nine."
+  ],
+  "where": [
+   "I was on the shuffleboard court, losing to a grandpa.",
+   "I was lost on deck seven, looking for deck eleven."
+  ],
+  "doing": [
+   "I was learning to walk straight while the floor swayed.",
+   "I was singing karaoke in the middle of the ocean."
+  ]
+ },
+ "party-overnight-train": {
+  "food": [
+   "I ate noodles that splashed every time we hit a curve.",
+   "I ate a cookie from the snack trolley at 2 a.m."
+  ],
+  "sound": [
+   "I heard the bunk above me snore in rhythm with the wheels.",
+   "I heard the teacups tap dance on the table all night."
+  ],
+  "people": [
+   "I saw a man fall asleep halfway up the bunk ladder.",
+   "I watched a conductor tiptoe down the aisle with a flashlight."
+  ],
+  "object": [
+   "I carried my toothbrush down a swaying hallway.",
+   "I found my sock had slid into the next compartment."
+  ],
+  "leaving": [
+   "I left my bunk when a sharp curve rolled me out of it.",
+   "I left after waking up somewhere I didn't recognize at all."
+  ],
+  "where": [
+   "I was in the dining car, chasing my soup across the table.",
+   "I was between two cars, where the floor wiggles."
+  ],
+  "doing": [
+   "I was brushing my teeth while the sink swayed side to side.",
+   "I was counting moonlit cows out the window instead of sheep."
+  ]
+ },
+ "party-crowded-subway": {
+  "food": [
+   "I ate a bagel while a stranger's elbow held my coffee.",
+   "I ate a pretzel that had traveled four stops with me."
+  ],
+  "sound": [
+   "I heard a saxophone solo battle the screeching brakes.",
+   "I heard the doors close on someone's backpack. Twice."
+  ],
+  "people": [
+   "I saw a pigeon ride two stops and hop off at its home.",
+   "I watched a man read a newspaper folded to stamp size."
+  ],
+  "object": [
+   "I carried a stranger's scarf that snagged on my button.",
+   "I found my fare card after swiping my library card six times."
+  ],
+  "leaving": [
+   "I left by surfing out the doors on a wave of commuters.",
+   "I left after the turnstile ate my card and burped."
+  ],
+  "where": [
+   "I was sprinting down the stairs, racing the arriving train.",
+   "I was squished so tight my feet didn't touch the floor."
+  ],
+  "doing": [
+   "I was holding the pole with just my pinky, like a pro.",
+   "I was pretending I knew which way uptown was."
+  ]
+ },
+ "party-kids-birthday": {
+  "food": [
+   "I ate a slice that was mostly frosting and candle wax.",
+   "I drank a juice box in one sip and got the hiccups."
+  ],
+  "sound": [
+   "I heard a party blower honk directly into my ear.",
+   "I heard fifteen kids sing four different versions at once."
+  ],
+  "people": [
+   "I saw a clown get chased by a kid in a paper crown.",
+   "I watched a kid open a gift and only play with the box."
+  ],
+  "object": [
+   "I carried a goodie bag with one sticker and nine raisins.",
+   "I found a party hat stretched over the family dog."
+  ],
+  "leaving": [
+   "I left after a balloon animal popped and caused a riot.",
+   "I left covered in piñata candy dust and glitter."
+  ],
+  "where": [
+   "I was under the snack table, avoiding musical chairs.",
+   "I was behind the couch, guarding the last cupcake."
+  ],
+  "doing": [
+   "I was blindfolded, pinning a tail on the fridge.",
+   "I was refereeing a juice-box tug-of-war."
+  ]
+ },
+ "party-wedding-reception": {
+  "food": [
+   "I ate twelve mini crab cakes from passing silver trays.",
+   "I ate a mini cake that was meant for the flower girl."
+  ],
+  "sound": [
+   "I heard a cousin yell 'Speech!' and then actually give one.",
+   "I heard forks ding glasses until everyone's arms got tired."
+  ],
+  "people": [
+   "I saw the ring bearer asleep under the head table.",
+   "I watched a grandma lead the conga line like a general."
+  ],
+  "object": [
+   "I found a bridesmaid's shoe floating in the punch bowl.",
+   "I carried a throwaway camera full of photos of my thumb."
+  ],
+  "leaving": [
+   "I left when the conga line led me straight out the door.",
+   "I left with fourteen centerpieces someone 'gave' me."
+  ],
+  "where": [
+   "I was at the kids' table, even though I'm forty.",
+   "I was in the photo booth wearing a feather boa."
+  ],
+  "doing": [
+   "I was teaching the flower girl how to do the robot.",
+   "I was writing marriage advice on a cocktail napkin."
+  ]
+ },
+ "party-graduation-ceremony": {
+  "food": [
+   "I ate a granola bar under my gown during the speeches.",
+   "I ate a cake with my face printed on it. Starting with the nose."
+  ],
+  "sound": [
+   "I heard an air horn blast after one very specific name.",
+   "I heard the band play the same slow march for an hour."
+  ],
+  "people": [
+   "I saw someone trip crossing the stage and bow anyway.",
+   "I watched a grandpa hold up a giant poster of my face."
+  ],
+  "object": [
+   "I carried an empty diploma cover; the real one comes later.",
+   "I carried a balloon shaped like this year's numbers."
+  ],
+  "leaving": [
+   "I left after searching the lawn for my own cap.",
+   "I left wearing a candy necklace bigger than my head."
+  ],
+  "where": [
+   "I was on the stage, shaking hands with six strangers.",
+   "I was in the parking lot, still hearing names being read."
+  ],
+  "doing": [
+   "I was practicing my walk across the stage in the hallway.",
+   "I was decorating my cap with glitter and glue."
+  ]
+ },
+ "party-surprise-retirement": {
+  "food": [
+   "I ate cake that said 'Finally Free!' in shaky blue icing.",
+   "I ate the last donut from the break room box."
+  ],
+  "sound": [
+   "I heard a kazoo play a farewell song off-key.",
+   "I heard the printer jam right in the middle of the speech."
+  ],
+  "people": [
+   "I saw the boss cry into a stack of sticky notes.",
+   "I watched the guest of honor hug the copy machine goodbye."
+  ],
+  "object": [
+   "I carried a stapler that everyone had signed.",
+   "I found a gag gift: a rocking chair with racing stripes."
+  ],
+  "leaving": [
+   "I left after the guest of honor gave away his desk plant.",
+   "I left when the boss started a second slideshow."
+  ],
+  "where": [
+   "I was under a desk, holding a party popper for an hour.",
+   "I was in the break room, guarding the coffee pot."
+  ],
+  "doing": [
+   "I was teaching the guest of honor how to sleep in.",
+   "I was hiding confetti in his desk drawer as a final prank."
+  ]
+ }
+}

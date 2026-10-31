@@ -37,7 +37,7 @@ function leakCheck(g: Game, id: string, now: number) {
 function play(seed: number, nHumans: number, nBots: number, practice: boolean, pack: 'party'|'espanol') {
   let now = 1_000_000;
   let s = seed; const rnd = () => ((s = (s * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff);
-  const g = createGame({ code: 'TEST', host: { id: 'h0', name: 'Host', emoji: '🦊' }, settings: { practice, pack, rounds: 2 }, seed, now });
+  const g = createGame({ code: 'TEST', host: { id: 'h0', name: 'Host', emoji: '🦊' }, settings: { practice, pack, rounds: 2, joker: seed % 2 === 0, difficulty: (['easy','medium','hard'] as const)[seed % 3] }, seed, now });
   for (let i = 1; i < nHumans; i++) addPlayer(g, { id: 'h' + i, name: 'H' + i, emoji: '🐸' });
   for (let i = 0; i < nBots; i++) addBot(g);
   apply(g, 'h0', { type: 'start' }, now);

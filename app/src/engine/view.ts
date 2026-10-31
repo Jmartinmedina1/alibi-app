@@ -13,6 +13,7 @@ export interface ViewCard {
   /** Only for Detectives (they know the place) or after The Reveal. */
   heat?: number;
   real?: boolean;
+  joker?: boolean;
 }
 
 export interface ViewExchange {
@@ -85,7 +86,8 @@ export function viewFor(g: Game, me: string, now: number): View {
   const knowsPlace = role === 'detective' || locationKnown;
 
   // Only used once the round is revealed: everyone may see which answers were real.
-  const cardView = (c: { id: string; text: string; heat: number; real: boolean }): ViewCard => ({
+  const cardView = (c: { id: string; text: string; heat: number; real: boolean; joker?: boolean }): ViewCard => ({
+    joker: c.joker,
     id: c.id,
     text: c.text,
     heat: c.heat,
@@ -104,11 +106,11 @@ export function viewFor(g: Game, me: string, now: number): View {
     };
     if (picked) {
       // Before The Reveal, nobody sees whether a played card was real (Detectives can judge for themselves).
-      v.picked = revealed ? cardView(picked) : { id: picked.id, text: picked.text, heat: knowsPlace ? picked.heat : undefined };
+      v.picked = revealed ? cardView(picked) : { id: picked.id, text: picked.text, joker: picked.joker, heat: knowsPlace ? picked.heat : undefined };
     }
     if (isCurrent && g.phase === 'pick' && ex.askerId === me) v.topicChoices = ex.topicChoices;
     if (isCurrent && g.phase === 'answer' && ex.targetId === me) {
-      v.options = ex.options!.map((c) => (role === 'detective' ? { id: c.id, text: c.text, heat: c.heat, real: c.real } : { id: c.id, text: c.text }));
+      v.options = ex.options!.map((c) => (role === 'detective' ? { id: c.id, text: c.text, joker: c.joker, heat: c.heat, real: c.real } : { id: c.id, text: c.text, joker: c.joker }));
     }
     return v;
   };
@@ -143,7 +145,7 @@ export function viewFor(g: Game, me: string, now: number): View {
     rounds: g.settings.rounds,
     role,
     locationId: r && knowsPlace ? r.locationId : undefined,
-    hint: r && role === 'liar' && !locationKnown ? getLocation(r.locationId).hint : undefined,
+    hint: r && role === 'liar' && !locationKnown ? hintFor(getLocation(r.locationId), g.settings.difficulty) : undefined,
     current: current ? exView(current, true) : undefined,
     history: exchanges.filter((ex) => ex !== current && ex.pickedId).map((ex) => exView(ex, false)),
   };
@@ -176,4 +178,11 @@ export function viewFor(g: Game, me: string, now: number): View {
   }
   if (g.phase === 'gameover') v.awards = awards(g);
   return v;
+}
+
+/** Easy gives the Liar a friendlier hint; Hard a vaguer one. */
+function hintFor(l: ReturnType<typeof getLocation>, d: Settings['difficulty']): string {
+  if (d === 'easy') return l.hintEasy ?? l.hint;
+  if (d === 'hard') return l.hintHard ?? l.hint;
+  return l.hint;
 }

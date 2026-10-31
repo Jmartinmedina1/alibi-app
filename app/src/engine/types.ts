@@ -41,6 +41,8 @@ export interface Settings {
   practice: boolean;
   /** Practice only: play the Liar in round 1 (then Detective). */
   startAsLiar?: boolean;
+  /** Joker mode: every question also offers extra-ridiculous answers. */
+  joker?: boolean;
 }
 
 export interface Card {
@@ -49,6 +51,8 @@ export interface Card {
   heat: number;
   /** true = from the secret location. Never sent to the Liar or the public before The Reveal. */
   real: boolean;
+  /** A Joker-mode silly answer (real or decoy, like any other card). */
+  joker?: boolean;
 }
 
 export interface Line {

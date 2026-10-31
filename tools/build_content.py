@@ -37,6 +37,12 @@ SHORT = {  # id: (emoji, short name)
 def strip_label(s):
     return re.sub(r'^(Sight|Sound|Smell)\s*:\s*', '', s)
 
+# Joker mode (silly answers): tools/jokers/*.json, {id: {topic: [text | {es, en}]}}
+JOKERS, JOKER_TM = {}, {}
+JD = os.path.join(os.path.dirname(__file__), 'jokers')
+for f in sorted(os.listdir(JD)) if os.path.isdir(JD) else []:
+    JOKERS.update(json.load(open(os.path.join(JD, f))))
+
 locs = []
 for l in content:
     if l['pack'] not in ('party', 'espanol') or l['id'] not in answers['locations']:
@@ -51,8 +57,15 @@ for l in content:
     loc = {
         'id': l['id'], 'pack': l['pack'], 'category': l['category'], 'emoji': emoji, 'name': short,
         'fullName': l['name'], 'clues': [strip_label(d) for d in l['details']],
-        'hint': l['hint'], 'facts': facts, 'cards': cards,
+        'hint': l['hint'], 'hintEasy': l.get('hintEasy') or l['hint'], 'hintHard': l.get('hintHard') or l['hint'],
+        'facts': facts, 'cards': cards,
     }
+    if l['id'] in JOKERS:
+        J = JOKERS[l['id']]
+        loc['jokers'] = {t: [x['es'] if isinstance(x, dict) else x for x in J[t]] for t in cards}
+        for t in cards:
+            for x in J[t]:
+                if isinstance(x, dict): JOKER_TM[x['es']] = x['en']
     if l['pack'] == 'espanol':
         loc['vocab'] = L['vocab']
         loc['nameEn'] = L['name']['en']
@@ -65,6 +78,8 @@ tm = {}
 for k, v in learn['textMap'].items():
     tm[strip_label(k)] = strip_label(v)
 
+tm.update(JOKER_TM)
+assert all('jokers' in l for l in locs), [l['id'] for l in locs if 'jokers' not in l]
 bundle = {'version': 1, 'locations': locs, 'comedy': comedy, 'translations': tm}
 json.dump(bundle, open(OUT, 'w'), ensure_ascii=False, separators=(',', ':'))
 print('ok', len(locs), 'locations,', len(tm), 'translations,', os.path.getsize(OUT)//1024, 'KB')

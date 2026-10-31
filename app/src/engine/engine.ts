@@ -334,9 +334,18 @@ function buildOptions(g: Game, topic: Topic): Card[] {
   const loc = getLocation(r.locationId);
   const others = locationsInPack(g.settings.pack).filter((l) => l.category === loc.category && l.id !== loc.id);
   const decoyLoc = pick(g, others);
-  const real = loc.cards[topic].map((c, i) => ({ id: `r${i}`, text: c.text, heat: c.heat, real: true }));
-  const fake = decoyLoc.cards[topic].map((c, i) => ({ id: `d${i}`, text: c.text, heat: c.heat, real: false }));
-  return shuffle(g, [...real, ...fake]).map((c, i) => ({ ...c, id: `${r.exchanges.length}-${i}` }));
+  const side = (l: typeof loc, isReal: boolean): Card[] => {
+    let cs: Card[] = l.cards[topic].map((c, i) => ({ id: '', text: c.text, heat: c.heat, real: isReal }));
+    const jokes = l.jokers?.[topic] ?? [];
+    if (g.settings.joker && jokes.length) {
+      // Joker mode: swap one normal answer for an extra-ridiculous one from the same place.
+      const drop = randInt(g, cs.length);
+      cs = cs.filter((_, i) => i !== drop);
+      cs.push({ id: '', text: pick(g, jokes), heat: 2, real: isReal, joker: true });
+    }
+    return cs;
+  };
+  return shuffle(g, [...side(loc, true), ...side(decoyLoc, false)]).map((c, i) => ({ ...c, id: `${r.exchanges.length}-${i}` }));
 }
 
 function doPickTarget(g: Game, askerId: string, targetId: string, topic: Topic, now: number) {
@@ -371,7 +380,12 @@ function botAnswer(g: Game, botId: string): string {
   const w = loud ? [0.25, 0.35, 0.4] : [0.45, 0.4, 0.15];
   const roll = next(g);
   const heat = roll < w[0] ? 1 : roll < w[0] + w[1] ? 2 : 3;
-  const withHeat = (pool: Card[]) => (pool.find((o) => o.heat === heat) ?? pick(g, pool)).id;
+  const withHeat = (pool: Card[]) => {
+    // In Joker mode the bots love a silly answer too.
+    const joke = pool.find((o) => o.joker);
+    if (joke && chance(g, 0.45)) return joke.id;
+    return (pool.find((o) => o.heat === heat && !o.joker) ?? pick(g, pool)).id;
+  };
   if (botId === r.liarId) {
     // The Liar bot doesn't know the place, but it listens: every honest answer it has heard
     // this round makes its next bluff more convincing. It slips up sometimes, not constantly.

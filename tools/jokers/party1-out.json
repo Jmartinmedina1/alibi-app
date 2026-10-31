@@ -1,0 +1,392 @@
+{
+ "party-roller-rink": {
+  "food": [
+   "I ate a hot dog while rolling past it three times.",
+   "I tried to order nachos but kept drifting away from the counter."
+  ],
+  "sound": [
+   "I heard the DJ yell 'reverse!' and everyone collide.",
+   "I heard my own wheels squeak like a nervous mouse."
+  ],
+  "people": [
+   "I saw a grandpa in tube socks lap everyone twice.",
+   "I watched a conga line of beginners topple like dominoes."
+  ],
+  "object": [
+   "I found a lone wheel rolling around with no owner.",
+   "I carried rental boots in size 'clown' with orange laces."
+  ],
+  "leaving": [
+   "I left by crawling to the carpet on my hands and knees.",
+   "I left still wobbling, because my legs forgot how floors work."
+  ],
+  "where": [
+   "I was glued to the wall, doing the scared crab shuffle.",
+   "I was stuck spinning in the center during the limbo contest."
+  ],
+  "doing": [
+   "I was doing the hokey pokey and falling on 'turn around.'",
+   "I was flapping my arms like a bird to stay upright."
+  ]
+ },
+ "party-trampoline-park": {
+  "food": [
+   "I ate a slice of pizza mid-bounce. Most of it landed.",
+   "I lost a gummy bear in the foam and never found it."
+  ],
+  "sound": [
+   "I heard a dad grunt 'I still got it!' then belly-flop.",
+   "I heard forty grip socks squeak at the same time."
+  ],
+  "people": [
+   "I saw a toddler out-bounce a whole team of teenagers.",
+   "I watched a grown man get stuck in the foam like quicksand."
+  ],
+  "object": [
+   "I carried a foam cube home in my hood by accident.",
+   "I found my missing grip sock stuck to the ceiling net."
+  ],
+  "leaving": [
+   "I left still feeling like the floor was going up and down.",
+   "I left after a staffer fished me out of the foam with a pole."
+  ],
+  "where": [
+   "I was on the dodgeball court, bouncing away from everyone.",
+   "I was in the wall-run lane, flopping like a pancake."
+  ],
+  "doing": [
+   "I was playing dodgeball while airborne. I lost.",
+   "I was trying to bounce high enough to high-five the ceiling."
+  ]
+ },
+ "party-ice-skating-rink": {
+  "food": [
+   "I drank cocoa so fast my marshmallows froze in fear.",
+   "I ate a pretzel while my rented blades wobbled under the table."
+  ],
+  "sound": [
+   "I heard the resurfacer hum like a sleepy whale.",
+   "I heard my teeth chatter in perfect rhythm with the music."
+  ],
+  "people": [
+   "I saw a toddler on a plastic penguin pass me with ease.",
+   "I watched a figure skater spin until I got dizzy."
+  ],
+  "object": [
+   "I found a frozen mitten that waved at me from the boards.",
+   "I carried a plastic penguin I was too old to need. Mostly."
+  ],
+  "leaving": [
+   "I left when my nose turned into a tiny popsicle.",
+   "I left by sliding to the exit on my belly like a seal."
+  ],
+  "where": [
+   "I was clinging to a plastic penguin in the middle of the ice.",
+   "I was in the penalty box, hiding from the cold."
+  ],
+  "doing": [
+   "I was doing a spin. Well, the ice was spinning me.",
+   "I was skating like a baby deer in mittens."
+  ]
+ },
+ "party-rock-climbing-gym": {
+  "food": [
+   "I ate trail mix that tasted ninety percent chalk.",
+   "I ate a banana while hanging from a rope. Bad idea."
+  ],
+  "sound": [
+   "I heard someone cheer for me from below. I was stuck.",
+   "I heard a climber whisper 'please' to a tiny purple hold."
+  ],
+  "people": [
+   "I saw a kid scurry up the wall like a spider in tights.",
+   "I watched a grown-up hug the wall and refuse to let go."
+  ],
+  "object": [
+   "I carried climbing shoes so tight my toes filed a complaint.",
+   "I found a chalk handprint on my face. It wasn't mine."
+  ],
+  "leaving": [
+   "I left once they lowered me down like a sack of potatoes.",
+   "I left with chalky hands that made me look like a ghost."
+  ],
+  "where": [
+   "I was stuck on the overhang, upside down like a bat.",
+   "I was halfway up, clinging to a hold shaped like a pizza."
+  ],
+  "doing": [
+   "I was naming every hold so they'd be nicer to me.",
+   "I was doing the splits on the wall. Not on purpose."
+  ]
+ },
+ "party-bowling-alley": {
+  "food": [
+   "I ate fries with my bowling fingers. Big mistake.",
+   "I ate pizza while my ball rolled by itself into the gutter."
+  ],
+  "sound": [
+   "I heard my ball bounce twice before it even rolled.",
+   "I heard the gutter bumpers come up just for me."
+  ],
+  "people": [
+   "I saw a toddler use a ramp and bowl a strike.",
+   "I watched a dad do the splits while releasing the ball."
+  ],
+  "object": [
+   "I carried a ball so heavy it carried me instead.",
+   "I found the shoe spray and sprayed my sandwich by accident."
+  ],
+  "leaving": [
+   "I left still wearing the striped shoes. Oops.",
+   "I left after my ball got stuck in the return machine."
+  ],
+  "where": [
+   "I was on the lane, sliding past the line on my socks.",
+   "I was at the scoring screen, picking a silly nickname."
+  ],
+  "doing": [
+   "I was bowling granny-style between my legs.",
+   "I was making the pins fall by yelling at them. Didn't work."
+  ]
+ },
+ "party-mini-golf": {
+  "food": [
+   "I ate ice cream while my ball sank into the fake pond.",
+   "I traded a cookie for one free do-over. It was worth it."
+  ],
+  "sound": [
+   "I heard my ball splash into a tiny moat.",
+   "I heard the windmill blades thwack my ball back at me."
+  ],
+  "people": [
+   "I saw a grandpa sink a hole-in-one and run a victory lap.",
+   "I watched a kid wade into the pond to rescue a ball."
+  ],
+  "object": [
+   "I carried a putter so short I had to crouch to swing it.",
+   "I found six lost balls inside a fake shark's mouth."
+  ],
+  "leaving": [
+   "I left after giving my score a 'creative' adjustment.",
+   "I left when the clown mouth hole ate my last ball."
+  ],
+  "where": [
+   "I was on the hole with the pirate ship, losing to a cannon.",
+   "I was crouched by a fake volcano, aiming between its legs."
+  ],
+  "doing": [
+   "I was arguing with a windmill about timing.",
+   "I was putting with my eyes closed for good luck."
+  ]
+ },
+ "party-laser-tag": {
+  "food": [
+   "I ate pizza while my vest still beeped at me.",
+   "I chugged juice to recover from getting tagged 47 times."
+  ],
+  "sound": [
+   "I heard a robot voice say 'you have been tagged' again.",
+   "I heard my teammate hum spy music while sneaking."
+  ],
+  "people": [
+   "I saw a grandma climb the ramp and tag everyone.",
+   "I watched a kid in a glowing vest do a dramatic dive roll."
+  ],
+  "object": [
+   "I carried a vest that blinked so much it gave me away.",
+   "I found my own scorecard. I came in last, by a lot."
+  ],
+  "leaving": [
+   "I left when my vest ran out of lives before I did.",
+   "I left after accidentally tagging my own teammate. Twice."
+  ],
+  "where": [
+   "I was hiding in the fog, glowing like a nightlight.",
+   "I was on the upper ramp, doing spy rolls between walls."
+  ],
+  "doing": [
+   "I was crawling on my belly like a secret agent.",
+   "I was guarding our base with a glowing blaster."
+  ]
+ },
+ "party-arcade": {
+  "food": [
+   "I ate gummy bears while waiting for a turn on the pinball.",
+   "I spent my snack money on tokens and ate one mint."
+  ],
+  "sound": [
+   "I heard a pinball machine say 'extra ball!' just for me.",
+   "I heard the skee-ball lanes clack like angry woodpeckers."
+  ],
+  "people": [
+   "I saw a grandpa beat the high score on a cabinet from 1983.",
+   "I watched a kid hug the claw machine after it finally won."
+  ],
+  "object": [
+   "I carried a ribbon of tickets longer than my body.",
+   "I found a stuffed alien dangling from the claw, stuck."
+  ],
+  "leaving": [
+   "I left with a plastic spider ring and a broken heart.",
+   "I left wearing my prize-ticket strip as a scarf."
+  ],
+  "where": [
+   "I was at the skee-ball lanes, aiming for the tiny hole.",
+   "I was jammed inside a racing seat, steering wildly."
+  ],
+  "doing": [
+   "I was dancing on a light-up floor and missing every arrow.",
+   "I was whacking moles that were faster than me."
+  ]
+ },
+ "party-escape-room": {
+  "food": [
+   "I ate a mint I found in a drawer. It wasn't a clue.",
+   "I ate a cookie while yelling numbers at a padlock."
+  ],
+  "sound": [
+   "I heard a secret bookshelf creak open by itself.",
+   "I heard a voice say 'ten minutes left' and we all screamed."
+  ],
+  "people": [
+   "I saw my friend try to unlock the door with a banana.",
+   "I watched a teammate shake a teddy bear for clues."
+  ],
+  "object": [
+   "I carried a black light that showed spots on everything.",
+   "I found a map that was really just a pizza menu."
+  ],
+  "leaving": [
+   "I left after we used three hints and still needed four.",
+   "I left once we found the exit key in my own pocket."
+  ],
+  "where": [
+   "I was inside a fake wardrobe looking for a secret door.",
+   "I was under the desk, reading clues with a flashlight."
+  ],
+  "doing": [
+   "I was trying every key on every lock, one at a time.",
+   "I was reading a riddle backward to see if it helped."
+  ]
+ },
+ "party-karaoke-bar": {
+  "food": [
+   "I ate mozzarella sticks between verses of a love ballad.",
+   "I ate nachos while waiting forty songs for my turn."
+  ],
+  "sound": [
+   "I heard a tambourine played completely out of rhythm.",
+   "I heard someone sing the instrumental part too."
+  ],
+  "people": [
+   "I saw a grandma rap every word faster than the screen.",
+   "I watched a group sing a boy band song with dance moves."
+  ],
+  "object": [
+   "I carried a tambourine I wasn't supposed to take.",
+   "I found the song book open to 'national anthems.'"
+  ],
+  "leaving": [
+   "I left after the host kindly unplugged my microphone.",
+   "I left once my voice cracked into a dolphin squeak."
+  ],
+  "where": [
+   "I was under the spotlight, reading lyrics I didn't know.",
+   "I was in the booth, flipping through the song binder."
+  ],
+  "doing": [
+   "I was dramatically kneeling during the high note.",
+   "I was singing backup with a breadstick for a mic."
+  ]
+ },
+ "party-comedy-club": {
+  "food": [
+   "I ate pretzels to hide my laugh during the sad part.",
+   "I spilled soda when the comedian asked my name."
+  ],
+  "sound": [
+   "I heard a joke so bad even the drummer groaned.",
+   "I heard the crowd clap two drinks after the punchline."
+  ],
+  "people": [
+   "I saw a comedian forget the joke and blame the spotlight.",
+   "I watched a stand-up do a whole act about my shoes."
+  ],
+  "object": [
+   "I carried a rubber chicken someone tossed toward the stage.",
+   "I found a joke written on a napkin. It wasn't funny."
+  ],
+  "leaving": [
+   "I left after the comedian nicknamed me 'Sweater Guy.'",
+   "I left during the applause so nobody could ask my name."
+  ],
+  "where": [
+   "I was in the second row, ducking every time the mic turned.",
+   "I was behind a pillar, laughing at nothing I could see."
+  ],
+  "doing": [
+   "I was heckling. Politely. With a compliment.",
+   "I was explaining the joke to my friend during the next one."
+  ]
+ },
+ "party-haunted-house": {
+  "food": [
+   "I ate eyeball gumballs while hiding behind my friend.",
+   "I threw my candy at a ghost. It said 'thanks.'"
+  ],
+  "sound": [
+   "I heard a creaky door, then my own scream, then a giggle.",
+   "I heard an organ play spooky music, slightly off-key."
+  ],
+  "people": [
+   "I saw a zombie actor ask if I was okay. I wasn't.",
+   "I watched a vampire trip on his own cape."
+  ],
+  "object": [
+   "I carried a glow stick like it was a magic sword.",
+   "I found a fake cobweb tangled in my hair all night."
+  ],
+  "leaving": [
+   "I left by running backward so nothing could follow me.",
+   "I left holding hands with a stranger who was also scared."
+  ],
+  "where": [
+   "I was in the mirror maze, scared of my own reflection.",
+   "I was stuck in a pitch-black hallway that kept wiggling."
+  ],
+  "doing": [
+   "I was apologizing to every skeleton I bumped into.",
+   "I was screaming at a mannequin that didn't even move."
+  ]
+ },
+ "party-magic-show": {
+  "food": [
+   "I ate popcorn, then the magician pulled one from my ear.",
+   "I offered my candy to the rabbit. It said no."
+  ],
+  "sound": [
+   "I heard a rabbit sneeze from inside a top hat.",
+   "I heard a wand go 'boing' and wilt into a fake flower."
+  ],
+  "people": [
+   "I saw a volunteer get sawed in half and wave both halves.",
+   "I watched a dove fly out of a hat and land on my head."
+  ],
+  "object": [
+   "I carried a string of scarves that never ended.",
+   "I found a deck where every card was the queen of hearts."
+  ],
+  "leaving": [
+   "I left still checking my ears for hidden coins.",
+   "I left, but my watch stayed on stage somehow."
+  ],
+  "where": [
+   "I was inside the disappearing box. It was dusty.",
+   "I was in the front row getting confetti from a wand."
+  ],
+  "doing": [
+   "I was saying 'abracadabra' at my sandwich. Nothing.",
+   "I was trying to see the rabbit's secret door."
+  ]
+ }
+}
