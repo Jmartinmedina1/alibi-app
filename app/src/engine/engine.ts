@@ -42,8 +42,10 @@ export function timings(s: Settings) {
     intro: 30_000,
     case: 45_000,
     pick: 25_000,
-    answerDetective: relaxed ? 15_000 : 10_000,
-    answerLiar: relaxed ? 20_000 : 14_000,
+    // Same time for every role: a longer bar for the Liar would give them away.
+    answerDetective: relaxed ? 18_000 : 12_000,
+    answerLiar: relaxed ? 18_000 : 12_000,
+    runoff: 25_000,
     // The answer stays up long enough to read it, even if everyone reacts fast.
     react: relaxed ? 10_000 : 7_000,
     reactMinShow: relaxed ? 6_000 : 4_500,
@@ -232,7 +234,8 @@ function startRound(g: Game, now: number) {
   g.pastLiars.push(liarId);
   const locationId = chooseLocation(g);
   const ids = g.players.map((p) => p.id);
-  const laps = ids.length <= 3 ? 2 : 1;
+  // Everyone answers twice up to 5 players: one answer each is too little to reason from.
+  const laps = ids.length <= 5 ? 2 : 1;
   let order: string[] = [];
   for (let i = 0; i < laps; i++) order = order.concat(shuffle(g, ids));
   // In Practice, never let the human ask first (they learn by watching one exchange).
@@ -314,19 +317,22 @@ export function allowedTargets(g: Game, askerId: string): string[] {
 
 function botChooseTarget(g: Game, askerId: string): string {
   const r = g.round!;
-  const allowed = allowedTargets(g, askerId);
-  const fresh = allowed.filter((id) => (r.grilled[id] ?? 0) === 0);
-  if (fresh.length) {
-    // Prefer people who haven't been grilled yet, so every human always gets the hot seat.
+  let allowed = allowedTargets(g, askerId);
+  // Practice: the human hears at least two answers before their own hot seat.
+  if (g.settings.practice && r.exchanges.length <= 2) {
+    const botsOnly = allowed.filter((id) => isBot(g, id));
+    if (botsOnly.length) allowed = botsOnly;
+  }
+  const least = Math.min(...allowed.map((id) => r.grilled[id] ?? 0));
+  const fresh = allowed.filter((id) => (r.grilled[id] ?? 0) === least);
+  // Spread the hot seat evenly; humans first among equals so every human gets grilled.
+  if (least === 0 || chance(g, 0.75)) {
     const freshHumans = fresh.filter((id) => !isBot(g, id));
     return pick(g, freshHumans.length ? freshHumans : fresh);
   }
-  // Otherwise go after the most suspicious, with some randomness.
-  if (chance(g, 0.6)) {
-    const sus = suspicion(g);
-    return allowed.slice().sort((a, b) => (sus[b] ?? 0) - (sus[a] ?? 0))[0];
-  }
-  return pick(g, allowed);
+  // Otherwise go after the most suspicious.
+  const sus = suspicion(g);
+  return allowed.slice().sort((a2, b2) => (sus[b2] ?? 0) - (sus[a2] ?? 0))[0];
 }
 
 function buildOptions(g: Game, topic: Topic): Card[] {
@@ -424,7 +430,7 @@ function botReact(g: Game, botId: string): Reaction {
   const ex = r.exchanges[r.exchanges.length - 1];
   const card = ex.options!.find((o) => o.id === ex.pickedId)!;
   const bot = player(g, botId)!;
-  if (bot.suspectId === 'big-tony') return 'sus';
+  if (bot.suspectId === 'big-tony' && chance(g, 0.6)) return 'sus'; // grumpy, but not automatic
   if (bot.suspectId === 'granny-dot') return card.heat === 3 ? 'sus' : 'legit';
   // Everyone gets a little suspicious of wild answers, so a "sus" alone proves nothing.
   const wild = card.heat === 3 ? 0.3 : 0.18;
@@ -484,7 +490,7 @@ function beginVote(g: Game, now: number) {
 
 function botVote(g: Game, botId: string): string {
   const r = g.round!;
-  const others = g.players.filter((p) => p.id !== botId).map((p) => p.id);
+  const others = voteCandidates(g, botId);
   const sus = suspicion(g);
   if (botId === r.liarId) {
     return others.slice().sort((a, b) => (sus[b] ?? 0) - (sus[a] ?? 0) + (next(g) - 0.5))[0];
@@ -506,12 +512,36 @@ function botVote(g: Game, botId: string): string {
 }
 
 function voters(g: Game) {
-  return g.players.filter((p) => p.bot || p.connected);
+  const r = g.round;
+  const all = g.players.filter((p) => p.bot || p.connected);
+  if (!r?.runoff) return all;
+  // In a runoff the tied players don't vote; if that leaves nobody, everyone votes.
+  const judges = all.filter((p) => !r.runoff!.includes(p.id));
+  return judges.length ? judges : all;
+}
+
+/** Who you may vote for right now. */
+export function voteCandidates(g: Game, pid: string): string[] {
+  const r = g.round!;
+  const pool = r.runoff ?? g.players.map((p) => p.id);
+  return pool.filter((id) => id !== pid);
+}
+
+function beginRunoff(g: Game, now: number) {
+  const r = g.round!;
+  r.firstVotes = r.votes;
+  r.votes = {};
+  r.runoffPending = false;
+  r.tie = false;
+  setPhase(g, 'vote', now, timings(g.settings).runoff);
+  g.line = null;
+  for (const p of voters(g)) if (p.bot) g.botAt[p.id] = now + 1800 + randInt(g, 3000);
 }
 
 function doVote(g: Game, pid: string, targetId: string, now: number) {
   if (g.phase !== 'vote') throw new GameError('not_voting');
-  if (pid === targetId || !player(g, targetId)) throw new GameError('bad_vote');
+  if (!voteCandidates(g, pid).includes(targetId)) throw new GameError('bad_vote');
+  if (!voters(g).some((p) => p.id === pid)) throw new GameError('not_voting');
   g.round!.votes[pid] = targetId;
   g.rev++;
   if (voters(g).every((p) => g.round!.votes[p.id])) finishVote(g, now);
@@ -525,6 +555,14 @@ function finishVote(g: Game, now: number) {
   const max = Math.max(0, ...Object.values(tally));
   const top = Object.keys(tally).filter((id) => tally[id] === max);
   r.tie = top.length !== 1;
+  if (r.tie && !r.runoff) {
+    // First tie: show the split, then a runoff between the tied players.
+    r.runoff = top.length ? top : g.players.map((p) => p.id);
+    r.runoffPending = true;
+    setPhase(g, 'fingers', now, timings(g.settings).fingers);
+    g.line = null;
+    return;
+  }
   r.accusedId = top.length === 1 ? top[0] : undefined;
   r.caught = !r.tie && r.accusedId === r.liarId;
   for (const [voter, t] of Object.entries(r.votes)) {
@@ -612,7 +650,9 @@ function award(g: Game, id: string, pts: number, reason: string) {
 
 function beginResult(g: Game, now: number) {
   const r = g.round!;
-  for (const [voter, t] of Object.entries(r.votes)) if (t === r.liarId) award(g, voter, 100, 'spotted');
+  // A correct vote counts on either ballot (first vote or runoff).
+  const spotters = new Set([...Object.entries(r.firstVotes ?? {}), ...Object.entries(r.votes)].filter(([, t]) => t === r.liarId).map(([v]) => v));
+  for (const voter of spotters) award(g, voter, 100, 'spotted');
   if (!r.caught) {
     award(g, r.liarId, 200, 'escaped');
     g.stats.escapes[r.liarId] = (g.stats.escapes[r.liarId] ?? 0) + 1;
@@ -815,7 +855,8 @@ function onDeadline(g: Game, now: number) {
       finishVote(g, now);
       break;
     case 'fingers':
-      beginObjection(g, now);
+      if (g.round?.runoffPending) beginRunoff(g, now);
+      else beginObjection(g, now);
       break;
     case 'objection':
       if (r!.excuseIdx == null) {

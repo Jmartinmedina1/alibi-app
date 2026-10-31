@@ -85,6 +85,10 @@ export interface RoundState {
   votes: Record<string, string>;
   accusedId?: string;
   tie: boolean;
+  /** A tie sends the tied players to a runoff vote decided by everyone else. */
+  runoff?: string[];
+  runoffPending?: boolean;
+  firstVotes?: Record<string, string>;
   caught?: boolean;
   excuseChoices?: number[];
   excuseIdx?: number;

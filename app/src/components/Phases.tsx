@@ -127,20 +127,27 @@ export function Pick(p: PhaseProps) {
       <View style={{ gap: 12 }}>
         <Title>{t(lang, 'pickWho')}</Title>
         <View style={st.grid}>
-          {(v.allowedTargets ?? []).map((id) => (
-            <Pressable
-              key={id}
-              style={({ pressed }) => [st.faceBtn, pressed && { transform: [{ scale: 0.96 }] }]}
-              onPress={() => {
-                play('tap', 0.4);
-                haptic('light');
-                setTarget(id);
-              }}
-            >
-              <FaceOf v={v} id={id} size={78} />
-              <Text style={st.faceName}>{nameOf(v, id)}</Text>
-            </Pressable>
-          ))}
+          {(v.allowedTargets ?? [])
+            .slice()
+            .sort((a, b) => (P(v, a)?.grilled ?? 0) - (P(v, b)?.grilled ?? 0))
+            .map((id) => {
+              const n = P(v, id)?.grilled ?? 0;
+              return (
+                <Pressable
+                  key={id}
+                  style={({ pressed }) => [st.faceBtn, n === 0 && st.fresh, pressed && { transform: [{ scale: 0.96 }] }]}
+                  onPress={() => {
+                    play('tap', 0.4);
+                    haptic('light');
+                    setTarget(id);
+                  }}
+                >
+                  <FaceOf v={v} id={id} size={78} />
+                  <Text style={st.faceName}>{nameOf(v, id)}</Text>
+                  <Text style={[st.tiny, { color: n === 0 ? C.amber : C.muted }]}>{n === 0 ? t(lang, 'notAsked') : t(lang, 'askedN', { n: String(n) })}</Text>
+                </Pressable>
+              );
+            })}
         </View>
       </View>
     );
@@ -363,31 +370,44 @@ export function Vote(p: PhaseProps) {
   const { v, lang, send } = p;
   const [mine, setMine] = useState<string | null>(null);
   const voted = v.myVote ?? mine;
+  const runoff = !!v.runoff;
+  const canVote = v.canVote !== false;
+  const candidates = runoff ? v.players.filter((x) => v.runoff!.includes(x.id) && x.id !== v.me) : v.players.filter((x) => x.id !== v.me);
   return (
-    <View style={{ gap: 12 }}>
-      <Inspector text={lineText(v.line, lang)} mood="suspicious" compact />
-      <Title>☝️ {t(lang, 'vote')}</Title>
-      <View style={st.grid}>
-        {v.players
-          .filter((x) => x.id !== v.me)
-          .map((x) => (
-            <Pressable
-              key={x.id}
-              disabled={!!voted}
-              onPress={() => {
-                setMine(x.id);
-                play('stamp', 0.4);
-                haptic('medium');
-                send({ type: 'vote', targetId: x.id });
-              }}
-              style={({ pressed }) => [st.faceBtn, voted === x.id && st.lit, pressed && { transform: [{ scale: 0.96 }] }, voted && voted !== x.id ? { opacity: 0.5 } : null]}
-            >
-              <Face suspectId={x.suspectId} emoji={x.emoji} size={74} />
-              <Text style={st.faceName}>{x.name}</Text>
+    <View style={{ gap: 10 }}>
+      {runoff ? null : <Inspector text={lineText(v.line, lang)} mood="suspicious" compact />}
+      <Title>{runoff ? t(lang, 'runoffTitle') : '☝️ ' + t(lang, 'vote')}</Title>
+      <Small>{runoff ? (canVote ? t(lang, 'runoffJudge') : t(lang, 'runoffYou')) : t(lang, 'tieRule')}</Small>
+      {candidates.map((x) => {
+        const said = v.history.filter((ex) => ex.targetId === x.id && ex.picked);
+        const disabled = !!voted || !canVote;
+        return (
+          <Pressable
+            key={x.id}
+            disabled={disabled}
+            onPress={() => {
+              setMine(x.id);
+              play('stamp', 0.4);
+              haptic('medium');
+              send({ type: 'vote', targetId: x.id });
+            }}
+            style={({ pressed }) => [st.voteRow, voted === x.id && st.lit, pressed && { transform: [{ scale: 0.98 }] }, voted && voted !== x.id ? { opacity: 0.5 } : null]}
+          >
+            <View style={{ alignItems: 'center', width: 70 }}>
+              <Face suspectId={x.suspectId} emoji={x.emoji} size={58} />
               <SusBar n={x.suspicion} />
-            </Pressable>
-          ))}
-      </View>
+            </View>
+            <View style={{ flex: 1, gap: 3 }}>
+              <Text style={[st.faceName, { textAlign: 'left' }]}>{x.name}</Text>
+              {said.map((ex, i) => (
+                <Text key={i} style={st.saidLine} numberOfLines={3}>
+                  “{ex.picked!.text}”
+                </Text>
+              ))}
+            </View>
+          </Pressable>
+        );
+      })}
       {voted && <Small>{t(lang, 'voted')}</Small>}
     </View>
   );
@@ -425,7 +445,7 @@ export function Fingers(p: PhaseProps) {
   return (
     <View style={{ gap: 10 }}>
       {v.accusedId && acc?.bot && v.line ? <Inspector text={`${acc.name}: “${lineText(v.line, lang)}”`} mood="shocked" compact /> : null}
-      {v.tie && <Inspector text={t(lang, 'tie')} mood="shocked" compact />}
+      {v.tie && <Inspector text={t(lang, v.runoffNext ? 'runoffNext' : 'tie')} mood="shocked" compact />}
       {order.map((x) => (
         <Slam key={x.id} sound={null}>
           <View style={[st.row, x.id === v.accusedId && { borderColor: C.red, borderWidth: 2 }]}>
@@ -504,13 +524,17 @@ export function Reveal(p: PhaseProps) {
       ? (lang === 'es' ? 'ACUSADO DE: decir ' : 'CHARGED WITH: saying ') + `“${decoy.picked!.text}”`
       : (mug[0] as any)?.[lang] ?? mug[0]?.en
     : (mug[(v.phaseAt / 1000) % mug.length | 0] as any)?.[lang] ?? mug[0]?.en;
+  // The Inspector's verdict waits until the stamp lands, so nothing spoils the reveal.
+  const [showLine, setShowLine] = useState(false);
   useEffect(() => {
     play(v.caught ? 'ding' : 'buzzer', 0.5);
     haptic(v.caught ? 'success' : 'error');
+    const id = setTimeout(() => setShowLine(true), 1800);
+    return () => clearTimeout(id);
   }, [v.caught]);
   return (
     <View style={{ gap: 12 }}>
-      <Inspector text={lineText(v.line, lang)} mood={moodFor(v.line?.key)} compact />
+      {showLine ? <Inspector text={lineText(v.line, lang)} mood={moodFor(v.line?.key)} compact /> : <View style={{ height: 62 }} />}
       <Paper style={st.mugshot}>
         <View style={st.heightLines} />
         <Small style={{ color: C.ink }}>{t(lang, 'liarWas')}</Small>
@@ -684,6 +708,9 @@ const st = StyleSheet.create({
   grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 10 },
   faceBtn: { alignItems: 'center', gap: 4, padding: 8, borderRadius: 12, minWidth: 96, backgroundColor: 'rgba(0,0,0,0.18)' },
   faceName: { color: C.manila, fontWeight: '700', fontSize: 14, textAlign: 'center' },
+  fresh: { borderColor: C.amber, borderWidth: 1, borderStyle: 'dashed' },
+  voteRow: { flexDirection: 'row', alignItems: 'center', gap: 10, padding: 10, borderRadius: 12, backgroundColor: 'rgba(0,0,0,0.25)', borderWidth: 1, borderColor: C.line },
+  saidLine: { color: C.muted, fontSize: 14, fontStyle: 'italic', lineHeight: 19 },
   lit: { backgroundColor: 'rgba(232,162,58,0.3)', borderColor: C.amber, borderWidth: 2 },
   option: { backgroundColor: C.paper, borderRadius: 8, padding: 14, borderWidth: 1, borderColor: C.manilaDark, flexDirection: 'row', alignItems: 'center', gap: 8 },
   optionText: { flex: 1, color: C.ink, fontSize: 16, lineHeight: 21 },

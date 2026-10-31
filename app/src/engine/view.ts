@@ -3,7 +3,7 @@
 // nobody learns who the Liar is, or which answers were real, before The Reveal.
 
 import { getLocation } from './content';
-import { allowedTargets, awards, suspicion } from './engine';
+import { allowedTargets, awards, suspicion, voteCandidates } from './engine';
 import type { Award } from './engine';
 import type { Game, Line, Phase, Reaction, Settings, Topic } from './types';
 
@@ -48,6 +48,8 @@ export interface View {
     score: number;
     ready: boolean;
     suspicion: number;
+    /** Times grilled this round. */
+    grilled: number;
   }[];
   line: Line | null;
   roundIndex: number;
@@ -64,6 +66,10 @@ export interface View {
   myVote?: string;
   accusedId?: string;
   tie?: boolean;
+  voteFor?: string[];
+  runoff?: string[];
+  canVote?: boolean;
+  runoffNext?: boolean;
   liarId?: string;
   caught?: boolean;
   excuseChoices?: number[];
@@ -139,6 +145,7 @@ export function viewFor(g: Game, me: string, now: number): View {
       score: p.score,
       ready: !!g.ready[p.id],
       suspicion: sus[p.id] ?? 0,
+      grilled: r?.grilled[p.id] ?? 0,
     })),
     line: g.line,
     roundIndex: g.roundIndex,
@@ -153,7 +160,13 @@ export function viewFor(g: Game, me: string, now: number): View {
   if (current && g.phase === 'pick' && current.askerId === me) v.allowedTargets = allowedTargets(g, me);
 
   if (r) {
-    if (g.phase === 'vote') v.myVote = r.votes[me];
+    if (g.phase === 'vote') {
+      v.myVote = r.votes[me];
+      v.voteFor = voteCandidates(g, me);
+      v.runoff = r.runoff;
+      v.canVote = !r.runoff || !r.runoff.includes(me) || r.runoff.length >= g.players.length;
+    }
+    if (g.phase === 'fingers') v.runoffNext = !!r.runoffPending;
     if (['fingers', 'objection', 'reveal', 'guess', 'result', 'gameover'].includes(g.phase)) {
       v.votes = r.votes;
       v.accusedId = r.accusedId;
