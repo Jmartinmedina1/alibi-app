@@ -6,3 +6,4 @@ server/.wrangler/
 shots/
 *.log
 .env*
+.wrangler/
