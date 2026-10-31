@@ -75,7 +75,7 @@ export function useRoom(code: string, profile: Profile | null): GameConn {
         setOffset(m.view.serverNow - Date.now());
         setView(m.view);
       } else if (m.t === 'error') {
-        if (['room_not_found', 'game_in_progress', 'room_full', 'missing_pid'].includes(m.error)) {
+        if (['room_not_found', 'game_in_progress', 'room_full', 'missing_pid', 'kicked'].includes(m.error)) {
           setError(m.error);
           setStatus('error');
           closedByUs.current = true;
@@ -115,4 +115,22 @@ export function useRoom(code: string, profile: Profile | null): GameConn {
   }, []);
 
   return { view, status, error, offset, send, leave };
+}
+
+/** Report another player's name (kept in the server logs for review). */
+export function reportName(code: string, name: string, reason = 'name') {
+  return fetch(serverUrl() + '/api/report', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ code, name, reason }),
+  }).catch(() => {});
+}
+
+/** Anonymous end-of-game numbers (Practice games run on the device). */
+export function sendGameEvent(summary: Record<string, unknown>) {
+  return fetch(serverUrl() + '/api/event', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(summary),
+  }).catch(() => {});
 }

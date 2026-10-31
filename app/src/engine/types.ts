@@ -4,7 +4,7 @@ export type Lang = 'en' | 'es';
 export type Pack = 'party' | 'espanol';
 export type Topic = 'food' | 'sound' | 'people' | 'object' | 'leaving' | 'where' | 'doing';
 export type Difficulty = 'easy' | 'medium' | 'hard';
-export type Pace = 'relaxed' | 'normal';
+export type Pace = 'relaxed' | 'normal' | 'slow';
 export type Reaction = 'sus' | 'legit';
 
 export type Phase =
@@ -128,6 +128,13 @@ export interface Game {
   round: RoundState | null;
   roundIndex: number;
   introSeen: boolean;
+  /** People who arrived mid-game; they join at the next round. */
+  waiting?: Player[];
+  /** Set once the end-of-game stats were logged. */
+  endLogged?: boolean;
+  startedAt?: number;
+  /** Kicked by the host; can't rejoin this room. */
+  banned?: string[];
   usedLocations: string[];
   pastLiars: string[];
   stats: Stats;
@@ -149,4 +156,5 @@ export type Action =
   | { type: 'rematch' }
   | { type: 'settings'; settings: Partial<Settings> }
   | { type: 'addBot' }
-  | { type: 'removePlayer'; playerId: string };
+  | { type: 'removePlayer'; playerId: string }
+  | { type: 'kick'; playerId: string };

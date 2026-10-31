@@ -5,7 +5,7 @@
     "build": "cd app && npm ci --no-audit --no-fund && EXPO_OFFLINE=1 CI=1 npx expo export -p web --output-dir dist",
     "dev": "npx wrangler dev",
     "deploy": "npx wrangler deploy",
-    "test": "cd app && npx tsx src/engine/tests/simulate.test.ts && npx tsx src/engine/tests/runoff.test.ts"
+    "test": "cd app && npx tsx src/engine/tests/simulate.test.ts && npx tsx src/engine/tests/runoff.test.ts && npx tsx src/engine/tests/safety.test.ts"
   },
   "devDependencies": {
     "wrangler": "^4.156.0"

@@ -1,6 +1,7 @@
 // ALIBI game engine: pure functions over a serializable Game state.
 // The server (multiplayer) and the app (Practice) both run it. Clients only ever receive viewFor().
 
+import { cleanAvatar, cleanName } from './names';
 import { CAST, commentLines, getLocation, locationsInPack, TOPICS } from './content';
 import type {
   Action,
@@ -37,8 +38,10 @@ const chance = (g: Game, p: number) => next(g) < p;
 
 // ---------- timings (ms) ----------
 export function timings(s: Settings) {
-  const relaxed = s.pace === 'relaxed';
-  return {
+  const relaxed = s.pace === 'relaxed' || s.pace === 'slow';
+  // Extra time (young kids, grandparents, Spanish learners): double every decision timer.
+  const x = s.pace === 'slow' ? 2 : 1;
+  const base = {
     intro: 30_000,
     case: 45_000,
     pick: 25_000,
@@ -59,6 +62,9 @@ export function timings(s: Settings) {
     guess: 20_000,
     result: 30_000,
   };
+  if (x === 1) return base;
+  for (const k of ['pick', 'answerDetective', 'answerLiar', 'runoff', 'react', 'reactMinShow', 'vote', 'objection', 'objectionShow', 'guess', 'case'] as const) base[k] *= x;
+  return base;
 }
 
 export const MIN_PLAYERS = 3;
@@ -76,7 +82,7 @@ export function createGame(opts: {
     v: 1,
     code: opts.code,
     hostId: opts.host.id,
-    players: [{ ...opts.host, bot: false, connected: true, score: 0 }],
+    players: [{ ...opts.host, name: cleanName(opts.host.name) ?? 'Detective', emoji: cleanAvatar(opts.host.emoji), bot: false, connected: true, score: 0 }],
     settings: {
       pack: 'party',
       rounds: 2,
@@ -107,20 +113,45 @@ function emptyStats() {
   return { correctVotes: {}, escapes: {}, votesWhileInnocent: {}, hot: {}, excuses: {}, liarRounds: {}, caughtAsLiar: {}, sharpEye: {} };
 }
 
+const SAFE_ALIASES = ['Detective Waffles', 'Agent Pickles', 'Inspector Noodle', 'Sergeant Biscuit', 'Captain Custard', 'Agent Taco', 'Detective Nacho', 'Officer Muffin'];
+
 export function addPlayer(g: Game, p: { id: string; name: string; emoji: string }): Game {
-  const existing = g.players.find((x) => x.id === p.id);
+  if (g.banned?.includes(p.id)) throw new GameError('kicked');
+  // Every name the server accepts is cleaned; an offensive one becomes a random alias.
+  const name = cleanName(p.name) ?? SAFE_ALIASES[Math.floor(Math.random() * SAFE_ALIASES.length)];
+  const emoji = cleanAvatar(p.emoji);
+  const existing = g.players.find((x) => x.id === p.id) ?? g.waiting?.find((x) => x.id === p.id);
   if (existing) {
     existing.connected = true;
-    existing.name = p.name || existing.name;
-    existing.emoji = p.emoji || existing.emoji;
+    existing.name = name;
+    existing.emoji = emoji;
     g.rev++;
     return g;
   }
-  if (g.phase !== 'lobby') throw new GameError('game_in_progress');
-  if (g.players.length >= MAX_PLAYERS) throw new GameError('room_full');
-  g.players.push({ id: p.id, name: p.name.slice(0, 18) || 'Detective', emoji: p.emoji, bot: false, connected: true, score: 0 });
+  if (g.players.length + (g.waiting?.length ?? 0) >= MAX_PLAYERS) throw new GameError('room_full');
+  const fresh: Player = { id: p.id, name, emoji, bot: false, connected: true, score: 0 };
+  if (g.phase === 'lobby') g.players.push(fresh);
+  else (g.waiting ??= []).push(fresh); // arrived mid-game: watch, then join at the next round
   g.rev++;
   return g;
+}
+
+/** Waiting players (still connected) join the game, e.g. at the start of a round. */
+function admitWaiting(g: Game) {
+  if (!g.waiting?.length) return;
+  for (const w of g.waiting) if (w.connected && g.players.length < MAX_PLAYERS) g.players.push(w);
+  g.waiting = [];
+}
+
+/** The host removes someone for good (works mid-game too). */
+function kick(g: Game, playerId: string) {
+  (g.banned ??= []).push(playerId);
+  g.waiting = (g.waiting ?? []).filter((w) => w.id !== playerId);
+  const p = g.players.find((x) => x.id === playerId);
+  if (!p) return;
+  if (g.phase === 'lobby' || g.phase === 'gameover' || p.bot) g.players = g.players.filter((x) => x.id !== playerId);
+  else p.connected = false; // mid-round they become absent; the round carries on without them
+  g.rev++;
 }
 
 export function addBot(g: Game): Game {
@@ -135,6 +166,12 @@ export function addBot(g: Game): Game {
 }
 
 export function setConnected(g: Game, playerId: string, connected: boolean): Game {
+  const w = g.waiting?.find((x) => x.id === playerId);
+  if (w && !connected) {
+    g.waiting = g.waiting!.filter((x) => x.id !== playerId);
+    g.rev++;
+    return g;
+  }
   const p = g.players.find((x) => x.id === playerId);
   if (!p || p.connected === connected) return g;
   p.connected = connected;
@@ -147,6 +184,11 @@ export function setConnected(g: Game, playerId: string, connected: boolean): Gam
 
 /** A player leaves for good (Main menu / Leave). In a running game they become absent; the game continues. */
 export function leave(g: Game, playerId: string): Game {
+  if (g.waiting?.some((x) => x.id === playerId)) {
+    g.waiting = g.waiting.filter((x) => x.id !== playerId);
+    g.rev++;
+    return g;
+  }
   const p = g.players.find((x) => x.id === playerId);
   if (!p) return g;
   if (g.phase === 'lobby' || g.phase === 'gameover') {
@@ -192,6 +234,8 @@ function readingDuration(g: Game, ms: number): number | null {
 // ---------- start / rounds ----------
 function startGame(g: Game, now: number) {
   if (g.players.length < MIN_PLAYERS) throw new GameError('need_players');
+  g.startedAt = now;
+  g.endLogged = false;
   g.roundIndex = 0;
   g.players.forEach((p) => (p.score = 0));
   g.stats = emptyStats();
@@ -230,6 +274,7 @@ function chooseLocation(g: Game): string {
 }
 
 function startRound(g: Game, now: number) {
+  admitWaiting(g);
   const liarId = chooseLiar(g);
   g.pastLiars.push(liarId);
   const locationId = chooseLocation(g);
@@ -752,6 +797,38 @@ export function awards(g: Game): Award[] {
   return out;
 }
 
+/** Anonymous end-of-game numbers for balancing (no names, no ids). */
+export function gameSummary(g: Game) {
+  const bots = g.players.filter((p) => p.bot).length;
+  return {
+    players: g.players.length,
+    humans: g.players.length - bots,
+    bots,
+    rounds: g.settings.rounds,
+    pack: g.settings.pack,
+    difficulty: g.settings.difficulty,
+    joker: !!g.settings.joker,
+    pace: g.settings.pace,
+    practice: !!g.settings.practice,
+    coach: !!g.settings.coach,
+    liarCaught: Object.values(g.stats.caughtAsLiar).reduce((a, b) => a + b, 0),
+    liarEscaped: Object.values(g.stats.escapes).reduce((a, b) => a + b, 0),
+    humanLiarEscaped: g.players.filter((p) => !p.bot).reduce((a, p) => a + (g.stats.escapes[p.id] ?? 0), 0),
+    humanLiarRounds: g.players.filter((p) => !p.bot).reduce((a, p) => a + (g.stats.liarRounds[p.id] ?? 0), 0),
+  };
+}
+
+/** Only known values from a client's settings change. */
+export function validSettings(x: Partial<Settings>): Partial<Settings> {
+  const out: Partial<Settings> = {};
+  if (x.pack === 'party' || x.pack === 'espanol') out.pack = x.pack;
+  if (x.rounds === 2 || x.rounds === 3 || x.rounds === 5) out.rounds = x.rounds;
+  if (x.difficulty === 'easy' || x.difficulty === 'medium' || x.difficulty === 'hard') out.difficulty = x.difficulty;
+  if (x.pace === 'normal' || x.pace === 'relaxed' || x.pace === 'slow') out.pace = x.pace;
+  if (typeof x.joker === 'boolean') out.joker = x.joker;
+  return out;
+}
+
 // ---------- public API ----------
 export function apply(g: Game, playerId: string, action: Action, now: number): Game {
   const isHost = playerId === g.hostId;
@@ -763,7 +840,7 @@ export function apply(g: Game, playerId: string, action: Action, now: number): G
       break;
     case 'settings':
       if (!isHost || g.phase !== 'lobby') throw new GameError('host_only');
-      g.settings = { ...g.settings, ...action.settings, practice: g.settings.practice };
+      g.settings = { ...g.settings, ...validSettings(action.settings), practice: g.settings.practice };
       g.rev++;
       break;
     case 'addBot':
@@ -799,8 +876,13 @@ export function apply(g: Game, playerId: string, action: Action, now: number): G
     case 'guess':
       doGuess(g, playerId, action.locationId, now);
       break;
+    case 'kick':
+      if (!isHost || action.playerId === g.hostId) throw new GameError('host_only');
+      kick(g, action.playerId);
+      break;
     case 'rematch':
       if (g.phase !== 'gameover') throw new GameError('not_over');
+      admitWaiting(g);
       g.players = g.players.filter((p) => p.bot || p.connected);
       if (!player(g, g.hostId)) g.hostId = humans(g)[0]?.id ?? g.hostId;
       g.introSeen = true;

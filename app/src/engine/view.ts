@@ -79,6 +79,9 @@ export interface View {
   deltas?: Record<string, { pts: number; reasons: string[] }>;
   factIdx?: number;
   awards?: Award[];
+  /** I arrived mid-game and join at the next round. */
+  waiting?: boolean;
+  waitingNames?: string[];
   /** Game over: my own numbers, for a personal tip. */
   myStats?: { correctVotes: number; hot: number; caughtAsLiar: number; escapes: number; sharpEye: number; liarRounds: number };
 }
@@ -197,6 +200,22 @@ export function viewFor(g: Game, me: string, now: number): View {
     v.myStats = {
       correctVotes: s.correctVotes[me] ?? 0, hot: s.hot[me] ?? 0, caughtAsLiar: s.caughtAsLiar[me] ?? 0,
       escapes: s.escapes[me] ?? 0, sharpEye: s.sharpEye[me] ?? 0, liarRounds: s.liarRounds[me] ?? 0,
+    };
+  }
+  v.waitingNames = (g.waiting ?? []).map((w) => w.name);
+  if (g.waiting?.some((w) => w.id === me)) {
+    // Arrived mid-game: they watch the scoreboard and join next round. Nothing about the secret.
+    return {
+      ...v,
+      waiting: true,
+      role: undefined,
+      locationId: locationKnown ? v.locationId : undefined,
+      hint: undefined,
+      current: undefined,
+      history: [],
+      allowedTargets: undefined,
+      votes: undefined,
+      myVote: undefined,
     };
   }
   return v;

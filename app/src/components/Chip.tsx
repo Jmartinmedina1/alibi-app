@@ -15,5 +15,5 @@ const st = StyleSheet.create({
   chip: { flex: 1, padding: 12, borderRadius: 12, borderWidth: 2, borderColor: C.line, backgroundColor: C.slate, alignItems: 'center' },
   chipOn: { backgroundColor: C.amber, borderColor: C.amber },
   chipTitle: { color: C.manila, fontWeight: '800', fontSize: 16 },
-  chipSub: { color: C.muted, fontSize: 11, marginTop: 2, textAlign: 'center' },
+  chipSub: { color: C.muted, fontSize: 12, marginTop: 2, textAlign: 'center' },
 });

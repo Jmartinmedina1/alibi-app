@@ -7,7 +7,9 @@ import {
   apply,
   createGame,
   GameError,
+  gameSummary,
   leave,
+  validSettings,
   nextWake,
   setConnected,
   tick,
@@ -46,6 +48,24 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { headers: CORS });
 
     if (url.pathname === '/api/health') return json({ ok: true });
+
+    // A player reports another player's name. Kept in the Worker logs for review; no account data exists.
+    if (url.pathname === '/api/report' && request.method === 'POST') {
+      const b = (await request.json().catch(() => ({}))) as Record<string, unknown>;
+      const str = (x: unknown, n: number) => String(x ?? '').slice(0, n);
+      console.log(JSON.stringify({ event: 'report', code: str(b.code, 4), name: str(b.name, 24), reason: str(b.reason, 40), at: new Date().toISOString() }));
+      return json({ ok: true });
+    }
+
+    // Anonymous end-of-game numbers from Practice games (they run on the device).
+    if (url.pathname === '/api/event' && request.method === 'POST') {
+      const b = (await request.json().catch(() => ({}))) as Record<string, unknown>;
+      const allowed = ['players', 'humans', 'bots', 'rounds', 'pack', 'difficulty', 'joker', 'pace', 'practice', 'coach', 'liarCaught', 'liarEscaped', 'humanLiarEscaped', 'humanLiarRounds', 'minutes'];
+      const clean: Record<string, unknown> = { event: 'game_end' };
+      for (const k of allowed) if (k in b && ['number', 'string', 'boolean'].includes(typeof b[k])) clean[k] = typeof b[k] === 'string' ? String(b[k]).slice(0, 12) : b[k];
+      console.log(JSON.stringify(clean));
+      return json({ ok: true });
+    }
 
     if (url.pathname === '/api/rooms' && request.method === 'POST') {
       const body = (await request.json().catch(() => ({}))) as {
@@ -86,6 +106,12 @@ export class Room extends DurableObject<Env> {
   }
 
   private async save(g: Game) {
+    if (g.phase === 'gameover' && !g.endLogged) {
+      // Anonymous balancing numbers, readable in the Worker logs.
+      g.endLogged = true;
+      const minutes = g.startedAt ? Math.round((Date.now() - g.startedAt) / 6000) / 10 : null;
+      console.log(JSON.stringify({ event: 'game_end', ...gameSummary(g), minutes }));
+    }
     this.game = g;
     await this.ctx.storage.put('game', g);
     await this.ctx.storage.put('touched', Date.now());
@@ -95,7 +121,7 @@ export class Room extends DurableObject<Env> {
 
   async init(code: string, host: { id: string; name: string; emoji: string }, settings: Partial<Settings>) {
     if (await this.load()) return { ok: false };
-    const g = createGame({ code, host, settings: { ...settings, practice: false }, now: Date.now() });
+    const g = createGame({ code, host, settings: { ...validSettings(settings), practice: false }, now: Date.now() });
     await this.save(g);
     return { ok: true };
   }
@@ -108,7 +134,8 @@ export class Room extends DurableObject<Env> {
       phase: g.phase,
       players: g.players.length,
       pack: g.settings.pack,
-      joinable: g.phase === 'lobby',
+      // Mid-game arrivals can join too: they watch and play from the next round.
+      joinable: g.players.length + (g.waiting?.length ?? 0) < 8,
     };
   }
 
@@ -160,6 +187,17 @@ export class Room extends DurableObject<Env> {
     }
     try {
       if (msg.t === 'act' && msg.action) apply(g, pid, msg.action, now);
+      if (msg.action?.type === 'kick') {
+        // Close the kicked player's connections right away.
+        for (const s of this.ctx.getWebSockets(msg.action.playerId)) {
+          try {
+            s.send(JSON.stringify({ t: 'error', error: 'kicked' }));
+            s.close(4403, 'kicked');
+          } catch {
+            /* already closed */
+          }
+        }
+      }
       else if (msg.t === 'leave') {
         leave(g, pid);
         ws.close(1000, 'left');

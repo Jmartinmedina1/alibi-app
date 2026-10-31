@@ -1,19 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { addBot, apply, createGame, tick } from '../engine/engine';
-import type { Action, Difficulty, Pack } from '../engine/types';
+import { addBot, apply, createGame, gameSummary, tick } from '../engine/engine';
+import type { Action, Difficulty, Pace, Pack } from '../engine/types';
 import { viewFor, type View } from '../engine/view';
-import type { GameConn } from './net';
+import { sendGameEvent, type GameConn } from './net';
 import type { Profile } from './profile';
 
 /** Practice: the same engine runs on the phone, with 3 bots. No network needed. */
-export function usePractice(profile: Profile, opts: { pack: Pack; startAsLiar: boolean; difficulty?: Difficulty; joker?: boolean; coach?: boolean; firstGame?: boolean }): GameConn {
+export function usePractice(profile: Profile, opts: { pack: Pack; startAsLiar: boolean; difficulty?: Difficulty; joker?: boolean; pace?: Pace; coach?: boolean; firstGame?: boolean }): GameConn {
   const game = useRef(
     (() => {
       const now = Date.now();
       const g = createGame({
         code: 'SOLO',
         host: { id: profile.id, name: profile.name, emoji: profile.emoji },
-        settings: { practice: true, pack: opts.pack, rounds: 2, startAsLiar: opts.startAsLiar, difficulty: opts.difficulty ?? 'medium', joker: !!opts.joker, coach: !!opts.coach, firstGame: !!opts.firstGame },
+        settings: { practice: true, pack: opts.pack, rounds: 2, startAsLiar: opts.startAsLiar, difficulty: opts.difficulty ?? 'medium', joker: !!opts.joker, pace: opts.pace ?? 'relaxed', coach: !!opts.coach, firstGame: !!opts.firstGame },
         now,
       });
       addBot(g);
@@ -34,10 +34,17 @@ export function usePractice(profile: Profile, opts: { pack: Pack; startAsLiar: b
     }
   }, [profile.id]);
 
+  const logged = useRef(false);
   useEffect(() => {
+    const started = Date.now();
     const id = setInterval(() => {
       tick(game.current, Date.now());
       publish();
+      if (game.current.phase !== 'gameover') logged.current = false;
+      else if (!logged.current) {
+        logged.current = true;
+        sendGameEvent({ ...gameSummary(game.current), minutes: Math.round((Date.now() - started) / 6000) / 10 });
+      }
     }, 150);
     return () => clearInterval(id);
   }, [publish]);

@@ -6,6 +6,7 @@ import { ProfileGate } from '../../components/ProfileGate';
 import { Btn, Face, Inspector, Small } from '../../components/ui';
 import { Chip } from '../../components/Chip';
 import { GameOptions } from '../../components/GameOptions';
+import { QR } from '../../components/QR';
 import { langForPack, t } from '../../lib/i18n';
 import { serverUrl, useRoom, type GameConn } from '../../lib/net';
 import { setSavedRoom, type Profile } from '../../lib/profile';
@@ -29,12 +30,13 @@ function Room({ code, profile }: { code: string; profile: Profile }) {
   if (conn.status === 'error') {
     return (
       <View style={{ ...COL, padding: 20, gap: 14 }}>
-        <Inspector text={t(uiLang, 'roomNotFound')} mood="bored" />
+        <Inspector text={t(uiLang, conn.error === 'kicked' ? 'kicked' : 'roomNotFound')} mood="bored" />
         <Btn label={t(uiLang, 'mainMenu')} onPress={exit} />
       </View>
     );
   }
   if (v && v.phase === 'lobby') return <Lobby conn={conn} lang={lang} onExit={() => { conn.leave(); exit(); }} />;
+  if (v?.waiting) return <Waiting v={v} lang={lang} onExit={() => { conn.leave(); exit(); }} />;
   return <GameScreen conn={conn} lang={lang} onExit={exit} />;
 }
 
@@ -42,6 +44,7 @@ function Lobby({ conn, lang, onExit }: { conn: GameConn; lang: 'en' | 'es'; onEx
   const v = conn.view!;
   const host = v.me === v.hostId;
   const [sheet, setSheet] = useState(false);
+  const [qr, setQr] = useState(false);
   const link = Platform.OS === 'web' && typeof location !== 'undefined' ? `${location.origin}/room/${v.code}` : `${serverUrl()}/room/${v.code}`;
   const set = (settings: any) => conn.send({ type: 'settings', settings });
   const n = v.players.length;
@@ -51,6 +54,7 @@ function Lobby({ conn, lang, onExit }: { conn: GameConn; lang: 'en' | 'es'; onEx
     t(lang, 'rounds', { n: String(s.rounds) }),
     t(lang, s.difficulty),
     t(lang, s.joker ? 'jokerOnShort' : 'jokerOffShort'),
+    ...(s.pace === 'slow' ? [t(lang, 'paceSlow')] : s.pace === 'normal' ? [t(lang, 'paceNormal')] : []),
   ].join(' · ');
   const invite = () =>
     Share.share({ message: (lang === 'es' ? `¡Juega ALIBI conmigo! Código ${v.code}: ` : `Play ALIBI with me! Code ${v.code}: `) + link }).catch(() => {});
@@ -63,10 +67,15 @@ function Lobby({ conn, lang, onExit }: { conn: GameConn; lang: 'en' | 'es'; onEx
           <Pressable onPress={onExit} hitSlop={10}>
             <Text style={{ color: C.manila, fontSize: 15 }}>🏠 {t(lang, 'leave')}</Text>
           </Pressable>
-          <View style={{ alignItems: 'flex-end' }}>
-            <Text style={st.codeLabel}>{t(lang, 'roomCode')}</Text>
-            <Text style={st.code}>{v.code}</Text>
-          </View>
+          <Pressable onPress={() => setQr(true)} style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }} accessibilityRole="button">
+            <View style={st.qrBtn}>
+              <Text style={{ fontSize: 13, fontWeight: '900', color: C.ink }}>QR</Text>
+            </View>
+            <View style={{ alignItems: 'flex-end' }}>
+              <Text style={st.codeLabel}>{t(lang, 'roomCode')}</Text>
+              <Text style={st.code}>{v.code}</Text>
+            </View>
+          </Pressable>
         </View>
 
         {/* Your crew */}
@@ -80,7 +89,7 @@ function Lobby({ conn, lang, onExit }: { conn: GameConn; lang: 'en' | 'es'; onEx
                 <Face suspectId={p.suspectId} emoji={p.emoji} size={56} ring={p.id === v.me ? C.amber : C.manilaDark} />
                 {p.id === v.hostId && <Text style={st.crown}>👑</Text>}
                 {host && p.id !== v.me && (
-                  <Pressable onPress={() => conn.send({ type: 'removePlayer', playerId: p.id })} style={st.remove} hitSlop={8}>
+                  <Pressable onPress={() => conn.send(p.bot ? { type: 'removePlayer', playerId: p.id } : { type: 'kick', playerId: p.id })} style={st.remove} hitSlop={8}>
                     <Text style={{ color: C.ink, fontSize: 11, fontWeight: '900' }}>✕</Text>
                   </Pressable>
                 )}
@@ -139,6 +148,19 @@ function Lobby({ conn, lang, onExit }: { conn: GameConn; lang: 'en' | 'es'; onEx
         </View>
       </View>
 
+      {/* QR to join from another phone in the same room */}
+      <Modal visible={qr} transparent animationType="fade" onRequestClose={() => setQr(false)}>
+        <Pressable style={st.qrBackdrop} onPress={() => setQr(false)}>
+          <View style={st.qrCard}>
+            <Text style={st.sheetTitle}>{t(lang, 'scanToJoin')}</Text>
+            <QR value={link} size={240} />
+            <Text style={[st.code, { fontSize: 40 }]}>{v.code}</Text>
+            <Small>{t(lang, 'scanSub')}</Small>
+            <Btn label={t(lang, 'done')} onPress={() => setQr(false)} style={{ alignSelf: 'stretch' }} />
+          </View>
+        </Pressable>
+      </Modal>
+
       {/* Case settings bottom sheet */}
       <Modal visible={sheet} transparent animationType="slide" onRequestClose={() => setSheet(false)}>
         <Pressable style={st.backdrop} onPress={() => setSheet(false)} />
@@ -155,7 +177,7 @@ function Lobby({ conn, lang, onExit }: { conn: GameConn; lang: 'en' | 'es'; onEx
                 <Chip key={r} active={s.rounds === r} onPress={() => set({ rounds: r })} title={t(lang, r === 2 ? 'quick' : r === 3 ? 'normal' : 'long')} />
               ))}
             </View>
-            <GameOptions lang={lang} difficulty={s.difficulty} joker={!!s.joker} onChange={set} />
+            <GameOptions lang={lang} difficulty={s.difficulty} joker={!!s.joker} pace={s.pace} onChange={set} />
             <Small>⚡ {summary}</Small>
             <Btn label={t(lang, 'done')} onPress={() => setSheet(false)} />
           </View>
@@ -165,7 +187,38 @@ function Lobby({ conn, lang, onExit }: { conn: GameConn; lang: 'en' | 'es'; onEx
   );
 }
 
+/** Arrived mid-game: watch the scoreboard until the next round starts. */
+function Waiting({ v, lang, onExit }: { v: NonNullable<GameConn['view']>; lang: 'en' | 'es'; onExit: () => void }) {
+  return (
+    <ScrollView contentContainerStyle={{ ...COL, padding: 16, gap: 14 }}>
+      <Pressable onPress={onExit} hitSlop={10}>
+        <Text style={{ color: C.manila, fontSize: 15 }}>🏠 {t(lang, 'leave')}</Text>
+      </Pressable>
+      <Inspector text={t(lang, 'waitingSub')} mood="suspicious" />
+      <Text style={st.section}>
+        {t(lang, 'waitingTitle')} <Text style={st.sectionSub}>· {t(lang, 'round')} {v.roundIndex + 1}/{v.rounds}</Text>
+      </Text>
+      <View style={{ gap: 6 }}>
+        {v.players
+          .slice()
+          .sort((a, b) => b.score - a.score)
+          .map((p) => (
+            <View key={p.id} style={st.waitRow}>
+              <Face suspectId={p.suspectId} emoji={p.emoji} size={40} />
+              <Text style={{ color: C.manila, fontWeight: '700', flex: 1, fontSize: 16 }}>{p.name}</Text>
+              <Text style={{ color: C.amber, fontWeight: '800', fontSize: 16 }}>{p.score}</Text>
+            </View>
+          ))}
+      </View>
+    </ScrollView>
+  );
+}
+
 const st = StyleSheet.create({
+  waitRow: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: 'rgba(0,0,0,0.25)', borderRadius: 10, padding: 8 },
+  qrBtn: { width: 40, height: 40, borderRadius: 8, backgroundColor: C.paper, alignItems: 'center', justifyContent: 'center' },
+  qrBackdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.7)', alignItems: 'center', justifyContent: 'center', padding: 20 },
+  qrCard: { backgroundColor: C.ink, borderRadius: 18, padding: 20, gap: 12, alignItems: 'center', width: '100%', maxWidth: 360, borderWidth: 1, borderColor: 'rgba(232,162,58,0.4)' },
   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   codeLabel: { color: C.muted, fontSize: 11, letterSpacing: 1 },
   code: { fontFamily: F.type, fontSize: 30, color: C.amber, letterSpacing: 6 },

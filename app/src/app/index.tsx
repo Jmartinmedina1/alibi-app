@@ -19,6 +19,9 @@ export default function Landing() {
         ALIBI<Text style={{ color: C.red }}>.</Text>
       </Text>
       <Text style={st.tag}>{t(lang, 'tagline')}</Text>
+      <View style={st.badge}>
+        <Text style={st.badgeText}>{t(lang, 'freeBadge')}</Text>
+      </View>
       <View style={st.cast}>
         {cast.map((id, i) => (
           <View key={id} style={[st.castFace, { transform: [{ rotate: `${(i % 2 ? 4 : -4)}deg` }] }]}>
@@ -40,6 +43,9 @@ export default function Landing() {
       <Small>{t(lang, 'playFriendsSub')}</Small>
       <Btn kind="ghost" label={'📖 ' + t(lang, 'howToPlay')} onPress={() => router.push('/how')} />
       <Small style={{ marginTop: 8 }}>{t(lang, 'alsoSpanish')}</Small>
+      <Pressable onPress={() => router.push('/privacy')} hitSlop={8} style={{ alignSelf: 'center', marginTop: 6 }}>
+        <Text style={{ color: C.muted, fontSize: 14, textDecorationLine: 'underline' }}>{t(lang, 'privacy')}</Text>
+      </Pressable>
     </ScrollView>
   );
 }
@@ -49,5 +55,7 @@ const st = StyleSheet.create({
   tag: { fontFamily: F.type, fontSize: 18, color: C.amber, textAlign: 'center', lineHeight: 25 },
   cast: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 6, marginVertical: 6 },
   castFace: { width: 64, height: 64, borderRadius: 8, overflow: 'hidden', borderWidth: 2, borderColor: C.amber, backgroundColor: C.slate2, alignItems: 'center', justifyContent: 'center' },
+  badge: { alignSelf: 'center', paddingHorizontal: 14, paddingVertical: 6, borderRadius: 20, backgroundColor: 'rgba(62,142,90,0.25)', borderWidth: 1, borderColor: 'rgba(62,142,90,0.7)' },
+  badgeText: { color: C.manila, fontWeight: '800', fontSize: 14, letterSpacing: 0.5 },
   lang: { paddingHorizontal: 12, paddingVertical: 8, borderRadius: 20, backgroundColor: 'rgba(0,0,0,0.3)', borderWidth: 1, borderColor: C.line },
 });

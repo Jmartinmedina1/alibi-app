@@ -10,7 +10,7 @@ export const C = {
   red: '#C23B2E',
   green: '#3E8E5A',
   white: '#FFFFFF',
-  muted: 'rgba(233,216,180,0.82)',
+  muted: 'rgba(233,216,180,0.92)',
   line: 'rgba(233,216,180,0.18)',
 };
 

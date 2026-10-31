@@ -12,6 +12,10 @@ export interface Profile {
   id: string;
   name: string;
   emoji: string;
+  /** Answered the age question (we keep only whether the player is under 13, never the age). */
+  ageAsked?: boolean;
+  /** Under 13: preset names only. */
+  kid?: boolean;
 }
 
 const KEY = 'alibi.profile.v1';
