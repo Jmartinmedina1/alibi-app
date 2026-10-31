@@ -42,6 +42,7 @@ export const AVATARS = ['🐬', '🐸', '🦉', '🐙', '🦝', '🐼', '🐂', 
 
 /** Illustrated detective portraits for players. Profiles store the emoji; the emoji picks the portrait. */
 export const AVATAR_IMAGES: Record<string, any> = {
+  '🐬': require('../../assets/game/avatars/dolphin.png'),
   '🐸': require('../../assets/game/avatars/frog.png'),
   '🦉': require('../../assets/game/avatars/owl.png'),
   '🐙': require('../../assets/game/avatars/octopus.png'),

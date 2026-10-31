@@ -44,12 +44,14 @@ export function timings(s: Settings) {
     pick: 25_000,
     answerDetective: relaxed ? 15_000 : 10_000,
     answerLiar: relaxed ? 20_000 : 14_000,
-    react: 4_000,
-    reactLinger: 1_400,
+    // The answer stays up long enough to read it, even if everyone reacts fast.
+    react: relaxed ? 10_000 : 7_000,
+    reactMinShow: relaxed ? 6_000 : 4_500,
+    reactLinger: 2_000,
     vote: 40_000,
     fingers: 4_500,
     objection: 8_000,
-    objectionShow: 3_800,
+    objectionShow: relaxed ? 6_500 : 5_000,
     reveal: 25_000,
     guess: 20_000,
     result: 30_000,
@@ -426,8 +428,10 @@ function doReact(g: Game, pid: string, reaction: Reaction, now: number) {
   ex.reactions[pid] = reaction;
   g.rev++;
   if (reactors(g).every((p) => ex.reactions[p.id])) {
-    // Everyone reacted: linger briefly so the reactions can be seen, then move on.
-    g.deadline = Math.min(g.deadline ?? Infinity, now + timings(g.settings).reactLinger);
+    // Everyone reacted: keep the answer up for a minimum reading time, then a short beat to see the reactions.
+    const t = timings(g.settings);
+    const end = Math.max(g.phaseAt + t.reactMinShow, now + t.reactLinger);
+    g.deadline = Math.min(g.deadline ?? Infinity, end);
   }
 }
 
