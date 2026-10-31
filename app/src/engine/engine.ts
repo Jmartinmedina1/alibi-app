@@ -49,8 +49,9 @@ export function timings(s: Settings) {
     reactMinShow: relaxed ? 6_000 : 4_500,
     reactLinger: 2_000,
     vote: 40_000,
-    fingers: 4_500,
-    objection: 8_000,
+    // 3-2-1 countdown (~2s) + time to read who voted for whom
+    fingers: relaxed ? 10_000 : 7_500,
+    objection: relaxed ? 14_000 : 10_000,
     objectionShow: relaxed ? 6_500 : 5_000,
     reveal: 25_000,
     guess: 20_000,
