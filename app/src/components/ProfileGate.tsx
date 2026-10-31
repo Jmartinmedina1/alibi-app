@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { t } from '../lib/i18n';
 import { useLang } from '../lib/lang';
 import { loadProfile, randomAlias, saveProfile, type Profile } from '../lib/profile';
-import { AVATARS, C, F } from '../lib/theme';
+import { AVATARS, C, COL, F } from '../lib/theme';
 import { Btn, Face, Small, Title } from './ui';
 
 /** Asks for a name + avatar the first time (prefilled with a funny alias — no typing needed). */
@@ -25,7 +25,7 @@ export function ProfileGate(props: { children: (p: Profile) => ReactNode; edit?:
   if (profile === undefined) return null;
   if (profile) return <>{props.children(profile)}</>;
   return (
-    <View style={{ padding: 20, gap: 16 }}>
+    <View style={{ ...COL, padding: 20, gap: 16 }}>
       <Title>{t(lang, 'whoAreYou')}</Title>
       <View style={{ alignItems: 'center', gap: 8 }}>
         <Face emoji={emoji} size={120} />

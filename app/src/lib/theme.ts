@@ -54,3 +54,6 @@ export const AVATAR_IMAGES: Record<string, any> = {
   '🦊': require('../../assets/game/avatars/dolphin.png'),
   '🐔': require('../../assets/game/avatars/bull.png'),
 };
+
+/** Content column: phone-width and centered, so wide screens scroll at the window edge. */
+export const COL = { width: '100%' as const, maxWidth: 520, alignSelf: 'center' as const };

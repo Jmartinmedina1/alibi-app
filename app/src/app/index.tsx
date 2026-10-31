@@ -3,13 +3,13 @@ import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-nati
 import { Btn, Inspector, Small } from '../components/ui';
 import { t } from '../lib/i18n';
 import { useLang } from '../lib/lang';
-import { C, F, SUSPECT_FALLBACK, SUSPECT_IMAGES } from '../lib/theme';
+import { C, F, SUSPECT_FALLBACK, SUSPECT_IMAGES, COL } from '../lib/theme';
 
 export default function Landing() {
   const { lang, setLang } = useLang();
   const cast = [...Object.keys(SUSPECT_IMAGES), ...Object.keys(SUSPECT_FALLBACK)];
   return (
-    <ScrollView contentContainerStyle={{ padding: 20, gap: 14 }}>
+    <ScrollView contentContainerStyle={{ ...COL, padding: 20, gap: 14 }}>
       <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
         <Pressable onPress={() => setLang(lang === 'en' ? 'es' : 'en')} style={st.lang}>
           <Text style={{ color: C.manila, fontWeight: '700' }}>{lang === 'en' ? '🇪🇸 Español' : '🇬🇧 English'}</Text>

@@ -7,7 +7,7 @@ import { t } from '../lib/i18n';
 import { useLang } from '../lib/lang';
 import { createRoom, roomInfo } from '../lib/net';
 import { getSavedRoom, setSavedRoom, type Profile } from '../lib/profile';
-import { C, F } from '../lib/theme';
+import { C, F, COL } from '../lib/theme';
 
 export default function PlayRoute() {
   return <ProfileGate>{(p) => <Play profile={p} />}</ProfileGate>;
@@ -66,7 +66,7 @@ function Play({ profile }: { profile: Profile }) {
   };
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 16, gap: 14 }} keyboardShouldPersistTaps="handled">
+    <ScrollView contentContainerStyle={{ ...COL, padding: 16, gap: 14 }} keyboardShouldPersistTaps="handled">
       <Pressable onPress={() => router.replace('/')}>
         <Text style={{ color: C.manila, fontSize: 16 }}>← ALIBI</Text>
       </Pressable>

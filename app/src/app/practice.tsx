@@ -10,7 +10,7 @@ import { langForPack, t } from '../lib/i18n';
 import { useLang } from '../lib/lang';
 import { usePractice } from '../lib/practice';
 import type { Profile } from '../lib/profile';
-import { C, F } from '../lib/theme';
+import { C, F, COL } from '../lib/theme';
 
 export default function PracticeRoute() {
   return <ProfileGate>{(p) => <PracticeSetup profile={p} />}</ProfileGate>;
@@ -23,7 +23,7 @@ function PracticeSetup({ profile }: { profile: Profile }) {
   const lang = langForPack(pack);
   if (started) return <PracticeGame key={started.n} profile={profile} pack={pack} asLiar={started.asLiar} />;
   return (
-    <ScrollView contentContainerStyle={{ padding: 16, gap: 14 }}>
+    <ScrollView contentContainerStyle={{ ...COL, padding: 16, gap: 14 }}>
       <Pressable onPress={() => router.replace('/')}>
         <Text style={{ color: C.manila, fontSize: 16 }}>← ALIBI</Text>
       </Pressable>

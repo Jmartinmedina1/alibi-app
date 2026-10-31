@@ -7,7 +7,7 @@ import { Chip } from '../../components/Chip';
 import { langForPack, t } from '../../lib/i18n';
 import { serverUrl, useRoom, type GameConn } from '../../lib/net';
 import { setSavedRoom, type Profile } from '../../lib/profile';
-import { C, F } from '../../lib/theme';
+import { C, F, COL } from '../../lib/theme';
 import { useLang } from '../../lib/lang';
 
 export default function RoomRoute() {
@@ -26,7 +26,7 @@ function Room({ code, profile }: { code: string; profile: Profile }) {
   };
   if (conn.status === 'error') {
     return (
-      <View style={{ padding: 20, gap: 14 }}>
+      <View style={{ ...COL, padding: 20, gap: 14 }}>
         <Inspector text={t(uiLang, 'roomNotFound')} mood="bored" />
         <Btn label={t(uiLang, 'mainMenu')} onPress={exit} />
       </View>
@@ -43,7 +43,7 @@ function Lobby({ conn, lang, onExit }: { conn: GameConn; lang: 'en' | 'es'; onEx
   const set = (settings: any) => conn.send({ type: 'settings', settings });
   const enough = v.players.length >= 3;
   return (
-    <ScrollView contentContainerStyle={{ padding: 16, gap: 14 }}>
+    <ScrollView contentContainerStyle={{ ...COL, padding: 16, gap: 14 }}>
       <Pressable onPress={onExit}>
         <Text style={{ color: C.manila, fontSize: 16 }}>🏠 {t(lang, 'leave')}</Text>
       </Pressable>

@@ -4,7 +4,7 @@ import type { Lang } from '../engine/types';
 import { t } from '../lib/i18n';
 import type { GameConn } from '../lib/net';
 import { isMuted, setMuted } from '../lib/sound';
-import { C, F } from '../lib/theme';
+import { C, F, COL } from '../lib/theme';
 import * as Ph from './Phases';
 import { Btn, Face, Small, TimerBar } from './ui';
 
@@ -42,6 +42,7 @@ export function GameScreen(props: { conn: GameConn; lang: Lang; onExit: () => vo
 
   return (
     <View style={{ flex: 1 }}>
+      <View style={COL}>
       {/* Top bar: always a way home */}
       <View style={st.top}>
         <Pressable accessibilityLabel="Main menu" onPress={() => setConfirm(true)} style={st.iconBtn}>
@@ -79,7 +80,8 @@ export function GameScreen(props: { conn: GameConn; lang: Lang; onExit: () => vo
       </ScrollView>
       {TIMED.includes(v.phase) && <TimerBar deadline={v.deadline} phaseAt={v.phaseAt} offset={conn.offset} />}
       {conn.status === 'reconnecting' && <Small style={{ color: C.amber }}>⚠️ {t(lang, 'reconnecting')}</Small>}
-      <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 60 }} keyboardShouldPersistTaps="handled">
+      </View>
+      <ScrollView contentContainerStyle={{ ...COL, padding: 16, paddingBottom: 60 }} keyboardShouldPersistTaps="handled">
         <View testID={`phase-${v.phase}`}>{body}</View>
       </ScrollView>
 
