@@ -38,7 +38,7 @@ export const INSPECTOR = {
   bored: require('../../assets/game/inspector-bored.png'),
 };
 
-export const AVATARS = ['🦊', '🐸', '🦉', '🐙', '🦝', '🐼', '🐂', '🦄'];
+export const AVATARS = ['🐬', '🐸', '🦉', '🐙', '🦝', '🐼', '🐂', '🦄'];
 
 /** Illustrated detective portraits for players. Profiles store the emoji; the emoji picks the portrait. */
 export const AVATAR_IMAGES: Record<string, any> = {
