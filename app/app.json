@@ -44,6 +44,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "owner": "jose-martin-games",
+    "extra": {
+      "eas": {
+        "projectId": "ea69f8a8-a261-4ebe-834a-242ba0163321"
+      }
     }
   }
 }
