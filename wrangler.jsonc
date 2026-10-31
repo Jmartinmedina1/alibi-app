@@ -1,12 +1,17 @@
 {
+  // Cloudflare deploy config: the game server (Worker + Durable Object rooms) also hosts the web app.
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "alibi-server",
-  "main": "src/index.ts",
+  "name": "alibi-app",
+  "main": "server/src/index.ts",
   "compatibility_date": "2026-10-01",
   "durable_objects": {
     "bindings": [{ "name": "ROOMS", "class_name": "Room" }]
   },
   "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Room"] }],
-  "assets": { "directory": "../app/dist", "not_found_handling": "single-page-application", "run_worker_first": ["/api/*"] },
+  "assets": {
+    "directory": "app/dist",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
   "observability": { "enabled": true }
 }

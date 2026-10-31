@@ -13,7 +13,7 @@ Players grill each other in the Hot Seat, vote SUS or LEGIT, point the finger, a
 ```sh
 cd app && npm install && cd ../server && npm install
 ./build-web.sh                         # build the web app into app/dist
-cd server && npx wrangler dev          # http://127.0.0.1:8787 (game server + web app)
+npx wrangler dev                       # from the repo root: http://127.0.0.1:8787 (game server + web app)
 ```
 Tests:
 ```sh
@@ -22,5 +22,5 @@ cd server && node tests/ws-play.mjs                   # full multiplayer game ov
 ```
 
 ## Deploy
-- Server + web: `cd server && npx wrangler deploy` (needs a Cloudflare account).
+- Server + web: Cloudflare Workers Builds runs `npm run build` then `npx wrangler deploy` from the repo root on every push to main.
 - iOS/Android: `cd app && npx eas-cli@latest build` (needs an Expo account; set `EXPO_PUBLIC_SERVER_URL` to the deployed server).
