@@ -79,6 +79,8 @@ export interface View {
   deltas?: Record<string, { pts: number; reasons: string[] }>;
   factIdx?: number;
   awards?: Award[];
+  /** Game over: my own numbers, for a personal tip. */
+  myStats?: { correctVotes: number; hot: number; caughtAsLiar: number; escapes: number; sharpEye: number; liarRounds: number };
 }
 
 const REVEALED: Phase[] = ['reveal', 'guess', 'result', 'gameover'];
@@ -189,7 +191,14 @@ export function viewFor(g: Game, me: string, now: number): View {
       v.factIdx = r.factIdx;
     }
   }
-  if (g.phase === 'gameover') v.awards = awards(g);
+  if (g.phase === 'gameover') {
+    v.awards = awards(g);
+    const s = g.stats;
+    v.myStats = {
+      correctVotes: s.correctVotes[me] ?? 0, hot: s.hot[me] ?? 0, caughtAsLiar: s.caughtAsLiar[me] ?? 0,
+      escapes: s.escapes[me] ?? 0, sharpEye: s.sharpEye[me] ?? 0, liarRounds: s.liarRounds[me] ?? 0,
+    };
+  }
   return v;
 }
 

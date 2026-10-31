@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { GameScreen } from '../components/GameScreen';
 import { ProfileGate } from '../components/ProfileGate';
@@ -10,7 +10,7 @@ import type { Difficulty, Pack } from '../engine/types';
 import { langForPack, t } from '../lib/i18n';
 import { useLang } from '../lib/lang';
 import { usePractice } from '../lib/practice';
-import type { Profile } from '../lib/profile';
+import { bumpPracticeCount, getPracticeCount, type Profile } from '../lib/profile';
 import { C, F, COL } from '../lib/theme';
 
 export default function PracticeRoute() {
@@ -22,8 +22,20 @@ function PracticeSetup({ profile }: { profile: Profile }) {
   const [pack, setPack] = useState<Pack>(uiLang === 'es' ? 'espanol' : 'party');
   const [started, setStarted] = useState<{ asLiar: boolean; n: number } | null>(null);
   const [opts, setOpts] = useState<{ difficulty: Difficulty; joker: boolean }>({ difficulty: 'medium', joker: false });
+  const [count, setCount] = useState<number | null>(null);
+  useEffect(() => {
+    getPracticeCount().then((n) => {
+      setCount(n);
+      if (n === 0) setOpts((o) => ({ ...o, difficulty: 'easy' })); // a newcomer's first case starts on Easy
+    });
+  }, []);
   const lang = langForPack(pack);
-  if (started) return <PracticeGame key={started.n} profile={profile} pack={pack} asLiar={started.asLiar} {...opts} />;
+  const start = (asLiar: boolean) => {
+    bumpPracticeCount();
+    setStarted({ asLiar, n: Date.now() });
+  };
+  if (started)
+    return <PracticeGame key={started.n} profile={profile} pack={pack} asLiar={started.asLiar} {...opts} coach={(count ?? 0) < 3} firstGame={count === 0 && !started.asLiar} />;
   return (
     <ScrollView contentContainerStyle={{ ...COL, padding: 16, gap: 14 }}>
       <Pressable onPress={() => router.replace('/')}>
@@ -35,16 +47,16 @@ function PracticeSetup({ profile }: { profile: Profile }) {
       </View>
       <GameOptions lang={lang} difficulty={opts.difficulty} joker={opts.joker} onChange={(s) => setOpts((o) => ({ ...o, ...s }))} />
       <Inspector text={lang === 'es' ? 'Elige Detective para encontrar al mentiroso, o Mentiroso para engañarlos a todos.' : 'Choose Detective to find the bluff, or Liar to fake your way through.'} mood="suspicious" />
-      <RoleCard emoji="🕵️" title={t(lang, 'playDetective')} sub={t(lang, 'playDetectiveSub')} onPress={() => setStarted({ asLiar: false, n: Date.now() })} highlight />
-      <RoleCard emoji="🤐" title={t(lang, 'playLiar')} sub={t(lang, 'playLiarSub')} onPress={() => setStarted({ asLiar: true, n: Date.now() })} />
+      <RoleCard emoji="🕵️" title={t(lang, 'playDetective')} sub={t(lang, 'playDetectiveSub')} onPress={() => start(false)} highlight />
+      <RoleCard emoji="🤐" title={t(lang, 'playLiar')} sub={t(lang, 'playLiarSub')} onPress={() => start(true)} />
       <Small>{lang === 'es' ? '2 rondas · juegas los dos papeles' : '2 rounds · you play both roles'}</Small>
     </ScrollView>
   );
 }
 
-function PracticeGame(p: { profile: Profile; pack: Pack; asLiar: boolean; difficulty: Difficulty; joker: boolean }) {
+function PracticeGame(p: { profile: Profile; pack: Pack; asLiar: boolean; difficulty: Difficulty; joker: boolean; coach: boolean; firstGame: boolean }) {
   const { profile, pack } = p;
-  const conn = usePractice(profile, { pack, startAsLiar: p.asLiar, difficulty: p.difficulty, joker: p.joker });
+  const conn = usePractice(profile, { pack, startAsLiar: p.asLiar, difficulty: p.difficulty, joker: p.joker, coach: p.coach, firstGame: p.firstGame });
   return <GameScreen conn={conn} lang={langForPack(pack)} onExit={() => router.replace('/')} />;
 }
 

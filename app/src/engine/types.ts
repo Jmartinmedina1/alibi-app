@@ -43,6 +43,9 @@ export interface Settings {
   startAsLiar?: boolean;
   /** Joker mode: every question also offers extra-ridiculous answers. */
   joker?: boolean;
+  /** Practice for newcomers: on-screen tips; firstGame also makes the bot Liar slip once. */
+  coach?: boolean;
+  firstGame?: boolean;
 }
 
 export interface Card {
@@ -104,6 +107,10 @@ export interface Stats {
   votesWhileInnocent: Record<string, number>;
   hot: Record<string, number>;
   excuses: Record<string, number>;
+  /** Rounds played as the Liar / caught as the Liar / sus on a wrong answer. */
+  liarRounds: Record<string, number>;
+  caughtAsLiar: Record<string, number>;
+  sharpEye: Record<string, number>;
 }
 
 export interface Game {

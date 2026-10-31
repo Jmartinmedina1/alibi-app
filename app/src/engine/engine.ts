@@ -104,7 +104,7 @@ export function createGame(opts: {
 }
 
 function emptyStats() {
-  return { correctVotes: {}, escapes: {}, votesWhileInnocent: {}, hot: {}, excuses: {} };
+  return { correctVotes: {}, escapes: {}, votesWhileInnocent: {}, hot: {}, excuses: {}, liarRounds: {}, caughtAsLiar: {}, sharpEye: {} };
 }
 
 export function addPlayer(g: Game, p: { id: string; name: string; emoji: string }): Game {
@@ -323,13 +323,18 @@ function botChooseTarget(g: Game, askerId: string): string {
     const botsOnly = allowed.filter((id) => isBot(g, id));
     if (botsOnly.length) allowed = botsOnly;
   }
+  // Nobody sits in the hot seat twice in a row.
+  const prev = r.exchanges.at(-2)?.targetId;
+  if (prev && allowed.length > 1) allowed = allowed.filter((id) => id !== prev);
   const least = Math.min(...allowed.map((id) => r.grilled[id] ?? 0));
   const fresh = allowed.filter((id) => (r.grilled[id] ?? 0) === least);
   // Spread the hot seat evenly; humans first among equals so every human gets grilled.
-  if (least === 0 || chance(g, 0.75)) {
+  if (least === 0) {
+    // Humans who haven't been grilled yet go first, so everyone gets the hot seat.
     const freshHumans = fresh.filter((id) => !isBot(g, id));
     return pick(g, freshHumans.length ? freshHumans : fresh);
   }
+  if (chance(g, 0.85)) return pick(g, fresh);
   // Otherwise go after the most suspicious.
   const sus = suspicion(g);
   return allowed.slice().sort((a2, b2) => (sus[b2] ?? 0) - (sus[a2] ?? 0))[0];
@@ -395,6 +400,12 @@ function botAnswer(g: Game, botId: string): string {
   if (botId === r.liarId) {
     // The Liar bot doesn't know the place, but it listens: every honest answer it has heard
     // this round makes its next bluff more convincing. It slips up sometimes, not constantly.
+    const firstAnswer = !r.exchanges.some((e) => e !== ex && e.targetId === botId && e.pickedId);
+    if (g.settings.firstGame && firstAnswer) {
+      // A newcomer's very first case: the Liar slips once, so it can be solved.
+      const wrong = opts.filter((o) => !o.real && !o.joker);
+      return (wrong.find((o) => o.heat === 2) ?? pick(g, wrong)).id;
+    }
     const heard = r.exchanges.filter((e) => e !== ex && e.pickedId && e.targetId !== botId).length;
     const base = d === 'easy' ? 0.55 : d === 'medium' ? 0.66 : 0.8;
     const pReal = Math.min(0.92, base + heard * 0.06);
@@ -457,6 +468,8 @@ function doReact(g: Game, pid: string, reaction: Reaction, now: number) {
   if (g.phase !== 'react' || pid === ex.targetId) throw new GameError('cannot_react');
   if (ex.reactions[pid]) return;
   ex.reactions[pid] = reaction;
+  const card = ex.options?.find((o) => o.id === ex.pickedId);
+  if (reaction === 'sus' && card && !card.real) g.stats.sharpEye[pid] = (g.stats.sharpEye[pid] ?? 0) + 1;
   g.rev++;
   if (reactors(g).every((p) => ex.reactions[p.id])) {
     // Everyone reacted: keep the answer up for a minimum reading time, then a short beat to see the reactions.
@@ -635,8 +648,31 @@ function doGuess(g: Game, pid: string, locationId: string, now: number) {
 function botGuess(g: Game): string {
   const r = g.round!;
   const d = g.settings.difficulty;
-  const p = d === 'easy' ? 0.35 : d === 'medium' ? 0.5 : 0.65;
-  return chance(g, p) ? r.locationId : pick(g, r.guessChoices!.filter((id) => id !== r.locationId));
+  // Hot answers it heard make the place easier to name.
+  let p = d === 'easy' ? 0.25 : d === 'medium' ? 0.35 : 0.45;
+  for (const ex of r.exchanges) {
+    if (!ex.pickedId || ex.targetId === r.liarId) continue;
+    const c = ex.options!.find((o) => o.id === ex.pickedId)!;
+    if (c.real) p += c.heat === 3 ? 0.18 : c.heat === 2 ? 0.05 : 0;
+  }
+  return chance(g, Math.min(0.9, p)) ? r.locationId : pick(g, r.guessChoices!.filter((id) => id !== r.locationId));
+}
+
+/** Detectives who played a 🔥🔥🔥 real answer this round. */
+export function hotGivers(g: Game): string[] {
+  const r = g.round!;
+  const out = new Set<string>();
+  for (const ex of r.exchanges) {
+    if (!ex.pickedId || !ex.targetId || ex.targetId === r.liarId) continue;
+    const c = ex.options!.find((o) => o.id === ex.pickedId)!;
+    if (c.real && c.heat >= 3) out.add(ex.targetId);
+  }
+  return [...out];
+}
+
+function note(g: Game, id: string, reason: string) {
+  const d = g.round!.deltas[id] ?? (g.round!.deltas[id] = { pts: 0, reasons: [] });
+  d.reasons.push(reason);
 }
 
 function award(g: Game, id: string, pts: number, reason: string) {
@@ -652,14 +688,23 @@ function beginResult(g: Game, now: number) {
   const r = g.round!;
   // A correct vote counts on either ballot (first vote or runoff).
   const spotters = new Set([...Object.entries(r.firstVotes ?? {}), ...Object.entries(r.votes)].filter(([, t]) => t === r.liarId).map(([v]) => v));
-  for (const voter of spotters) award(g, voter, 100, 'spotted');
+  const guessedRight = r.guessId === r.locationId;
+  // Detectives who gave the place away with a 🔥🔥🔥 answer lose their bonus if the Liar then names it.
+  const gaveAway = new Set(guessedRight ? hotGivers(g) : []);
+  for (const voter of spotters) {
+    if (gaveAway.has(voter)) note(g, voter, 'gaveAway');
+    else award(g, voter, 100, 'spotted');
+  }
+  for (const id of gaveAway) if (!spotters.has(id)) note(g, id, 'gaveAway');
+  g.stats.liarRounds[r.liarId] = (g.stats.liarRounds[r.liarId] ?? 0) + 1;
   if (!r.caught) {
     award(g, r.liarId, 200, 'escaped');
     g.stats.escapes[r.liarId] = (g.stats.escapes[r.liarId] ?? 0) + 1;
-  } else if (r.guessId === r.locationId) award(g, r.liarId, 100, 'guessed');
+  } else g.stats.caughtAsLiar[r.liarId] = (g.stats.caughtAsLiar[r.liarId] ?? 0) + 1;
+  if (guessedRight) award(g, r.liarId, 100, 'guessed');
   r.factIdx = randInt(g, getLocation(r.locationId).facts.length || 1);
   setPhase(g, 'result', now, readingDuration(g, timings(g.settings).result));
-  if (r.caught) setLine(g, r.guessId === r.locationId ? 'inspector.liarGuessRight' : 'inspector.liarGuessWrong');
+  setLine(g, !r.caught ? 'inspector.liarEscaped' : guessedRight ? 'inspector.liarGuessRight' : 'inspector.liarGuessWrong');
   scheduleBotsReady(g, now);
 }
 
@@ -695,6 +740,15 @@ export function awards(g: Game): Award[] {
   add('suspicious-innocent', s.votesWhileInnocent);
   add('loudmouth', s.hot);
   add('drama-queen', s.excuses);
+  // Nobody leaves empty-handed: each human without an award gets the best fitting consolation.
+  for (const p of g.players) {
+    if (p.bot || out.some((a) => a.playerId === p.id)) continue;
+    const id = (s.sharpEye[p.id] ?? 0) > 0 ? 'sharp-eye'
+      : (s.liarRounds[p.id] ?? 0) > 0 ? 'bravest-bluffer'
+      : (s.excuses[p.id] ?? 0) > 0 ? 'best-excuse'
+      : 'rookie';
+    out.push({ id, playerId: p.id });
+  }
   return out;
 }
 
@@ -769,8 +823,8 @@ function advanceReading(g: Game, now: number) {
       beginTurn(g, now);
       break;
     case 'reveal':
-      if (r!.caught) beginGuess(g, now);
-      else beginResult(g, now);
+      // The Liar always gets one guess at the place — that's what makes 🔥🔥🔥 answers risky.
+      beginGuess(g, now);
       break;
     case 'result':
       nextRoundOrEnd(g, now);

@@ -64,3 +64,18 @@ export async function setSavedRoom(code: string | null) {
     else await AsyncStorage.removeItem(ROOM_KEY);
   } catch {}
 }
+
+const PRACTICE_KEY = 'alibi.practiceCount.v1';
+/** How many Practice games this device has started (tips and the easy first case depend on it). */
+export async function getPracticeCount(): Promise<number> {
+  try {
+    return Number(await AsyncStorage.getItem(PRACTICE_KEY)) || 0;
+  } catch {
+    return 0;
+  }
+}
+export async function bumpPracticeCount() {
+  try {
+    await AsyncStorage.setItem(PRACTICE_KEY, String((await getPracticeCount()) + 1));
+  } catch {}
+}

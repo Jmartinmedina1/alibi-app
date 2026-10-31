@@ -85,6 +85,7 @@ export function Case(p: PhaseProps) {
           <Tr lang={lang} text={v.hint ?? ''} style={[st.big, { fontSize: 18, color: C.ink }]} />
         </Paper>
       )}
+      {liar && <Coach v={v} text={t(lang, 'coachCaseLiar')} />}
       <View style={{ flexDirection: 'row', gap: 8 }}>
         {labels.map((label, i) => (
           <Pressable
@@ -109,6 +110,17 @@ export function Case(p: PhaseProps) {
       </View>
       {lang === 'es' && <Small>👆 {t(lang, 'holdToTranslate')}</Small>}
       <ReadyButton {...p} disabled={!liar && !allFlipped} label={!liar && !allFlipped ? t(lang, 'tapClues') : t(lang, 'startInterrogation')} />
+    </View>
+  );
+}
+
+/** A one-line tip shown to newcomers (Practice coach mode). */
+function Coach({ v, text }: { v: GView; text: string }) {
+  if (!v.settings.coach) return null;
+  return (
+    <View style={st.coach}>
+      <Text style={{ fontSize: 18 }}>💡</Text>
+      <Text style={st.coachText}>{text}</Text>
     </View>
   );
 }
@@ -213,6 +225,7 @@ export function Answer(p: PhaseProps) {
       {mine ? (
         <>
           <Small>{t(lang, v.role === 'liar' ? 'liarGrilled' : 'youAreGrilled')}</Small>
+          <Coach v={v} text={t(lang, v.role === 'liar' ? 'coachAnswerLiar' : 'coachAnswerDet')} />
           {v.role === 'liar' && v.hint && (
             <Paper style={{ backgroundColor: C.manila, padding: 10 }}>
               <Text style={[st.label, { marginBottom: 0 }]}>{t(lang, 'yourHint')} <Text style={{ fontWeight: '400' }}>{v.hint}</Text></Text>
@@ -344,9 +357,12 @@ export function React_(p: PhaseProps) {
       ) : reacted ? (
         <Small>{reacted === 'sus' ? '🤨' : '😇'} ✓</Small>
       ) : (
+        <View style={{ gap: 8 }}>
+        <Coach v={v} text={t(lang, 'coachReact')} />
         <View style={{ flexDirection: 'row', gap: 10 }}>
           <Btn style={{ flex: 1 }} kind="danger" big label={t(lang, 'sus')} onPress={() => { setMine('sus'); send({ type: 'react', reaction: 'sus' }); }} />
           <Btn style={{ flex: 1 }} kind="secondary" big label={t(lang, 'legit')} onPress={() => { setMine('legit'); send({ type: 'react', reaction: 'legit' }); }} />
+        </View>
         </View>
       )}
     </View>
@@ -378,6 +394,7 @@ export function Vote(p: PhaseProps) {
       {runoff ? null : <Inspector text={lineText(v.line, lang)} mood="suspicious" compact />}
       <Title>{runoff ? t(lang, 'runoffTitle') : '☝️ ' + t(lang, 'vote')}</Title>
       <Small>{runoff ? (canVote ? t(lang, 'runoffJudge') : t(lang, 'runoffYou')) : t(lang, 'tieRule')}</Small>
+      {!runoff && v.role === 'detective' && <Coach v={v} text={t(lang, 'coachVote')} />}
       {candidates.map((x) => {
         const said = v.history.filter((ex) => ex.targetId === x.id && ex.picked);
         const disabled = !!voted || !canVote;
@@ -519,6 +536,11 @@ export function Reveal(p: PhaseProps) {
   const liar = P(v, v.liarId);
   const mug = commentLines(v.caught ? 'mugshot.chargeFallback' : 'mugshot.escapedLine');
   const decoy = [...v.history].reverse().find((ex) => ex.targetId === v.liarId && ex.picked && ex.picked.real === false);
+  const liarName = liar?.name ?? '';
+  const whyText = v.caught
+    ? decoy ? t(lang, 'whyCaughtSlip', { a: liarName, t: decoy.picked!.text }) : t(lang, 'whyCaughtClean', { a: liarName })
+    : v.tie ? t(lang, 'whyTie', { a: liarName })
+    : decoy ? t(lang, 'whyEscapedSlip', { a: liarName, t: decoy.picked!.text }) : t(lang, 'whyEscapedClean', { a: liarName });
   const charge = v.caught
     ? decoy
       ? (lang === 'es' ? 'ACUSADO DE: decir ' : 'CHARGED WITH: saying ') + `“${decoy.picked!.text}”`
@@ -547,13 +569,18 @@ export function Reveal(p: PhaseProps) {
         </Slam>
         <Text style={{ color: C.ink, textAlign: 'center', marginTop: 6, fontFamily: F.type }}>{charge}</Text>
       </Paper>
+      {showLine && <Paper style={{ backgroundColor: C.manila, padding: 10 }}><Text style={{ color: C.ink, fontSize: 15 }}>🔎 {whyText}</Text></Paper>}
       {v.history.map((ex, i) => (
         <View key={i} style={[st.row, ex.picked?.real === false && { borderColor: C.red, borderWidth: 2 }]}>
           <Face suspectId={P(v, ex.targetId)?.suspectId} emoji={P(v, ex.targetId)?.emoji} size={34} />
           <View style={{ flex: 1 }}>
             <Text style={st.tiny}>{nameOf(v, ex.targetId)}</Text>
             <Text style={{ color: C.manila }}>{ex.picked?.text}</Text>
-            {ex.picked?.real === false && <Text style={{ color: C.red, fontWeight: '800', fontSize: 12 }}>❌ {lang === 'es' ? 'NO ES DE AQUÍ' : 'NOT FROM HERE'}</Text>}
+            {ex.picked?.real === false ? (
+              <Text style={{ color: C.red, fontWeight: '800', fontSize: 12 }}>❌ {t(lang, 'notFromHere')}</Text>
+            ) : ex.picked?.real ? (
+              <Text style={{ color: C.green, fontWeight: '800', fontSize: 12 }}>✅ {t(lang, 'fromHere')}</Text>
+            ) : null}
           </View>
         </View>
       ))}
@@ -569,7 +596,7 @@ export function Guess(p: PhaseProps) {
   const [sent, setSent] = useState<string | null>(null);
   return (
     <View style={{ gap: 12 }}>
-      <Title style={{ fontSize: 22 }}>{mine ? t(lang, 'lastChance') : t(lang, 'liarGuessing', { a: nameOf(v, v.liarId) })}</Title>
+      <Title style={{ fontSize: 22 }}>{mine ? t(lang, v.caught ? 'lastChance' : 'guessBonus') : t(lang, 'liarGuessing', { a: nameOf(v, v.liarId) })}</Title>
       <View style={st.grid}>
         {(v.guessChoices ?? []).map((id) => {
           const l = getLocation(id);
@@ -612,7 +639,7 @@ export function Result(p: PhaseProps) {
           {lang === 'es' && loc.nameEn ? <Text style={{ color: '#6b5a3a', fontStyle: 'italic', textAlign: 'center' }}>{loc.nameEn}</Text> : null}
         </Paper>
       </Slam>
-      {v.caught && v.guessId && (
+      {v.guessId && (
         <Small style={{ color: v.guessId === v.locationId ? C.green : C.red, fontSize: 15 }}>
           {liar?.name} {v.guessId === v.locationId ? t(lang, 'guessedRight') : `${t(lang, 'guessedWrong')} (${getLocation(v.guessId).name})`}
         </Small>
@@ -653,6 +680,7 @@ function Scores({ v, lang }: PhaseProps) {
           <View key={x.id} style={st.row}>
             <Face suspectId={x.suspectId} emoji={x.emoji} size={34} />
             <Text style={[st.faceName, { flex: 1, textAlign: 'left' }]}>{x.name}{x.id === v.me ? ` (${t(lang, 'you')})` : ''}</Text>
+            {d?.reasons.includes('gaveAway') && <Text style={{ color: C.red, fontSize: 11, maxWidth: 120 }}>{t(lang, 'gaveAway')}</Text>}
             {d && d.pts > 0 && <Text style={{ color: C.green, fontWeight: '800' }}>+{d.pts}</Text>}
             <Text style={{ color: C.amber, fontWeight: '800', width: 54, textAlign: 'right' }}>{x.score}</Text>
           </View>
@@ -673,6 +701,12 @@ export function GameOver(p: PhaseProps & { onMenu: () => void }) {
   useEffect(() => {
     play('ding', 0.5);
   }, []);
+  const ms = v.myStats;
+  const tip = !ms ? null
+    : ms.caughtAsLiar > 0 ? t(lang, 'tipLiar')
+    : ms.hot > 0 ? t(lang, 'tipHot')
+    : ms.correctVotes < Math.max(1, v.rounds - (ms.liarRounds ?? 0)) ? t(lang, 'tipVote')
+    : t(lang, 'tipGreat');
   return (
     <View style={{ gap: 12 }}>
       <Inspector text={lineText(v.line, lang)} mood="smug" compact />
@@ -688,6 +722,11 @@ export function GameOver(p: PhaseProps & { onMenu: () => void }) {
           </View>
         </Slam>
       ))}
+      {tip && (
+        <Paper style={{ backgroundColor: C.manila, padding: 10 }}>
+          <Text style={{ color: C.ink, fontSize: 15 }}>💡 {tip}</Text>
+        </Paper>
+      )}
       <Btn big label={t(lang, 'rematch')} onPress={() => send({ type: 'rematch' })} />
       <Btn kind="secondary" label={'📤 ' + t(lang, 'share')} onPress={() => Share.share({ message: shareText }).catch(() => {})} />
       <Btn kind="ghost" label={t(lang, 'mainMenu')} onPress={p.onMenu} />
@@ -709,6 +748,8 @@ const st = StyleSheet.create({
   faceBtn: { alignItems: 'center', gap: 4, padding: 8, borderRadius: 12, minWidth: 96, backgroundColor: 'rgba(0,0,0,0.18)' },
   faceName: { color: C.manila, fontWeight: '700', fontSize: 14, textAlign: 'center' },
   fresh: { borderColor: C.amber, borderWidth: 1, borderStyle: 'dashed' },
+  coach: { flexDirection: 'row', alignItems: 'center', gap: 8, padding: 10, borderRadius: 10, backgroundColor: 'rgba(232,162,58,0.15)', borderWidth: 1, borderColor: 'rgba(232,162,58,0.5)' },
+  coachText: { color: C.manila, fontSize: 14, flex: 1, lineHeight: 19 },
   voteRow: { flexDirection: 'row', alignItems: 'center', gap: 10, padding: 10, borderRadius: 12, backgroundColor: 'rgba(0,0,0,0.25)', borderWidth: 1, borderColor: C.line },
   saidLine: { color: C.muted, fontSize: 14, fontStyle: 'italic', lineHeight: 19 },
   lit: { backgroundColor: 'rgba(232,162,58,0.3)', borderColor: C.amber, borderWidth: 2 },
