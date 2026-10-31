@@ -1,0 +1,59 @@
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { addBot, apply, createGame, tick } from '../engine/engine';
+import type { Action, Pack } from '../engine/types';
+import { viewFor, type View } from '../engine/view';
+import type { GameConn } from './net';
+import type { Profile } from './profile';
+
+/** Practice: the same engine runs on the phone, with 3 bots. No network needed. */
+export function usePractice(profile: Profile, opts: { pack: Pack; startAsLiar: boolean }): GameConn {
+  const game = useRef(
+    (() => {
+      const now = Date.now();
+      const g = createGame({
+        code: 'SOLO',
+        host: { id: profile.id, name: profile.name, emoji: profile.emoji },
+        settings: { practice: true, pack: opts.pack, rounds: 2, startAsLiar: opts.startAsLiar, difficulty: 'medium' },
+        now,
+      });
+      addBot(g);
+      addBot(g);
+      addBot(g);
+      apply(g, profile.id, { type: 'start' }, now);
+      return g;
+    })(),
+  );
+  const [view, setView] = useState<View>(() => viewFor(game.current, profile.id, Date.now()));
+  const lastRev = useRef(0);
+
+  const publish = useCallback(() => {
+    const g = game.current;
+    if (g.rev !== lastRev.current) {
+      lastRev.current = g.rev;
+      setView(viewFor(g, profile.id, Date.now()));
+    }
+  }, [profile.id]);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      tick(game.current, Date.now());
+      publish();
+    }, 150);
+    return () => clearInterval(id);
+  }, [publish]);
+
+  const send = useCallback(
+    (a: Action) => {
+      try {
+        apply(game.current, profile.id, a, Date.now());
+        tick(game.current, Date.now());
+      } catch {
+        /* ignore invalid taps */
+      }
+      publish();
+    },
+    [profile.id, publish],
+  );
+
+  return { view, status: 'open', offset: 0, send, leave: () => {} };
+}

@@ -1,0 +1,8 @@
+node_modules/
+app/dist/
+app/dist-tmp/
+app/.expo/
+server/.wrangler/
+shots/
+*.log
+.env*
