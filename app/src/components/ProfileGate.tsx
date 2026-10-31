@@ -7,15 +7,21 @@ import { AVATARS, C, F } from '../lib/theme';
 import { Btn, Face, Small, Title } from './ui';
 
 /** Asks for a name + avatar the first time (prefilled with a funny alias — no typing needed). */
-export function ProfileGate(props: { children: (p: Profile) => ReactNode }) {
+export function ProfileGate(props: { children: (p: Profile) => ReactNode; edit?: boolean }) {
   const { lang } = useLang();
   const [profile, setProfile] = useState<Profile | null | undefined>(undefined);
   const [name, setName] = useState(randomAlias());
   const [emoji, setEmoji] = useState(() => AVATARS[Math.floor(Math.random() * AVATARS.length)]);
   const [editing, setEditing] = useState(false);
   useEffect(() => {
-    loadProfile().then((p) => setProfile(p));
-  }, []);
+    loadProfile().then((p) => {
+      if (props.edit && p) {
+        setName(p.name);
+        setEmoji(p.emoji);
+        setProfile(null);
+      } else setProfile(p);
+    });
+  }, [props.edit]);
   if (profile === undefined) return null;
   if (profile) return <>{props.children(profile)}</>;
   return (

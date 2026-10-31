@@ -50,4 +50,7 @@ export const AVATAR_IMAGES: Record<string, any> = {
   '🐼': require('../../assets/game/avatars/panda.png'),
   '🐂': require('../../assets/game/avatars/bull.png'),
   '🦄': require('../../assets/game/avatars/unicorn.png'),
+  // retired avatars still in old rooms
+  '🦊': require('../../assets/game/avatars/dolphin.png'),
+  '🐔': require('../../assets/game/avatars/bull.png'),
 };

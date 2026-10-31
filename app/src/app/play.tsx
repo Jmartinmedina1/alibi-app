@@ -67,7 +67,7 @@ function Play({ profile }: { profile: Profile }) {
 
   return (
     <ScrollView contentContainerStyle={{ padding: 16, gap: 14 }} keyboardShouldPersistTaps="handled">
-      <Pressable onPress={() => router.back()}>
+      <Pressable onPress={() => router.replace('/')}>
         <Text style={{ color: C.manila, fontSize: 16 }}>← ALIBI</Text>
       </Pressable>
       {saved && (
@@ -82,10 +82,13 @@ function Play({ profile }: { profile: Profile }) {
         </View>
       )}
       <Inspector text={lang === 'es' ? 'Reúne a tus sospechosos. Cada uno juega desde su teléfono.' : 'Gather your suspects. Everyone plays on their own phone.'} mood="suspicious" />
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, justifyContent: 'center' }}>
-        <Face emoji={profile.emoji} size={44} />
-        <Text style={{ color: C.manila, fontFamily: F.type, fontSize: 20 }}>{profile.name}</Text>
-      </View>
+      <Pressable onPress={() => router.push('/profile')} style={{ flexDirection: 'row', alignItems: 'center', gap: 10, justifyContent: 'center' }}>
+        <Face emoji={profile.emoji} size={56} />
+        <View>
+          <Text style={{ color: C.manila, fontFamily: F.type, fontSize: 20 }}>{profile.name}</Text>
+          <Text style={{ color: C.muted, fontSize: 12, textDecorationLine: 'underline' }}>✏️ {lang === 'es' ? 'Cambiar' : 'Change'}</Text>
+        </View>
+      </Pressable>
       <Btn big label={'➕ ' + t(lang, 'createRoom')} onPress={create} disabled={busy} />
       <Text style={st.or}>— {lang === 'es' ? 'o' : 'or'} —</Text>
       <TextInput

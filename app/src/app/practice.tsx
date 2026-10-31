@@ -24,7 +24,7 @@ function PracticeSetup({ profile }: { profile: Profile }) {
   if (started) return <PracticeGame key={started.n} profile={profile} pack={pack} asLiar={started.asLiar} />;
   return (
     <ScrollView contentContainerStyle={{ padding: 16, gap: 14 }}>
-      <Pressable onPress={() => router.back()}>
+      <Pressable onPress={() => router.replace('/')}>
         <Text style={{ color: C.manila, fontSize: 16 }}>← ALIBI</Text>
       </Pressable>
       <View style={{ flexDirection: 'row', gap: 10 }}>

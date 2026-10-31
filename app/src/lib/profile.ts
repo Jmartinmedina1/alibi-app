@@ -30,7 +30,12 @@ export function randomAlias(): string {
 export async function loadProfile(): Promise<Profile | null> {
   try {
     const raw = await AsyncStorage.getItem(KEY);
-    return raw ? JSON.parse(raw) : null;
+    if (!raw) return null;
+    const p: Profile = JSON.parse(raw);
+    // Avatars that were retired get the closest portrait.
+    const RETIRED: Record<string, string> = { '🦊': '🐬', '🐔': '🐂' };
+    if (!AVATARS.includes(p.emoji)) p.emoji = RETIRED[p.emoji] ?? AVATARS[0];
+    return p;
   } catch {
     return null;
   }
