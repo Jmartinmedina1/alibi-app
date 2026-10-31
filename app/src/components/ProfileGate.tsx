@@ -22,7 +22,7 @@ export function ProfileGate(props: { children: (p: Profile) => ReactNode }) {
     <View style={{ padding: 20, gap: 16 }}>
       <Title>{t(lang, 'whoAreYou')}</Title>
       <View style={{ alignItems: 'center', gap: 8 }}>
-        <Face emoji={emoji} size={96} />
+        <Face emoji={emoji} size={120} />
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
           {editing ? (
             <TextInput value={name} onChangeText={setName} maxLength={18} autoFocus style={st.input} onBlur={() => setEditing(false)} />
@@ -42,7 +42,7 @@ export function ProfileGate(props: { children: (p: Profile) => ReactNode }) {
       <View style={st.avatars}>
         {AVATARS.map((a) => (
           <Pressable key={a} onPress={() => setEmoji(a)} style={[st.avatar, a === emoji && { borderColor: C.amber, backgroundColor: 'rgba(232,162,58,0.25)' }]}>
-            <Text style={{ fontSize: 30 }}>{a}</Text>
+            <Face emoji={a} size={58} ring={a === emoji ? C.amber : 'transparent'} />
           </Pressable>
         ))}
       </View>
@@ -56,5 +56,5 @@ const st = StyleSheet.create({
   input: { fontSize: 20, color: C.ink, backgroundColor: C.manila, borderRadius: 8, paddingHorizontal: 10, paddingVertical: 6, minWidth: 200 },
   dice: { width: 44, height: 44, borderRadius: 10, backgroundColor: C.slate, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: C.line },
   avatars: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, justifyContent: 'center' },
-  avatar: { width: 62, height: 62, borderRadius: 14, alignItems: 'center', justifyContent: 'center', backgroundColor: C.slate, borderWidth: 2, borderColor: 'transparent' },
+  avatar: { width: 68, height: 68, borderRadius: 14, alignItems: 'center', justifyContent: 'center', backgroundColor: C.slate, borderWidth: 2, borderColor: 'transparent' },
 });

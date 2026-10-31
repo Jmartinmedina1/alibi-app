@@ -14,7 +14,7 @@ import {
 import { commentLines, TRANSLATIONS } from '../engine/content';
 import type { Lang, Line } from '../engine/types';
 import { haptic, play } from '../lib/sound';
-import { C, F, INSPECTOR, SUSPECT_FALLBACK, SUSPECT_IMAGES } from '../lib/theme';
+import { AVATAR_IMAGES, C, F, INSPECTOR, SUSPECT_FALLBACK, SUSPECT_IMAGES } from '../lib/theme';
 
 // ---------- Button: reacts instantly on tap (no "tap twice" feeling) ----------
 export function Btn(props: {
@@ -58,7 +58,7 @@ export function Btn(props: {
 // ---------- Avatar: portraits for the cast, emoji for people ----------
 export function Face(props: { suspectId?: string; emoji?: string; size?: number; dim?: boolean; ring?: string }) {
   const size = props.size ?? 52;
-  const img = props.suspectId ? SUSPECT_IMAGES[props.suspectId] : undefined;
+  const img = props.suspectId ? SUSPECT_IMAGES[props.suspectId] : props.emoji ? AVATAR_IMAGES[props.emoji] : undefined;
   const fallback = props.suspectId ? SUSPECT_FALLBACK[props.suspectId] : undefined;
   return (
     <View
