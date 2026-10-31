@@ -365,20 +365,22 @@ function botAnswer(g: Game, botId: string): string {
   const ex = r.exchanges[r.exchanges.length - 1];
   const opts = ex.options!;
   const d = g.settings.difficulty;
-  if (botId === r.liarId) {
-    // The Liar bot doesn't know the place; sometimes it reads the room right.
-    const pReal = d === 'easy' ? 0.45 : d === 'medium' ? 0.6 : 0.75;
-    const pool = chance(g, pReal) ? opts.filter((o) => o.real) : opts.filter((o) => !o.real);
-    const mild = pool.filter((o) => o.heat <= 2);
-    return pick(g, mild.length && chance(g, 0.7) ? mild : pool).id;
-  }
-  const real = opts.filter((o) => o.real);
   const bot = player(g, botId)!;
+  // Same personality-driven heat whether lying or not, so the Liar's answers "feel" like everyone else's.
   const loud = bot.suspectId === 'chef-bruno' || bot.suspectId === 'sunny';
   const w = loud ? [0.25, 0.35, 0.4] : [0.45, 0.4, 0.15];
   const roll = next(g);
   const heat = roll < w[0] ? 1 : roll < w[0] + w[1] ? 2 : 3;
-  return (real.find((o) => o.heat === heat) ?? pick(g, real)).id;
+  const withHeat = (pool: Card[]) => (pool.find((o) => o.heat === heat) ?? pick(g, pool)).id;
+  if (botId === r.liarId) {
+    // The Liar bot doesn't know the place, but it listens: every honest answer it has heard
+    // this round makes its next bluff more convincing. It slips up sometimes, not constantly.
+    const heard = r.exchanges.filter((e) => e !== ex && e.pickedId && e.targetId !== botId).length;
+    const base = d === 'easy' ? 0.55 : d === 'medium' ? 0.66 : 0.8;
+    const pReal = Math.min(0.92, base + heard * 0.06);
+    return withHeat(chance(g, pReal) ? opts.filter((o) => o.real) : opts.filter((o) => !o.real));
+  }
+  return withHeat(opts.filter((o) => o.real));
 }
 
 function doAnswer(g: Game, pid: string, cardId: string, now: number, timedOut = false) {
@@ -410,11 +412,19 @@ function botReact(g: Game, botId: string): Reaction {
   const bot = player(g, botId)!;
   if (bot.suspectId === 'big-tony') return 'sus';
   if (bot.suspectId === 'granny-dot') return card.heat === 3 ? 'sus' : 'legit';
-  if (botId === r.liarId) return chance(g, 0.5) ? 'sus' : 'legit';
+  // Everyone gets a little suspicious of wild answers, so a "sus" alone proves nothing.
+  const wild = card.heat === 3 ? 0.3 : 0.18;
+  if (botId === r.liarId) {
+    // The Liar blends in: reacts like a normal detective and goes along with the crowd.
+    const said = Object.values(ex.reactions);
+    const crowd = said.length ? said.filter((x) => x === 'sus').length / said.length : 0;
+    return chance(g, wild * 0.6 + crowd * 0.4) ? 'sus' : 'legit';
+  }
+  // Detective bots know the place, but they don't all pounce on a wrong answer — that's the humans' job.
   const d = g.settings.difficulty;
-  const p = d === 'easy' ? 0.45 : d === 'medium' ? 0.7 : 0.85;
+  const p = d === 'easy' ? 0.35 : d === 'medium' ? 0.5 : 0.65;
   if (!card.real) return chance(g, p) ? 'sus' : 'legit';
-  return chance(g, 0.15) ? 'sus' : 'legit';
+  return chance(g, wild) ? 'sus' : 'legit';
 }
 
 function reactors(g: Game): Player[] {

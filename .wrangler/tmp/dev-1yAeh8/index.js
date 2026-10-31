@@ -371,19 +371,19 @@ function botAnswer(g, botId) {
   const ex = r.exchanges[r.exchanges.length - 1];
   const opts = ex.options;
   const d = g.settings.difficulty;
-  if (botId === r.liarId) {
-    const pReal = d === "easy" ? 0.45 : d === "medium" ? 0.6 : 0.75;
-    const pool = chance(g, pReal) ? opts.filter((o) => o.real) : opts.filter((o) => !o.real);
-    const mild = pool.filter((o) => o.heat <= 2);
-    return pick(g, mild.length && chance(g, 0.7) ? mild : pool).id;
-  }
-  const real = opts.filter((o) => o.real);
   const bot = player(g, botId);
   const loud = bot.suspectId === "chef-bruno" || bot.suspectId === "sunny";
   const w = loud ? [0.25, 0.35, 0.4] : [0.45, 0.4, 0.15];
   const roll = next(g);
   const heat = roll < w[0] ? 1 : roll < w[0] + w[1] ? 2 : 3;
-  return (real.find((o) => o.heat === heat) ?? pick(g, real)).id;
+  const withHeat = /* @__PURE__ */ __name((pool) => (pool.find((o) => o.heat === heat) ?? pick(g, pool)).id, "withHeat");
+  if (botId === r.liarId) {
+    const heard = r.exchanges.filter((e) => e !== ex && e.pickedId && e.targetId !== botId).length;
+    const base = d === "easy" ? 0.55 : d === "medium" ? 0.66 : 0.8;
+    const pReal = Math.min(0.92, base + heard * 0.06);
+    return withHeat(chance(g, pReal) ? opts.filter((o) => o.real) : opts.filter((o) => !o.real));
+  }
+  return withHeat(opts.filter((o) => o.real));
 }
 __name(botAnswer, "botAnswer");
 function doAnswer(g, pid, cardId, now, timedOut = false) {
@@ -414,11 +414,16 @@ function botReact(g, botId) {
   const bot = player(g, botId);
   if (bot.suspectId === "big-tony") return "sus";
   if (bot.suspectId === "granny-dot") return card.heat === 3 ? "sus" : "legit";
-  if (botId === r.liarId) return chance(g, 0.5) ? "sus" : "legit";
+  const wild = card.heat === 3 ? 0.3 : 0.18;
+  if (botId === r.liarId) {
+    const said = Object.values(ex.reactions);
+    const crowd = said.length ? said.filter((x) => x === "sus").length / said.length : 0;
+    return chance(g, wild * 0.6 + crowd * 0.4) ? "sus" : "legit";
+  }
   const d = g.settings.difficulty;
-  const p = d === "easy" ? 0.45 : d === "medium" ? 0.7 : 0.85;
+  const p = d === "easy" ? 0.35 : d === "medium" ? 0.5 : 0.65;
   if (!card.real) return chance(g, p) ? "sus" : "legit";
-  return chance(g, 0.15) ? "sus" : "legit";
+  return chance(g, wild) ? "sus" : "legit";
 }
 __name(botReact, "botReact");
 function reactors(g) {
