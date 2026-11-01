@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { commentLines, TRANSLATIONS } from '../engine/content';
 import type { Lang, Line } from '../engine/types';
+import { useLang } from '../lib/lang';
 import { haptic, play } from '../lib/sound';
 import { AVATAR_IMAGES, C, F, INSPECTOR, SUSPECT_FALLBACK, SUSPECT_IMAGES } from '../lib/theme';
 
@@ -104,6 +105,9 @@ export function moodFor(key?: string): keyof typeof INSPECTOR {
 }
 
 export function Inspector(props: { text: string; mood?: keyof typeof INSPECTOR; compact?: boolean }) {
+  const { lang } = useLang();
+  // Spanish label when the app is in Spanish or the line itself is a Spanish line (Español pack).
+  const es = lang === 'es' || !!(TRANSLATIONS as Record<string, unknown>)[props.text];
   const fade = useRef(new Animated.Value(0)).current;
   useEffect(() => {
     fade.setValue(0);
@@ -115,7 +119,7 @@ export function Inspector(props: { text: string; mood?: keyof typeof INSPECTOR; 
     <Animated.View style={[s.inspRow, { opacity: fade }]}>
       <Image source={INSPECTOR[props.mood ?? 'default']} style={{ width: size, height: size }} resizeMode="contain" />
       <View style={s.bubble}>
-        <Text style={s.bubbleLabel}>THE INSPECTOR</Text>
+        <Text style={s.bubbleLabel}>{es ? 'EL INSPECTOR' : 'THE INSPECTOR'}</Text>
         <Text style={s.bubbleText}>{props.text}</Text>
       </View>
     </Animated.View>
