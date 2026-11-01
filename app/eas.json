@@ -6,13 +6,25 @@
   "build": {
     "preview": {
       "distribution": "internal",
-      "android": { "buildType": "apk", "image": "latest" },
-      "ios": { "image": "latest" }
+      "android": {
+        "buildType": "apk",
+        "image": "latest"
+      },
+      "ios": {
+        "image": "latest"
+      },
+      "channel": "preview"
     },
     "production": {
       "autoIncrement": true,
-      "android": { "buildType": "app-bundle", "image": "latest" },
-      "ios": { "image": "latest" }
+      "android": {
+        "buildType": "app-bundle",
+        "image": "latest"
+      },
+      "ios": {
+        "image": "latest"
+      },
+      "channel": "production"
     }
   },
   "submit": {

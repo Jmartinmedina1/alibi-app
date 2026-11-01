@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Platform } from 'react-native';
 import type { Action, Settings } from '../engine/types';
 import type { View } from '../engine/view';
+import { LIVE_SERVER } from './config';
 import type { Profile } from './profile';
 
 /** Where the game server lives. On the web build served by the server itself, use the same origin. */
@@ -11,7 +12,8 @@ export function serverUrl(): string {
   if (Platform.OS === 'web' && typeof location !== 'undefined' && !/:(8081|19006)$/.test(location.host)) {
     return location.origin;
   }
-  return 'http://127.0.0.1:8787';
+  // Local server only while developing; installed apps (TestFlight, stores) use the live server.
+  return __DEV__ ? 'http://127.0.0.1:8787' : LIVE_SERVER;
 }
 
 export async function createRoom(host: Profile, settings: Partial<Settings>): Promise<string> {
