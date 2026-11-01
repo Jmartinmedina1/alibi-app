@@ -8,7 +8,10 @@
     "scheme": "alibi",
     "userInterfaceStyle": "dark",
     "ios": {
-      "bundleIdentifier": "com.josemartin.alibi"
+      "bundleIdentifier": "com.josemartin.alibi",
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
