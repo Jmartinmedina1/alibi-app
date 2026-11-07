@@ -4,6 +4,7 @@ import { Btn, Inspector, Small } from '../components/ui';
 import { t } from '../lib/i18n';
 import { useLang } from '../lib/lang';
 import { C, F, SUSPECT_FALLBACK, SUSPECT_IMAGES, COL } from '../lib/theme';
+import { PROTOTYPE_ENABLED } from '../prototype/flags';
 
 export default function Landing() {
   const { lang, setLang } = useLang();
@@ -48,6 +49,9 @@ export default function Landing() {
       <Btn big kind="secondary" label={'👥 ' + t(lang, 'playFriends')} onPress={() => router.push('/play')} />
       <Small>{t(lang, 'playFriendsSub')}</Small>
       <Btn kind="ghost" label={'📖 ' + t(lang, 'howToPlay')} onPress={() => router.push('/how')} />
+      {PROTOTYPE_ENABLED && (
+        <Btn testID="open-prototype" kind="secondary" label={'🧪 Case Logic Prototype (dev)'} onPress={() => router.push('/prototype')} />
+      )}
       <Small style={{ marginTop: 8 }}>{t(lang, 'alsoSpanish')}</Small>
       <Pressable onPress={() => router.push('/privacy')} hitSlop={8} style={{ alignSelf: 'center', marginTop: 6 }}>
         <Text style={{ color: C.muted, fontSize: 14, textDecorationLine: 'underline' }}>{t(lang, 'privacy')}</Text>
