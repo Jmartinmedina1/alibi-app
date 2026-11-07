@@ -1,5 +1,7 @@
 # Visual Bluffing Prototype
 
+> **Update:** Variant B (one card, then a caught Liar can win by naming the picture) is described in [variant-b.md](variant-b.md). This README describes the baseline (Variant A), which is unchanged.
+
 **Test idea:** "Show that you know the picture without giving it away."
 
 **Status.**
