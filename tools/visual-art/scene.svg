@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" width="800" height="560">
+  <!-- ALIBI visual-bluff prototype illustration (original, simple shapes). Haunted House Attraction. -->
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="45%" r="70%"><stop offset="0" stop-color="#3a3560"/><stop offset="1" stop-color="#15131f"/></radialGradient>
+  </defs>
+  <rect width="800" height="560" fill="url(#glow)"/>
+  <!-- wall panels -->
+  <g fill="#ffffff" opacity="0.04"><rect x="240" y="0" width="70" height="400"/><rect x="400" y="0" width="70" height="400"/></g>
+  <!-- cobwebs -->
+  <g stroke="#cfc8e8" stroke-width="2" fill="none" opacity="0.5">
+    <path d="M800 0 L720 0 M800 0 L800 80 M800 0 L740 60 M760 0 Q770 30 800 40 M735 0 Q755 45 800 62"/>
+    <path d="M240 0 L300 0 M240 0 L280 40 M262 0 Q270 18 290 22"/>
+  </g>
+  <!-- floor -->
+  <rect x="0" y="420" width="800" height="140" fill="#3b2a22"/>
+  <g stroke="#2a1d17" stroke-width="3"><line x1="0" y1="455" x2="800" y2="455"/><line x1="0" y1="500" x2="800" y2="500"/><line x1="0" y1="540" x2="800" y2="540"/></g>
+  <!-- entrance: dark doorway + red curtain -->
+  <rect x="62" y="62" width="116" height="358" fill="#0b0a12"/>
+  <rect x="20" y="48" width="200" height="14" rx="6" fill="#d9a441"/>
+  <path d="M28 62 L120 62 C112 180 100 255 88 300 C82 340 84 385 94 420 L28 420 Z" fill="#c62f2f"/>
+  <path d="M212 62 L120 62 C128 180 140 255 152 300 C158 340 156 385 146 420 L212 420 Z" fill="#c62f2f"/>
+  <g stroke="#8e1f1f" stroke-width="4" fill="none" stroke-linecap="round">
+    <path d="M50 70 C55 200 52 320 50 415"/><path d="M75 70 C80 190 72 280 66 415"/>
+    <path d="M190 70 C185 200 188 320 190 415"/><path d="M165 70 C160 190 168 280 174 415"/>
+  </g>
+  <ellipse cx="88" cy="300" rx="14" ry="8" fill="#d9a441"/><ellipse cx="152" cy="300" rx="14" ry="8" fill="#d9a441"/>
+  <!-- green floor trail -->
+  <path d="M120 432 C 250 470, 360 438, 480 462 S 660 512, 800 492" stroke="#2fd36a" stroke-width="18" fill="none" opacity="0.25" stroke-linecap="round"/>
+  <path d="M120 432 C 250 470, 360 438, 480 462 S 660 512, 800 492" stroke="#3fe07a" stroke-width="9" fill="none" stroke-dasharray="28 16" stroke-linecap="round"/>
+  <!-- small group of visitors walking right, startled -->
+  <g>
+    <g transform="translate(290 0)">
+      <rect x="-8" y="420" width="10" height="34" rx="4" fill="#1b2b33"/><rect x="8" y="418" width="10" height="34" rx="4" fill="#1b2b33" transform="rotate(14 13 418)"/>
+      <rect x="-14" y="350" width="38" height="76" rx="16" fill="#2f9aa6"/>
+      <circle cx="5" cy="330" r="20" fill="#e8c39e"/><circle cx="14" cy="327" r="3" fill="#1b2b33"/>
+      <path d="M-6 312 Q5 300 24 314 L24 322 Q8 312 -6 322 Z" fill="#4a2f22"/>
+      <path d="M20 365 L48 345" stroke="#2f9aa6" stroke-width="10" stroke-linecap="round"/>
+    </g>
+    <g transform="translate(355 0)">
+      <rect x="-8" y="424" width="10" height="32" rx="4" fill="#3a2a40"/><rect x="8" y="422" width="10" height="32" rx="4" fill="#3a2a40" transform="rotate(14 13 422)"/>
+      <rect x="-14" y="358" width="38" height="72" rx="16" fill="#e0703a"/>
+      <circle cx="5" cy="338" r="19" fill="#b9825a"/><circle cx="14" cy="335" r="3" fill="#1b2b33"/>
+      <path d="M-14 330 Q5 305 24 326 Q8 318 -14 338 Z" fill="#1d1d1d"/>
+      <path d="M-4 370 L-20 340 M20 368 L34 338" stroke="#e0703a" stroke-width="10" stroke-linecap="round"/>
+    </g>
+    <g transform="translate(412 0)">
+      <rect x="-6" y="432" width="9" height="26" rx="4" fill="#24333a"/><rect x="7" y="430" width="9" height="26" rx="4" fill="#24333a" transform="rotate(14 11 430)"/>
+      <rect x="-10" y="380" width="30" height="56" rx="13" fill="#e2c35a"/>
+      <circle cx="5" cy="364" r="16" fill="#f0d0b0"/><circle cx="13" cy="361" r="2.6" fill="#1b2b33"/>
+      <path d="M-10 356 Q5 340 21 354 Q8 350 -10 362 Z" fill="#c4772e"/>
+      <path d="M16 392 L36 376" stroke="#e2c35a" stroke-width="9" stroke-linecap="round"/>
+    </g>
+  </g>
+  <!-- rattling cupboard -->
+  <g transform="rotate(-3 620 300)">
+    <rect x="560" y="176" width="124" height="252" rx="6" fill="#7a4d2c" stroke="#3d2412" stroke-width="5"/>
+    <rect x="552" y="164" width="140" height="18" rx="4" fill="#5e3a1f"/>
+    <rect x="570" y="190" width="49" height="226" rx="3" fill="#8c5a33" stroke="#3d2412" stroke-width="3"/>
+    <rect x="625" y="190" width="49" height="226" rx="3" fill="#8c5a33" stroke="#3d2412" stroke-width="3"/>
+    <circle cx="612" cy="300" r="5" fill="#e3b45a"/><circle cx="632" cy="300" r="5" fill="#e3b45a"/>
+  </g>
+  <g stroke="#f4e3a1" stroke-width="5" fill="none" stroke-linecap="round">
+    <path d="M540 220 q-12 14 0 28"/><path d="M526 210 q-16 24 0 48"/>
+    <path d="M540 330 q-12 14 0 28"/><path d="M620 150 l-6 -14 M640 148 l2 -16 M600 154 l-14 -10"/>
+  </g>
+  <!-- masked performer beside the cupboard -->
+  <g>
+    <path d="M700 230 C680 300 682 380 690 450 L790 450 C798 380 796 300 772 230 Z" fill="#6a3fa0" stroke="#c9b3f0" stroke-width="4"/>
+    <path d="M706 238 C708 200 764 196 768 238 C760 226 714 226 706 238 Z" fill="#4b2a78" stroke="#c9b3f0" stroke-width="3"/>
+    <ellipse cx="737" cy="236" rx="26" ry="32" fill="#f3efe4" stroke="#bdb5a1" stroke-width="3"/>
+    <ellipse cx="727" cy="230" rx="6" ry="8" fill="#15131f"/><ellipse cx="748" cy="230" rx="6" ry="8" fill="#15131f"/>
+    <path d="M728 252 Q737 258 746 252" stroke="#15131f" stroke-width="3" fill="none"/>
+    <path d="M702 290 L668 250" stroke="#6a3fa0" stroke-width="18" stroke-linecap="round"/>
+    <path d="M776 290 L790 248" stroke="#6a3fa0" stroke-width="18" stroke-linecap="round"/>
+    <circle cx="664" cy="244" r="11" fill="#e9e4d6"/><circle cx="792" cy="240" r="10" fill="#e9e4d6"/>
+  </g>
+</svg>

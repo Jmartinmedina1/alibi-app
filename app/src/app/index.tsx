@@ -52,6 +52,9 @@ export default function Landing() {
       {PROTOTYPE_ENABLED && (
         <Btn testID="open-prototype" kind="secondary" label={'🧪 Case Logic Prototype (dev)'} onPress={() => router.push('/prototype')} />
       )}
+      {PROTOTYPE_ENABLED && (
+        <Btn testID="open-visual-prototype" kind="secondary" label={'🧪 Visual Bluffing Prototype (dev)'} onPress={() => router.push('/visual-prototype')} />
+      )}
       <Small style={{ marginTop: 8 }}>{t(lang, 'alsoSpanish')}</Small>
       <Pressable onPress={() => router.push('/privacy')} hitSlop={8} style={{ alignSelf: 'center', marginTop: 6 }}>
         <Text style={{ color: C.muted, fontSize: 14, textDecorationLine: 'underline' }}>{t(lang, 'privacy')}</Text>
