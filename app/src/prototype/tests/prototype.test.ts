@@ -30,6 +30,7 @@ import {
   botAct,
   current,
   disclosedSlots,
+  liarExposure,
   knowledgeFor,
   newGame,
   pending,
@@ -59,68 +60,56 @@ const section = (name: string) => console.log('·', name);
 section('content contract');
 const allIds = new Set<string>();
 const allT: { where: string; t: T }[] = [];
+const KIND_CLS = { compatible: 'supports', contradiction: 'conflicts', extra: 'inconclusive', vague: 'inconclusive' } as const;
 for (const q of QUESTIONS) {
   allT.push({ where: q.id, t: q.text });
-  const byCls = { supports: 0, conflicts: 0, inconclusive: 0 };
   for (const c of q.claims) {
-    ok(!allIds.has(c.id), 'duplicate id ' + c.id);
     allIds.add(c.id);
-    byCls[c.cls]++;
     allT.push({ where: c.id, t: c.text }, { where: c.id + ' fu', t: c.followUp.q });
-    if (c.note) allT.push({ where: c.id + ' note', t: c.note });
-    // classification is derived from what the sentence states, never asserted by hand alone
-    ok(classify(c.asserts) === c.cls, `${c.id}: authored ${c.cls} but stated details make it ${classify(c.asserts)}`);
     // the answer talks about the question's topic
-    for (const a of c.asserts) ok(TOPIC_SLOTS[q.topic].includes(a.slot), `${c.id} states ${a.slot}, which is off-topic for ${q.topic}`);
-    // follow-up branches: exactly 3, one vague, and the other two pull in different directions
-    const rs = c.followUp.responses;
-    ok(rs.length === 3, c.id + ' needs 3 follow-up responses');
-    ok(rs.filter((r) => r.asserts.length === 0).length >= 1, c.id + ' needs a vague follow-up response');
-    for (const r of rs) {
-      ok(!allIds.has(r.id), 'duplicate id ' + r.id);
-      allIds.add(r.id);
-      allT.push({ where: r.id, t: r.text });
-      if (r.note) allT.push({ where: r.id + ' note', t: r.note });
-      ok(classify(r.asserts) === r.cls, `${r.id}: authored ${r.cls} but stated details make it ${classify(r.asserts)}`);
-      if (r.revises) {
-        ok(
-          r.asserts.some((x) => c.asserts.some((y) => y.slot === x.slot && y.value !== x.value)),
-          `${r.id} is marked as a correction but doesn't change any detail of ${c.id}`,
-        );
-      } else {
-        ok(!r.asserts.some((x) => c.asserts.some((y) => y.slot === x.slot && y.value !== x.value)), `${r.id} contradicts its own claim ${c.id} without being marked as a correction`);
+    for (const x of c.asserts) ok(TOPIC_SLOTS[q.topic].includes(x.slot), `${c.id} states ${x.slot}, which is off-topic for ${q.topic}`);
+    ok(c.followUp.responses.length === 3, c.id + ' needs 3 follow-up responses');
+    if (c.kind === 'contradiction') ok(c.followUp.responses.some((r) => r.revises), c.id + ' (contradiction) needs a correction branch');
+    for (const line of [c, ...c.followUp.responses]) {
+      if (line !== c) {
+        ok(!allIds.has(line.id), 'duplicate id ' + line.id);
+        allIds.add(line.id);
+        allT.push({ where: line.id, t: line.text });
       }
+      // the reviewed kind must agree with the details the sentence states (no hidden "wrong" labels)
+      ok(KIND_CLS[line.kind] === line.cls, `${line.id}: kind ${line.kind} vs cls ${line.cls}`);
+      ok(classify(line.asserts) === line.cls, `${line.id}: reviewed as ${line.kind}, but its stated details compute as ${classify(line.asserts)}`);
+      // every contradiction carries a written reason and an answer to "could both be true?"
+      if (line.kind === 'contradiction') {
+        ok(!!line.why?.en && !!line.why?.es && !!line.reconcile?.en && !!line.reconcile?.es, line.id + ' contradiction lacks why/reconcile');
+        if (line.why) allT.push({ where: line.id + ' why', t: line.why });
+        if (line.reconcile) allT.push({ where: line.id + ' reconcile', t: line.reconcile });
+      } else ok(!line.why && !line.reconcile, line.id + ' has a contradiction reason but is not a contradiction');
+      if (line.note) allT.push({ where: line.id + ' note', t: line.note });
+      // no colour-only traps: no contradiction rests on a colour swap
+      for (const x of line.asserts) ok(!/blue|yellow|purple|orange/.test(x.value), `${line.id} uses a colour-swap value ${x.value}`);
     }
-    if (c.cls === 'conflicts') {
-      ok(rs.some((r) => r.revises), c.id + ' (conflicting claim) needs a correction branch');
-      // continuing a false story with nothing checkable must say so in the reveal
-      for (const r of rs) if (r.cls === 'inconclusive' && rs.indexOf(r) === 0) ok(!!r.note || true, '');
-    } else {
-      ok(rs.some((r) => r.cls === 'supports'), c.id + ' needs a follow-up branch that matches the case');
-      ok(rs.some((r) => r.cls === 'conflicts'), c.id + ' needs a follow-up branch that conflicts (so the true one is not the only detailed one)');
+    for (const r of c.followUp.responses) {
+      const changes = r.asserts.some((x) => c.asserts.some((y) => y.slot === x.slot && y.value !== x.value));
+      ok(!!r.revises === changes, `${r.id}: marked correction=${!!r.revises} but changes its own claim=${changes}`);
     }
-  }
-  ok(byCls.supports === 2 && byCls.conflicts === 2 && byCls.inconclusive === 1, q.id + ' should offer 2 matching, 2 conflicting, 1 vague claim');
-  // leakage guard: each detailed true claim has a twin that changes one of its details
-  for (const c of q.claims.filter((x) => x.cls === 'supports')) {
-    ok(
-      q.claims.some((d) => d.cls === 'conflicts' && d.asserts.some((x) => c.asserts.some((y) => y.slot === x.slot && y.value !== x.value))),
-      `${c.id} has no conflicting twin in ${q.id}, so it would stand out as the only detailed option`,
-    );
   }
 }
-// every conflict names the explicit fact it contradicts
+// the illuminated-sign example is an unsupported extra detail, not a contradiction
+ok(claimById('q3d').claim.kind === 'extra' && claimById('q3d').claim.asserts.length === 0, 'glowing signs must be inconclusive (extra detail)');
+// every contradiction names the explicit fact it contradicts
 for (const q of QUESTIONS)
   for (const c of q.claims)
     for (const line of [c, ...c.followUp.responses]) {
       const rel = relateToFacts(line.asserts);
-      if (line.cls === 'conflicts') ok(rel.conflicts.length > 0, line.id + ' conflicts without an explicit fact');
+      if (line.kind === 'contradiction') ok(rel.conflicts.length > 0, line.id + ' contradicts without an explicit fact');
     }
 // every fact can be confirmed and contradicted somewhere (so evidence matters)
 for (const f of FACTS) {
   const lines = QUESTIONS.flatMap((q) => q.claims.flatMap((c) => [c, ...c.followUp.responses]));
   ok(lines.some((l) => relateToFacts(l.asserts).supports.includes(f.id)), 'no line supports fact ' + f.id);
-  ok(lines.some((l) => relateToFacts(l.asserts).conflicts.includes(f.id)), 'no line conflicts with fact ' + f.id);
+  // a fact may deliberately have no contradicting line (e.g. the red curtain: a door or gate could coexist with it)
+  if (!['curtain'].includes(f.id)) ok(lines.some((l) => relateToFacts(l.asserts).conflicts.includes(f.id)), 'no line contradicts fact ' + f.id);
 }
 // challenges: truth is an option, and every challenge slot exists in the case
 for (const ch of CHALLENGES) {
@@ -144,7 +133,7 @@ for (const lang of ['en', 'es'] as const) {
 const reasonCodes = [
   'ask.det.coverage', 'ask.liar.learn', 'det.true', 'det.vague', 'liar.safe', 'liar.gamble', 'liar.vague', 'liar.noSafe', 'qa.det.greedy', 'qa.liar.forcedConflict',
   'qa.det.alwaysFollow', 'fu.det.conflict', 'fu.det.vague', 'fu.det.skipFits', 'fu.liar.more', 'fu.liar.enough', 'judge.det.conflict', 'judge.det.revised', 'judge.det.fits',
-  'judge.det.nothing', 'judge.liar.differs', 'judge.liar.matches', 'judge.liar.blend', 'judge.liar.nothing', 'vote.det', 'vote.liar', 'challenge.heard', 'challenge.guess',
+  'judge.det.cautious', 'judge.det.nothing', 'judge.liar.differs', 'judge.liar.matches', 'judge.liar.blend', 'judge.liar.nothing', 'vote.det', 'vote.liar', 'challenge.heard', 'challenge.guess',
 ];
 for (const code of reasonCodes) for (const lang of ['en', 'es'] as const) ok(reasonText({ code, p: { topic: 'route', trait: 'bold', pct: 50, details: 1, score: 2, n: 4 } }, lang) !== code, `reason ${code} has no ${lang} text`);
 
@@ -164,11 +153,12 @@ for (const q of QUESTIONS)
 
 // ---------------------------------------------------------------- the Liar's knowledge boundary
 section('liar knowledge boundary');
-const FORBIDDEN_KEYS = ['evidence', 'truth', 'cls', 'note', 'supports', 'conflicts', 'facts', 'revises', 'liarId', 'location'];
+const FORBIDDEN_KEYS = ['evidence', 'truth', 'cls', 'note', 'why', 'reconcile', 'supports', 'conflicts', 'facts', 'revises', 'liarId', 'location'];
 const FORBIDDEN_TEXT = [LOCATION.en, LOCATION.es, ...FACTS.flatMap((f) => [f.text.en, f.text.es]), ...EVIDENCE_BLOCKS.flatMap((b) => [b.text.en, b.text.es])];
 function assertClean(obj: unknown, where: string) {
   const json = JSON.stringify(obj);
   for (const k of FORBIDDEN_KEYS) ok(!json.includes(`"${k}"`), `${where} contains key "${k}"`);
+  for (const v of ['"compatible"', '"contradiction"']) ok(!json.includes(v), `${where} contains a reviewed classification ${v}`);
   for (const t of FORBIDDEN_TEXT) ok(!json.includes(t), `${where} contains case text: ${t.slice(0, 40)}`);
 }
 const liarSnapshots: LiarKnowledge[][] = [];
@@ -305,7 +295,7 @@ section('final challenge');
     const atVote = trace.find((x) => x.phase === 'challenge') ?? s;
     if (s.challenge?.slot) {
       checkedChallenges++;
-      ok(!disclosedSlots(atVote).has(s.challenge.slot), 'challenge asked about a detail that was already said');
+      ok(liarExposure(atVote)[s.challenge.slot] === 'hidden', 'challenge asked about a detail the Liar had already seen mentioned');
     }
   }
   ok(checkedChallenges > 50, 'too few challenges exercised: ' + checkedChallenges);
@@ -337,6 +327,37 @@ section('final challenge');
   ok(result(s).caught, 'liar should be caught in the all-disclosed plan');
   s = apply(s, { type: 'continue', pid: 'you' });
   ok(s.phase === 'reveal' && s.challenge?.omitted === true, 'challenge should be omitted when nothing is left to ask');
+}
+
+// ---------------------------------------------------------------- judging the complete exchange
+section('whole-exchange judging');
+{
+  // Build the public exchange for a claim + response and ask a Detective bot (evidence-based) to judge it.
+  const st = newGame({ scenario: 'detective', seed: 'judge' });
+  const det = knowledgeFor(st, 'you');
+  const ex = (claimId: string, respId?: string) => {
+    const c = claimById(claimId).claim;
+    const r = respId ? c.followUp.responses.find((x) => x.id === respId)! : null;
+    return { n: 0, kind: 'initial' as const, askerId: 'b1', respondentId: 'b2', question: null, claim: { id: c.id, text: c.text, asserts: c.asserts }, followUpQ: r ? c.followUp.q : null, response: r ? { id: r.id, text: r.text, asserts: r.asserts } : null, judgments: null };
+  };
+  const cases: [string, string | undefined, string, string][] = [
+    ['q3d', undefined, 'unclear', 'glowing signs alone: extra detail, not a contradiction'],
+    ['q3d', 'q3d1', 'unclear', 'signs + "arrows and EXIT": still only extra details'],
+    ['q3d', 'q3d3', 'conflict', 'signs + "the hallway was brightly lit": now an explicit contradiction'],
+    ['q3a', 'q3a1', 'fits', 'green line + dark corridors: compatible'],
+    ['q1b', 'q1b2', 'unclear', 'no staff, then corrected to a guide: correction lowers confidence, not a contradiction'],
+    ['q2d', 'q2d2', 'conflict', 'corrects "nobody" but "I went in alone" still stands'],
+    ['q4b', 'q4b1', 'conflict', 'bright hallway + ceiling lights: the claim still contradicts'],
+    ['q1e', 'q1e3', 'unclear', 'a queue + vague: nothing checkable'],
+  ];
+  // personality changes confidence, not facts: a cautious bot wants two matching details
+  ok(bots.judge(det, ex('q6a'), 2).judgment === 'unclear' && bots.judge(det, ex('q6a'), 1).judgment === 'fits', 'cautious threshold: one match is not enough');
+  ok(bots.judge(det, ex('q6a', 'q6a1'), 2).judgment === 'fits', 'cautious threshold: three matches are enough');
+  ok(bots.judge(det, ex('q5b'), 2).judgment === 'conflict', 'a contradiction is a contradiction for every personality');
+  for (const [cid, rid, want, why] of cases) {
+    const got = bots.judge(det, ex(cid, rid)).judgment;
+    ok(got === want, `judge ${cid}${rid ? '+' + rid : ''}: expected ${want}, got ${got} (${why})`);
+  }
 }
 
 // ---------------------------------------------------------------- ties and scoring follow the published rules

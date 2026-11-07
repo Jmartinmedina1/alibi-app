@@ -1,51 +1,164 @@
-# Case Logic Prototype — checks and results (Nov 7, 2026)
+# Case Logic Prototype — review 2: evidence audit, judgments, final bluff (Nov 7, 2026)
 
-No physical iPhone test has been done. All browser checks ran in headless Chromium (Playwright) at a 390 × 844 viewport, against a web export built with `EXPO_PUBLIC_PROTOTYPE=1 EXPO_PUBLIC_PROTOTYPE_QA=1`. The "human" was a script that followed simple, stated rules. That shows the flows work; it does not show that people find the game understandable or fun.
+No physical iPhone test has been done. Browser checks used headless Chromium at 390 × 844.
 
-## Automated (`npx tsx src/prototype/tests/prototype.test.ts`, from `app/`)
+## 1. What the audit changed
 
-Result: **212,525 / 212,525 checks passed.** Most of these are the per-step Liar-knowledge checks, repeated across 200 simulated rounds.
+**The illuminated-sign example.**
+- Before: "Signs lit up the hallway, so it was easy." was marked a contradiction of "dark corridors".
+- That was unsupported: dark corridors can contain illuminated signs, and "I didn't read them" adds nothing.
+- Now: "Glowing signs pointed the way." is an **unsupported extra detail**, and the reveal says it can't be checked either way.
+- It only becomes a contradiction if the speaker adds "Who needed signs? The hallway was brightly lit."
 
-| Area | What is actually checked |
-|---|---|
-| Content contract | Each line's authored class equals the class computed from its stated details against the facts. Each claim only states details in its question's topic. Each question offers 2 matching, 2 conflicting and 1 vague claim. Every matching claim has a conflicting twin. Each follow-up has 3 branches, including a vague one. Conflicting claims have a correction branch, and corrections really change a detail of the claim. Every conflict names an explicit fact. Every fact can be both confirmed and contradicted. |
-| Reachability | All 6 × 5 × 3 = 90 question → claim → follow-up branches are driven through the engine and reach judging. |
-| Liar boundary | At every step of 200 rounds (bot Liar and human Liar), the Liar's knowledge and view contain no evidence, fact text, location, classification, notes or Liar flag. `bots.ts` imports only types from the case data. Changing the hidden truth leaves Liar decisions unchanged on the same knowledge. |
-| No retroactive info | Each Liar knowledge snapshot is a prefix of the later ones. Once something is known it never changes, and no new kinds of field appear. |
-| Bot consistency | Detective bots never state a false detail. No bot contradicts its own earlier statement without a marked correction. The "avoid identical testimony" rule fires. No bot gives the same judgment every time. |
-| Judgment privacy | Before the last judgment is in, nobody's knowledge or view shows other judgments. They appear after closing. |
-| Final challenge | Over 300 rounds the challenge is never about a detail already said. A scripted round that discloses all 8 details skips the challenge and still ends cleanly. |
-| Ties / scoring | A 2–2 tie identifies nobody and the Liar gets 2. A wrong suspect means the Liar escapes. A caught Liar gets 0, or 1 with a correct final answer; identification stands and Detectives keep their points. |
-| QA scenarios | Contradiction: the human asks the Liar first, the first answer conflicts, and it is labelled as forced. Bluff: the Liar repeats heard details in ≥10 of 20 seeds. |
-| Replay / taps | The same seed replays identically. A second Start tap and out-of-turn actions are ignored. |
-| EN/ES | Every case text, explanation, bot reason and key UI string exists in both languages. |
+**Other contradictions that did not hold up, and what replaced them:**
 
-Existing game suites (`npm test` at the repo root) still pass: ALL PASSED / RUNOFF OK / SAFETY OK. TypeScript: clean. ESLint is not configured in this repo, and `expo lint` could not download a config from this workspace.
-
-**Limits.** These tests check structure and relationships, not meaning. Whether a sentence reads naturally, or a follow-up feels fair, came from a manual read of [dialogue-matrix.md](dialogue-matrix.md). That read led to these changes:
-
-- Added the "fits part of" wording.
-- Removed an inferred detail (a guide letting people in) that the evidence never states.
-- Replaced a question-6 option that had no twin.
-- Gave one conflicting claim a correction branch.
-
-## Browser paths (390 px)
-
-| # | Path | What actually happened |
+| Was marked a contradiction | Why it was unsupported | Now |
 |---|---|---|
-| 1 | Detective round | Completed. Chef Bruno was the Liar; he gave only matching or vague answers and was never contradicted. The scripted human voted for Granny Dot (most vague), two bots agreed, and the Liar escaped. A legitimate "the Liar blended in" outcome. |
-| 2 | Liar round | Completed. The human Liar stayed vague early ("A staff member…", then "I honestly didn't notice"). Detectives judged it "Not enough information", not "Something conflicts". Votes split Granny Dot 3 / You 1, and the Liar escaped with 2 points. In the first run of the same path the Liar was caught, and the final question offered three options about the corridors. |
-| 3 | Contradiction → follow-up → explanation | Skater Leo was forced to "Signs lit up the hallway, so it was easy." The human asked the follow-up "What did the signs say?" and Leo answered "I didn't read them. I just walked." All three Detectives judged "Something conflicts" and Leo was caught 3–1. The reveal tied the claim to "Visitors walked through dark corridors" and labelled the forced answer as a QA script. Leo missed the final question ("All at once, as a big crowd" vs "In small groups"). |
-| 4 | Believable Liar bluff | Leo answered last: "A masked actor jumped out." The reveal reason reads "Repeated 1 detail(s) other players had already stated" (Granny Dot had said "An actor in a mask"). Everyone judged "Fits the case", Chef Bruno was voted out, and the Liar escaped. |
-| 5 | All details disclosed | The human Liar asked about the entrance and the bots described the route and incident. The human then claimed a "creaky staircase", which all bots judged "Something conflicts", and used the extra question to get the last unsaid detail (the exit). The human was caught 3–1, and the reveal says: "No final question: every detail that could be asked was already said out loud during the round." |
-| 6 | Leave mid-round and replay | Home → Stay kept the round. Home → Leave returned to the prototype start screen. After a finished round, Play again showed a new briefing, and Main menu returned to the landing page (prototype entry visible in this build). |
-| — | Spanish | The contradiction path in Spanish rendered fully: questions, answers, follow-up, judgment labels, roster traits. |
-| — | Production isolation | A normal export (no flags): no entry button, and `/prototype` redirects to `/`. |
+| Blue door / red curtain (and "what did the door look like?") | A door and a curtain can both exist. It was also a colour trap. | Removed. Entrance contradictions now concern the guide, the tickets and the group size. |
+| Blue line vs green line (5 lines) | A colour trap, and two lines could exist. | "Nothing marked the way" (contradicts the floor line existing) |
+| "A ticket machine. It beeped when it was our turn." | A machine could signal turns while a guide collects tickets. | "Nobody. There was no staff, just a ticket machine." |
+| "Nothing. They just pointed us in." | The person pointing need not be the guide who collected tickets. | "Nothing. Nobody took tickets." |
+| "A staff member stood next to a blue door." | Several staff members can stand anywhere. | "A table full of rubber bats" (extra detail) |
+| Unmasked actor / staircase / coffin scares | A second actor or a second scare was never ruled out. | The evidence now says **"It was the only scare."**, and these lines are about *the* scare. |
+| "From the top of a creaky staircase" | The actor could come down stairs and then appear by the cupboard. | "Out of a coffin. There was no cupboard near it." |
+| "We sat in rows… we didn't walk much" | "Not much" still allows walking. | "We stayed in our seats the whole time." |
+| "Waved the whole line in at once" | The line could have been small. | "Waved a big crowd in all at once." |
+| "The lights were on the whole time" | Dim lights can be on in a dark corridor. | "It was bright the whole time." |
+| "I went in alone" | You can be alone (no companions) inside a small group of strangers. | "I went in by myself, with no group." |
+| "Ran back to the entrance" | (kept) | Opposite direction at the same moment as "hurried toward the exit". |
 
-**Page errors in all paths: none.**
+**The red curtain is now never contradicted** (only confirmed), because every alternative entrance could coexist with it.
 
-**Unexpected results found while testing:**
+- **33 contradictions remain.** Each has written evidence, a reason, and the reconciliation considered: see [contradiction-audit.md](contradiction-audit.md).
+- **Every line now has a reviewed kind:** compatible, contradiction, unsupported extra detail, or vague. Corrections are flagged separately.
+- **Reveal wording:**
+  - Compatible lines say "Compatible with", never "matches".
+  - Corrections say they lower confidence but are not contradictions.
+  - Extra details say "can't be checked, not automatically false".
 
-- "You asks…" and "You was the Liar!" grammar. Fixed.
-- "steady bots…" was lowercase at the start of a sentence. Fixed.
-- Two bugs in my own test driver, not the game. Its vote heuristic scored everyone equally, which led to a wrong vote and a tie in the first contradiction run. And it chose the all-disclosed extra question without reading the testimony. Both fixed, then all paths re-run.
+## 2. Judgments now follow the whole exchange
+
+- **Evidence-based.** Detective bots compare what the claim and the follow-up actually state against the evidence. They never use a card's label.
+- **Corrections.** A contradiction that the speaker later corrects becomes "Not enough information". A contradiction that still stands stays "Something conflicts". Example: "Nobody. I went in by myself, with no group." → "Oh, a guide took it first" corrects the tickets, but going in without a group still stands.
+- **Extra details.** Unsupported extra details and vague answers give "Not enough information".
+- **Personality affects confidence only, never facts.** A cautious bot says "Fits the case" only when at least two checkable details match; one match gives "Not enough information". There is no randomness in judgments. Before this rule, bot judgments were unanimous in 100% of exchanges; now 76–81%.
+
+## 3. Final bluff: exposure audit
+
+The engine now tracks everything the Liar could see:
+
+- public testimony and judgments;
+- the questions and follow-up wording;
+- **every option offered to the Liar when answering, including the ones not picked.**
+
+Each of the 8 askable details is classified:
+
+- **disclosed:** someone stated the true value;
+- **hinted:** the detail came up in anything the Liar saw, as a true or false candidate;
+- **hidden:** nothing the Liar saw mentioned it.
+
+The final question is asked **only about hidden details**. If none remain, it is skipped and the reveal says why.
+
+**Is it still worth keeping?** Across 500 ordinary rounds, about 31–36% of details stay hidden and 98–99% of rounds have at least one. Liars answered those questions correctly 28–30% of the time, close to chance (3–4 options). So the mechanism is weak but not trivial, and it stays for this prototype.
+
+**Leaks not counted:**
+- **Inference from neighbouring details.** For example, "I kept one hand on the wall" suggests darkness without naming it.
+- **The category hint.**
+
+## 4. Tests, by meaningful case (`npx tsx src/prototype/tests/prototype.test.ts`, 227,567 assertions, all pass)
+
+| Test case | Kind |
+|---|---|
+| Each line's reviewed kind agrees with what it states. Every contradiction has a written reason and a reconciliation note; non-contradictions have none. No colour-swap values. Corrections really change the speaker's own claim. Contradicting claims have a correction branch. | content contract (structural) |
+| The glowing-signs claim is an extra detail with nothing checkable. | regression for the reported bug |
+| Whole-exchange judging, 8 cases: signs alone → not enough info; signs + "brightly lit" → conflicts; corrected "no staff" → not enough info; corrected "nobody" with "no group" standing → conflicts; queue + vague → not enough info; plus 3 cautious-threshold cases. | behaviour |
+| All 90 question → claim → follow-up branches are reachable through the engine. | structural |
+| At every step of 200 rounds, Liar knowledge has no evidence, facts, location, kinds or reasons. Changing the hidden truth doesn't change Liar decisions. Earlier Liar views never change. | boundary |
+| No bot contradicts its own earlier statement without a correction. (This caught a real bug: a Liar bot changed its story across exchanges to match others. Fixed.) Detective bots never state false details. | behaviour |
+| Judgments stay hidden until everyone has chosen. | behaviour |
+| Over 300 rounds the final question is only asked about *hidden* details. When all are exposed it is skipped. | behaviour |
+| Ties, wrong suspect, caught Liar, and the correct-final-answer bonus each follow the published points. | rules |
+| QA scenarios do what they claim (forced answers are labelled as forced). Replay is deterministic. Duplicate and out-of-turn taps are ignored. EN/ES strings are present. | harness |
+
+The existing game's suites still pass.
+
+**What depends on manual review, not tests:**
+- whether each "contradiction" really cannot be reconciled (the audit table is my judgment);
+- whether a sentence reads naturally;
+- whether Spanish carries the same meaning.
+
+The tests only check that the reviewed labels and the stated details agree with each other.
+
+## 5. Ordinary bot behaviour (500 simulated rounds each, no QA scripts)
+
+| Setting | Liar caught | Tie | Wrong suspect | Exchanges with any "conflicts" |
+|---|---|---|---|---|
+| Careful human Detective (truthful; follows up anything not compatible; judges from evidence; votes by own doubts) | 65% | 8% | 27% | 4% |
+| Human Liar using only Liar-visible information (same rules as the Liar bot) | 80% | 5% | 15% | 0% |
+
+- **The Liar bot's answers:** it repeated details it had heard 24% of the time, gambled on an unheard detail 22%, and stayed vague 55%.
+- **Contradictions are rare.** Most catches come from the Liar's accumulated vagueness, not from contradictions. A rule-following Liar who stays vague is caught 80% of the time.
+- **The scripted human Liar is not a person.** A real Liar who repeats heard details more boldly may do much better.
+
+## 6. Three manually reviewed paths (ordinary rounds, seeds from the simulation, careful human Detective)
+
+### A. A contradiction exposed by a follow-up (seed p6)
+
+1. Chef Bruno: "A masked actor jumped out."
+   - *Compatible with C. Says nothing about whether Bruno was there.*
+2. Granny Dot: "Someone sent us in a few at a time."
+   - *Compatible with "small groups".*
+3. Granny Dot asks Skater Leo (the Liar) "How did you know where to go?" Leo: **"Glowing signs pointed the way."**
+   - *Can't be checked: signs could exist in dark corridors. Not suspicious on its own.*
+   - Follow-up "What did the signs say?" Leo: **"Who needed signs? The hallway was brightly lit."**
+   - *Now there is an explicit contradiction: evidence B says the corridors were dark.*
+   - All three Detectives judged "Something conflicts".
+4. The human answers truthfully (compatible).
+5. The human's extra question to Leo: "Someone sent us in a few at a time." (compatible, repeated from Granny Dot)
+   - *A match is not proof. It doesn't cancel the earlier contradiction.*
+6. **Vote: Leo 3, Bruno 1. Caught.** The reason a human can state: "He said the hallway was brightly lit; the case file says dark."
+
+### B. A plausible extra detail stays inconclusive (seed p4)
+
+- **Exchange 2.** Chef Bruno (innocent): **"We stood in line for a while."** Follow-up "What was at the front of the line?": "I couldn't see past the people ahead."
+  - *A queue is never mentioned. It can't be checked and it isn't false.*
+  - Everyone judged "Not enough information", and nobody judged "conflicts". Bruno's extra detail was never treated as a lie.
+- **The Liar, Granny Dot, was vague four times:**
+  - "Creepy music played the whole time." → "Not that I noticed."
+  - "A staff member…" → "A table full of rubber bats."
+- **Vote:** Granny 3 votes, caught. *The human's reason is a pattern of answers with nothing checkable, not any single answer. That is weaker evidence, and the reveal says so.*
+
+### C. A coherent bluff that escapes (seed p9)
+
+1. The human (Detective): "A guide took our tickets."
+2. The human asks Chef Bruno (the Liar) the same question. Bruno: **"A guide took our tickets."**
+   - *Compatible, but identical to what he just heard. Bot rule: "repeated details others had stated".*
+   - *A careful human might find the echo suspicious, but it contradicts nothing.*
+3. Bruno asks Skater Leo; Leo: "Creepy music…" → "It got loud when a cupboard started rattling."
+4. and 5. Granny Dot gives compatible answers about the exit and the masked actor.
+6. **Vote: no contradictions anywhere.**
+   - The bots' suspicion scores tie, so they pick at random among the tied players. The reveal labels it "tied: picked at random".
+   - The human voted Bruno; the bots voted the human twice and Leo once.
+   - **The human was identified. The Liar escaped with 2 points.**
+   - *Nothing in the testimony proved anyone was lying. The only clue was the echo, which the game does not flag.*
+
+## 7. Forced QA scenarios (reachability only, not balance)
+
+- **Contradiction scenario:** the Liar's first answer is forced to a contradiction, and the reveal labels it "QA script".
+- **Bluff scenario:** detective bots disclose as much as possible, and the Liar answers last.
+- **All-exposed scenario:** a human Liar.
+
+These test that the paths exist, not how often they happen. They are kept out of the numbers in §5.
+
+## 8. Browser re-run on the corrected content (390 px, all paths, no page errors)
+
+The "human" here is a script following stated rules.
+
+| Path | What actually happened |
+|---|---|
+| **Detective round** | Granny Dot (the Liar) gave only answers with nothing checkable: "Someone behind me screamed" → "I didn't turn around to look", then "I laughed" → "Laughed with me, I think". She was judged "Not enough information" twice and caught 3–1. |
+| **Liar round** | The scripted Liar repeated heard details ("We waited at a red curtain…"). The bots still voted for it 3–1, because its follow-ups added nothing new. The final question was about the exit: hidden, since nothing the Liar saw mentioned it. |
+| **QA contradiction** (forced) | Leo: "Nothing marked the way. We just guessed." → "I just followed the others." Judged "Something conflicts" by all and caught 3–1. The reveal cites the floor line and the reconciliation considered. |
+| **QA bluff** (forced disclosure) | Leo repeated "A masked actor jumped out." after hearing "An actor in a mask". Judged "fits" and escaped; Chef Bruno was voted out. |
+| **QA all exposed** | Every askable detail had come up. The reveal says: "No final question: every detail that could be asked had already come up in something the Liar saw…" |
+| **Leave / replay / menu** | Home → Stay keeps the round. Home → Leave returns to the start screen. Play again shows a new briefing. Main menu returns to the landing page. |

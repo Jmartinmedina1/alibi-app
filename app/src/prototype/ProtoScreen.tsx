@@ -27,7 +27,7 @@ import {
 } from './engine';
 import { QA_ENABLED } from './flags';
 import type { Judgment, PublicExchange, PublicLine } from './knowledge';
-import { CLS_LABEL, JUDGMENT_LABEL, TRAIT_LABEL, explainLine, reasonText, s as str, tt, type Key } from './strings';
+import { KIND_LABEL, JUDGMENT_LABEL, traitLabel, explainLine, reasonText, s as str, tt, type Key } from './strings';
 
 const BOT_DELAY: Partial<Record<State['phase'], number>> = { ask: 1500, answer: 1900, fuDecide: 1200, fuAnswer: 1700, judge: 700, vote: 700, challenge: 1600 };
 
@@ -468,10 +468,12 @@ const STEP: Record<string, { en: string; es: string }> = {
 
 function Explain(props: { id: string; kind: 'claim' | 'response'; lang: Lang }) {
   const x = explainLine(props.id, props.kind, props.lang);
-  const color = x.cls === 'conflicts' ? C.red : x.cls === 'supports' ? C.green : C.muted;
+  const color = x.kind === 'contradiction' ? C.red : x.kind === 'compatible' ? C.green : C.muted;
   return (
     <View style={[st.explain, { borderLeftColor: color }]}>
-      <Text style={[st.small, { fontWeight: '800', color: C.manila }]}>{tt(CLS_LABEL[x.cls], props.lang)}</Text>
+      <Text style={[st.small, { fontWeight: '800', color: C.manila }]}>{tt(KIND_LABEL[x.kind], props.lang)}
+        {x.correction ? (props.lang === 'es' ? ' · corrección' : ' · correction') : ''}
+      </Text>
       {x.lines.map((l, i) => (
         <Text key={i} style={st.small}>
           {l}
@@ -558,7 +560,7 @@ function Roster(props: { game: State; lang: Lang }) {
           <Text style={st.tiny} numberOfLines={1}>
             {p.id === game.humanId ? str(lang, 'you') : p.name}
           </Text>
-          {p.trait && <Text style={st.tiny}>{tt(TRAIT_LABEL[p.trait], lang)}</Text>}
+          {p.trait && <Text style={st.tiny}>{traitLabel(p.trait, p.gender, lang)}</Text>}
         </View>
       ))}
     </View>

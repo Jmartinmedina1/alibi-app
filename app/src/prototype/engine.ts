@@ -44,6 +44,8 @@ export interface Player {
   suspectId?: string;
   emoji?: string;
   trait?: Trait;
+  /** grammatical gender for Spanish labels */
+  gender?: 'f' | 'm';
 }
 
 export interface Decision {
@@ -130,9 +132,9 @@ function shuffled<X>(xs: X[], r: (k: string) => number, key: string): X[] {
 // ---------------------------------------------------------------- setup
 
 export const BOT_CAST: Omit<Player, 'id'>[] = [
-  { name: 'Granny Dot', kind: 'bot', suspectId: 'granny-dot', trait: 'cautious' },
-  { name: 'Chef Bruno', kind: 'bot', suspectId: 'chef-bruno', trait: 'steady' },
-  { name: 'Skater Leo', kind: 'bot', suspectId: 'skater-leo', trait: 'bold' },
+  { name: 'Granny Dot', kind: 'bot', suspectId: 'granny-dot', trait: 'cautious', gender: 'f' },
+  { name: 'Chef Bruno', kind: 'bot', suspectId: 'chef-bruno', trait: 'steady', gender: 'm' },
+  { name: 'Skater Leo', kind: 'bot', suspectId: 'skater-leo', trait: 'bold', gender: 'm' },
 ];
 
 export function newGame(opts: { scenario: ScenarioId; seed: string; humanName?: string; humanEmoji?: string }): State {
@@ -303,9 +305,35 @@ export function disclosedSlots(s: State): Set<string> {
   }
   return out;
 }
+
+export type Exposure = 'disclosed' | 'hinted' | 'hidden';
+/**
+ * What the Liar could have learned about each checkable detail, from everything shown to them:
+ * public testimony and judgments, the questions, follow-up wording, and every option offered to
+ * them when they answered (including the ones they did not pick).
+ *  - disclosed: someone stated the true value in testimony
+ *  - hinted:    the detail came up in any text the Liar saw (a candidate value, true or not)
+ *  - hidden:    nothing the Liar saw said anything about it
+ */
+export function liarExposure(s: State): Record<string, Exposure> {
+  const seen: Assert[] = [];
+  for (const e of s.ex) {
+    const p = publicExchange(s, e);
+    for (const l of [p.claim, p.response, contextClaim(s, e)]) if (l) seen.push(...l.asserts);
+    if (e.respondentId === s.liarId) {
+      for (const id of e.claimOrder) seen.push(...claimById(id).claim.asserts);
+      for (const id of e.fuOrder) seen.push(...responseById(id).response.asserts);
+    }
+  }
+  const disclosed = disclosedSlots(s);
+  const out: Record<string, Exposure> = {};
+  for (const ch of CHALLENGES) out[ch.slot] = disclosed.has(ch.slot) ? 'disclosed' : seen.some((x) => x.slot === ch.slot) ? 'hinted' : 'hidden';
+  return out;
+}
+
 export function eligibleChallenges(s: State): Challenge[] {
-  const d = disclosedSlots(s);
-  return CHALLENGES.filter((c) => !d.has(c.slot));
+  const x = liarExposure(s);
+  return CHALLENGES.filter((c) => x[c.slot] === 'hidden');
 }
 
 // ---------------------------------------------------------------- results
@@ -473,7 +501,10 @@ export function botAct(s: State, pid: string): State {
       // QA script (test harness, privileged): force a conflicting first answer. The bot itself can't know which is wrong.
       const forced =
         firstLiarAnswer && s.script.liarFirstAnswer === 'conflict'
-          ? { id: ids.filter((id) => claimById(id).claim.cls === 'conflicts')[Math.floor(rand(key + '|forced') * 2)], reason: { code: 'qa.liar.forcedConflict' } }
+          ? (() => {
+              const pool = ids.filter((id) => claimById(id).claim.kind === 'contradiction');
+              return { id: pool[Math.floor(rand(key + '|forced') * pool.length)], reason: { code: 'qa.liar.forcedConflict' } };
+            })()
           : null;
       const d =
         forced ??
@@ -491,7 +522,7 @@ export function botAct(s: State, pid: string): State {
     case 'judge': {
       // judge the exchange as it now stands (complete), even though it is not closed yet
       const pub = { ...publicExchange(s, e!), claim: contextClaim(s, e!) };
-      const d = bots.judge(k, pub);
+      const d = bots.judge(k, pub, p.trait === 'cautious' ? 2 : 1);
       const next = apply(s, { type: 'judge', pid, judgment: d.judgment });
       return { ...next, decisions: [...next.decisions, log('judge', d.reason)] };
     }

@@ -94,7 +94,9 @@ export function liarView(k: LiarKnowledge, asserts: Assert[]): LiarStatus {
   const { others, mine } = heardMap(k);
   let unknown = false;
   for (const a of asserts) {
-    const said = majority(others.get(a.slot)) ?? mine.get(a.slot);
+    // never contradict my own earlier statements (keep my story), then follow what others said
+    if (mine.has(a.slot) && mine.get(a.slot) !== a.value) return 'risky';
+    const said = mine.get(a.slot) ?? majority(others.get(a.slot));
     if (said === undefined) unknown = true;
     else if (said !== a.value) return 'risky';
   }
@@ -207,7 +209,8 @@ export function changedStory(e: Pick<PublicExchange, 'claim' | 'response'>): boo
   return e.response.asserts.some((r) => e.claim!.asserts.some((c) => c.slot === r.slot && c.value !== r.value));
 }
 
-export function judge(k: Knowledge, e: PublicExchange): { judgment: Judgment; reason: Reason } {
+/** `minMatches`: how many matching details a Detective needs before saying "fits" (cautious bots want 2). */
+export function judge(k: Knowledge, e: PublicExchange, minMatches = 1): { judgment: Judgment; reason: Reason } {
   const items = [e.claim, e.response].filter(Boolean) as PublicLine[];
   if (k.role === 'detective') {
     const revised = changedStory(e);
@@ -218,7 +221,9 @@ export function judge(k: Knowledge, e: PublicExchange): { judgment: Judgment; re
     );
     if (finalConflict) return { judgment: 'conflict', reason: { code: 'judge.det.conflict' } };
     if (revised) return { judgment: 'unclear', reason: { code: 'judge.det.revised' } };
-    if (checks.some((c) => c.status === 'supports')) return { judgment: 'fits', reason: { code: 'judge.det.fits' } };
+    const matched = checks.reduce((n, c) => n + c.matched.length, 0);
+    if (matched >= minMatches) return { judgment: 'fits', reason: { code: 'judge.det.fits' } };
+    if (matched > 0) return { judgment: 'unclear', reason: { code: 'judge.det.cautious', p: { matched, need: minMatches } } };
     return { judgment: 'unclear', reason: { code: 'judge.det.nothing' } };
   }
   // Liar: compare with what others said before

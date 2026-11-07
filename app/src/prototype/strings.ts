@@ -37,8 +37,8 @@ const S = {
     es: 'Estuviste en el lugar secreto. Tu expediente tiene tres evidencias. Un jugador no estuvo ahí. Haz preguntas, compara las respuestas con tu evidencia y vota por el Mentiroso. Cuidado: cada detalle cierto que digas también le enseña al Mentiroso.',
   },
   briefLiar: {
-    en: "You weren't there. You only know the category. Listen to the testimony and keep your story believable. If you are caught, you get one last question about a detail nobody said.",
-    es: 'No estuviste ahí. Solo conoces la categoría. Escucha el testimonio y mantén una historia creíble. Si te atrapan, tendrás una última pregunta sobre un detalle que nadie dijo.',
+    en: "You weren't there. You only know the category. Listen to the testimony and keep your story believable. If you are caught, you may get one last question about a detail that never came up in anything you saw.",
+    es: 'No estuviste ahí. Solo conoces la categoría. Escucha el testimonio y mantén una historia creíble. Si te atrapan, quizá tengas una última pregunta sobre un detalle que nunca apareció en nada de lo que viste.',
   },
   category: { en: 'Category', es: 'Categoría' },
   liarInfoNote: { en: 'You do not have the case file.', es: 'No tienes el expediente.' },
@@ -108,13 +108,13 @@ const S = {
   // challenge
   challengeTitle: { en: 'Final bluff', es: 'Última jugada' },
   challengeLiar: {
-    en: 'You were caught. One last question about a detail nobody said out loud. Get it right for 1 point.',
-    es: 'Te atraparon. Una última pregunta sobre un detalle que nadie dijo. Acierta para ganar 1 punto.',
+    en: 'You were caught. One last question about a detail that never came up in anything you saw (testimony, questions or answer options). Get it right for 1 point.',
+    es: 'Te atraparon. Una última pregunta sobre un detalle que nunca apareció en nada de lo que viste (testimonio, preguntas u opciones). Acierta para ganar 1 punto.',
   },
   challengeWait: { en: '{name} is answering the final question…', es: '{name} está respondiendo la pregunta final…' },
   challengeOmitted: {
-    en: 'No final question: every detail that could be asked was already said out loud during the round.',
-    es: 'Sin pregunta final: todos los detalles que se podían preguntar ya se dijeron durante la ronda.',
+    en: 'No final question: every detail that could be asked had already come up in something the Liar saw (testimony, questions or answer options).',
+    es: 'Sin pregunta final: todos los detalles que se podían preguntar ya habían aparecido en algo que vio el Mentiroso (testimonio, preguntas u opciones).',
   },
   // reveal
   revealTitle: { en: 'The reveal', es: 'La revelación' },
@@ -126,8 +126,8 @@ const S = {
   challengeResult: { en: 'Final question: {q} {name} answered “{a}”. Correct answer: “{c}”.', es: 'Pregunta final: {q} {name} respondió “{a}”. Respuesta correcta: “{c}”.' },
   explainTitle: { en: 'What the testimony shows', es: 'Lo que muestra el testimonio' },
   explainNote: {
-    en: 'A matching answer is not proof of innocence (the Liar can repeat what others said), and a vague answer is not proof of guilt.',
-    es: 'Una respuesta que coincide no prueba inocencia (el Mentiroso puede repetir lo que otros dijeron), y una respuesta vaga no prueba culpa.',
+    en: 'Compatible is not proof of being there (the Liar can repeat what others said). Extra details and vague answers are not proof of lying. Only an explicit contradiction conflicts with the case file.',
+    es: 'Ser compatible no prueba haber estado ahí (el Mentiroso puede repetir lo que otros dijeron). Los detalles extra y las respuestas vagas no prueban que alguien mienta. Solo una contradicción explícita choca con el expediente.',
   },
   allOptions: { en: 'Show every answer option', es: 'Ver todas las opciones' },
   hideOptions: { en: 'Hide answer options', es: 'Ocultar opciones' },
@@ -155,6 +155,11 @@ export const TRAIT_LABEL: Record<Trait, T> = {
   steady: { en: 'Steady', es: 'Constante' },
   bold: { en: 'Bold', es: 'Atrevido' },
 };
+const TRAIT_LABEL_F: Record<Trait, string> = { cautious: 'Cautelosa', steady: 'Constante', bold: 'Atrevida' };
+/** Trait label for one player (Spanish agrees with the character's gender). */
+export function traitLabel(trait: Trait, gender: 'f' | 'm' | undefined, lang: Lang): string {
+  return lang === 'es' && gender === 'f' ? TRAIT_LABEL_F[trait] : TRAIT_LABEL[trait][lang];
+}
 export const CLS_LABEL = {
   supports: { en: 'Matches the case file', es: 'Coincide con el expediente' },
   conflicts: { en: 'Conflicts with the case file', es: 'Contradice el expediente' },
@@ -185,6 +190,7 @@ const R: Record<string, T> = {
   'judge.det.conflict': { en: 'Something conflicts: a detail contradicts its case file.', es: 'Algo no cuadra: un detalle contradice su expediente.' },
   'judge.det.revised': { en: 'Not enough information: the story changed toward the case file, which proves nothing either way.', es: 'Falta información: la historia cambió hacia el expediente, y eso no prueba nada.' },
   'judge.det.fits': { en: 'Fits the case: the details match its case file.', es: 'Encaja: los detalles coinciden con su expediente.' },
+  'judge.det.cautious': { en: 'Not enough information: only {matched} checkable detail matched its case file, and this cautious bot wants at least {need} before saying it fits.', es: 'Falta información: solo {matched} detalle comprobable coincidía con su expediente, y este bot cauteloso quiere al menos {need} para decir que encaja.' },
   'judge.det.nothing': { en: 'Not enough information: nothing it could check against the case file.', es: 'Falta información: nada que pudiera comparar con el expediente.' },
   'judge.liar.differs': { en: 'Something conflicts: a detail differed from what others had said.', es: 'Algo no cuadra: un detalle no coincidía con lo que otros dijeron.' },
   'judge.liar.matches': { en: 'Fits the case: the details matched what others had said.', es: 'Encaja: los detalles coincidían con lo que otros dijeron.' },
@@ -216,21 +222,38 @@ export function reasonText(r: Reason, lang: Lang): string {
 const q = (x: string) => (x ? `“${x}”` : '');
 
 /** Why one line supports, conflicts or can't be checked — always tied to explicit case facts. */
-export function explainLine(id: string, kind: 'claim' | 'response', lang: Lang): { cls: keyof typeof CLS_LABEL; lines: string[] } {
-  const x = kind === 'claim' ? claimById(id).claim : responseById(id).response;
+export const KIND_LABEL = {
+  compatible: { en: 'Compatible with the case file', es: 'Compatible con el expediente' },
+  contradiction: { en: 'Contradicts the case file', es: 'Contradice el expediente' },
+  extra: { en: 'Unsupported extra detail', es: 'Detalle extra sin respaldo' },
+  vague: { en: 'Vague or evasive', es: 'Vago o evasivo' },
+} satisfies Record<string, T>;
+
+/** Why one line is compatible, contradictory, extra or vague — from its manually reviewed relationship. */
+export function explainLine(id: string, which: 'claim' | 'response', lang: Lang): { kind: keyof typeof KIND_LABEL; correction: boolean; lines: string[] } {
+  const x = which === 'claim' ? claimById(id).claim : responseById(id).response;
   const rel = relateToFacts(x.asserts);
   const factText = (fid: string) => FACTS.find((f) => f.id === fid)!.text[lang];
+  const es = lang === 'es';
   const lines: string[] = [];
-  for (const f of rel.conflicts) lines.push((lang === 'es' ? 'Contradice: ' : 'Conflicts with: ') + q(factText(f)));
-  for (const f of rel.supports) {
-    // a full match states every detail of the fact; otherwise it only fits part of it
-    const full = FACTS.find((y) => y.id === f)!.truth.every((tr) => x.asserts.some((a) => a.slot === tr.slot && a.value === tr.value));
-    lines.push((full ? (lang === 'es' ? 'Coincide con: ' : 'Matches: ') : lang === 'es' ? 'Encaja con parte de: ' : 'Fits part of: ') + q(factText(f)));
+  if (x.kind === 'contradiction') {
+    for (const f of rel.conflicts) lines.push((es ? 'Contradice: ' : 'Contradicts: ') + q(factText(f)));
+    if (x.why) lines.push(x.why[lang]);
+    if (x.reconcile) lines.push((es ? '¿Pueden ser ciertas las dos cosas? ' : 'Could both be true? ') + x.reconcile[lang]);
+  }
+  if (x.kind === 'compatible' || (x.kind === 'contradiction' && rel.supports.length)) {
+    for (const f of rel.supports) {
+      // a full match states every detail of the fact; otherwise it only fits part of it
+      const full = FACTS.find((y) => y.id === f)!.truth.every((tr) => x.asserts.some((a) => a.slot === tr.slot && a.value === tr.value));
+      lines.push((full ? (es ? 'Compatible con: ' : 'Compatible with: ') : es ? 'Encaja con parte de: ' : 'Fits part of: ') + q(factText(f)));
+    }
   }
   if (x.note) lines.push(x.note[lang]);
-  if (kind === 'response' && (x as { revises?: boolean }).revises)
-    lines.push(lang === 'es' ? 'Cambia su respuesta anterior hacia el expediente. Corregirse no prueba nada por sí solo.' : 'Changes the earlier answer toward the case file. A correction is not proof either way.');
-  if (!rel.conflicts.length && !rel.supports.length && !x.note)
-    lines.push(lang === 'es' ? 'No menciona nada del expediente, así que no se puede comprobar. Ser vago no prueba que alguien mienta.' : "Mentions nothing the case file covers, so it can't be checked. Being vague doesn't prove anyone is lying.");
-  return { cls: x.cls, lines };
+  if (x.kind === 'extra' && !x.note)
+    lines.push(es ? 'Un detalle que el expediente no menciona. No se puede comprobar y no es falso por eso.' : "A detail the case file never mentions. It can't be checked, and it isn't automatically false.");
+  if (x.kind === 'vague' && !x.note) lines.push(es ? 'No dice nada comprobable. Ser vago no prueba que alguien mienta.' : "Says nothing checkable. Being vague doesn't prove anyone is lying.");
+  const correction = !!x.revises;
+  if (correction)
+    lines.push(es ? 'Corrige lo que esta persona dijo antes. Baja la confianza, pero no es una contradicción por sí sola.' : 'Corrects what this person said earlier. It lowers confidence, but it is not a contradiction by itself.');
+  return { kind: x.kind, correction, lines };
 }
