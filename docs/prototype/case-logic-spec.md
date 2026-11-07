@@ -14,7 +14,7 @@ Prove that one complete round can be won by reasoning: a Detective can point at 
 |---|---|---|
 | A. Entrance | A guide collected tickets at a red curtain. Visitors entered in small groups. | `tickets` (collected = yes, who = guide) · `curtain` (entrance = red curtain) · `groups` (entry = small groups) |
 | B. Route | Visitors walked through dark corridors. A green floor line marked the route. | `corridors` (mode = walked, light = dark) · `line` (marker = green line) |
-| C. Incident | A masked actor appeared beside a rattling cupboard. It was the only scare. The group hurried toward the exit. | `actor` (who = masked actor) · `cupboard` (place = cupboard) · `exit` (after = exit) |
+| C. Incident | A masked actor appeared beside a rattling cupboard. The group hurried toward the exit. | `actor` (who = masked actor) · `cupboard` (place = cupboard) · `exit` (after = exit) |
 
 - **Liar:** knows only the category: *Live entertainment / Entretenimiento en vivo*.
 - **Location name:** *Haunted House Attraction*, shown only at the reveal.

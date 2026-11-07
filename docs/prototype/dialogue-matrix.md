@@ -6,7 +6,7 @@ Kinds (compatible / contradiction / unsupported extra detail / vague) are manual
 ## Evidence
 - **A. Entrance / Entrada** — A guide collected tickets at a red curtain. Visitors entered in small groups. / Un guía recogía los boletos junto a una cortina roja. Los visitantes entraban en grupos pequeños.
 - **B. Route / Recorrido** — Visitors walked through dark corridors. A green floor line marked the route. / Los visitantes recorrían pasillos oscuros. Una línea verde en el piso marcaba el camino.
-- **C. Incident / Incidente** — A masked actor appeared beside a rattling cupboard. It was the only scare. The group hurried toward the exit. / Un actor con máscara apareció junto a un armario que se sacudía. Fue el único susto. El grupo se apresuró hacia la salida.
+- **C. Incident / Incidente** — A masked actor appeared beside a rattling cupboard. The group hurried toward the exit. / Un actor con máscara apareció junto a un armario que se sacudía. El grupo se apresuró hacia la salida.
 
 ## q1 · Entrance — “What happened before you went inside?” / “¿Qué pasó antes de que entraras?”
 
@@ -292,8 +292,8 @@ Kinds (compatible / contradiction / unsupported extra detail / vague) are manual
 
 | id | kind | EN | ES | states | reveal (EN) |
 |---|---|---|---|---|---|
-| q4e1 | Compatible with the case file | It got loud when a cupboard started rattling. | Subió de volumen cuando un armario empezó a sacudirse. | incident.place=cupboard | Compatible with: “The only scare happened beside a rattling cupboard.” |
-| q4e2 | Contradicts the case file | It got loud when the scare happened: an actor with no mask. | Subió de volumen con el susto: un actor sin máscara. | incident.who=unmasked-actor | Contradicts: “The only scare was a masked actor.” The case file says the only scare was a masked actor. Could both be true? Face paint could be under a mask, but this says there was no mask, and it was the only scare. |
+| q4e1 | Compatible with the case file | It got loud when a cupboard started rattling. | Subió de volumen cuando un armario empezó a sacudirse. | incident.place=cupboard | Compatible with: “The masked actor appeared beside a rattling cupboard.” |
+| q4e2 | Unsupported extra detail | It got loud when the scare happened: an actor with no mask. | Subió de volumen con el susto: un actor sin máscara. | — | Other actors or moments are never ruled out, so an unmasked actor or a staircase can't be checked. Not automatically false. |
 | q4e3 | Vague or evasive | Not that I noticed. | No que yo notara. | — | Says nothing checkable. Being vague doesn't prove anyone is lying. |
 
 ## q5 · Incident — “What made everyone move suddenly?” / “¿Qué hizo que todos se movieran de repente?”
@@ -302,56 +302,56 @@ Kinds (compatible / contradiction / unsupported extra detail / vague) are manual
 - EN: “A masked actor jumped out.”
 - ES: “Salió de golpe un actor con máscara.”
 - States: incident.who=masked-actor
-- Reveal EN: Compatible with: “The only scare was a masked actor.”
-- Reveal ES: Compatible con: “El único susto fue un actor con máscara.”
+- Reveal EN: Compatible with: “The actor who appeared beside the rattling cupboard wore a mask.”
+- Reveal ES: Compatible con: “El actor que apareció junto al armario que se sacudía llevaba máscara.”
 - Follow-up: “Where did the actor come from?” / “¿De dónde salió el actor?”
 
 | id | kind | EN | ES | states | reveal (EN) |
 |---|---|---|---|---|---|
-| q5a1 | Compatible with the case file | From beside a rattling cupboard. | De al lado de un armario que se sacudía. | incident.place=cupboard | Compatible with: “The only scare happened beside a rattling cupboard.” |
-| q5a2 | Contradicts the case file | Out of a coffin. There was no cupboard near it. | De un ataúd. No había ningún armario cerca. | incident.place=coffin | Contradicts: “The only scare happened beside a rattling cupboard.” The case file says the only scare happened beside a rattling cupboard. Could both be true? None: it was the only scare, and it happened beside the cupboard. |
+| q5a1 | Compatible with the case file | From beside a rattling cupboard. | De al lado de un armario que se sacudía. | incident.place=cupboard | Compatible with: “The masked actor appeared beside a rattling cupboard.” |
+| q5a2 | Contradicts the case file | Out of a coffin. There was no cupboard near it. | De un ataúd. No había ningún armario cerca. | incident.place=coffin | Contradicts: “The masked actor appeared beside a rattling cupboard.” The case file says the masked actor appeared beside a rattling cupboard. Could both be true? Considered: a coffin next to the cupboard. But this says no cupboard was near where the masked actor came from. |
 | q5a3 | Vague or evasive | Somewhere on my left. | De algún lado a mi izquierda. | — | Says nothing checkable. Being vague doesn't prove anyone is lying. |
 
-### q5b · Contradicts the case file
+### q5b · Unsupported extra detail
 - EN: “An actor with no mask, just face paint.”
 - ES: “Un actor sin máscara, solo con la cara pintada.”
-- States: incident.who=unmasked-actor
-- Reveal EN: Contradicts: “The only scare was a masked actor.” The case file says the only scare was a masked actor. Could both be true? Face paint could be under a mask, but this says there was no mask, and it was the only scare.
-- Reveal ES: Contradice: “El único susto fue un actor con máscara.” Según el expediente, el único susto fue un actor con máscara. ¿Pueden ser ciertas las dos cosas? Podría haber pintura bajo la máscara, pero esto dice que no había máscara, y fue el único susto.
+- States: —
+- Reveal EN: Other actors or moments are never ruled out, so an unmasked actor or a staircase can't be checked. Not automatically false.
+- Reveal ES: El expediente no descarta otros actores ni otros momentos, así que un actor sin máscara o una escalera no se pueden comprobar. No es falso por eso.
 - Follow-up: “What did the face paint look like?” / “¿Cómo era la pintura de la cara?”
 
 | id | kind | EN | ES | states | reveal (EN) |
 |---|---|---|---|---|---|
-| q5b1 | Unsupported extra detail | White, with big black eyes. | Blanca, con ojos negros enormes. | — | Can't be checked on its own; it only keeps the earlier conflicting story going. |
-| q5b2 | Compatible with the case file · correction | Hmm, maybe it was a mask, not paint. | Mmm, tal vez era una máscara, no pintura. | incident.who=masked-actor | Compatible with: “The only scare was a masked actor.” Corrects what this person said earlier. It lowers confidence, but it is not a contradiction by itself. |
+| q5b1 | Unsupported extra detail | White, with big black eyes. | Blanca, con ojos negros enormes. | — | Other actors or moments are never ruled out, so an unmasked actor or a staircase can't be checked. Not automatically false. |
+| q5b2 | Compatible with the case file · correction | Hmm, maybe it was a mask, not paint. | Mmm, tal vez era una máscara, no pintura. | incident.who=masked-actor | Compatible with: “The actor who appeared beside the rattling cupboard wore a mask.” Corrects what this person said earlier. It lowers confidence, but it is not a contradiction by itself. |
 | q5b3 | Vague or evasive | Scary. I looked away. | Daba miedo. Aparté la mirada. | — | Says nothing checkable. Being vague doesn't prove anyone is lying. |
 
 ### q5c · Compatible with the case file
 - EN: “A cupboard started rattling, and someone appeared beside it.”
 - ES: “Un armario empezó a sacudirse y alguien apareció a su lado.”
 - States: incident.place=cupboard
-- Reveal EN: Compatible with: “The only scare happened beside a rattling cupboard.”
-- Reveal ES: Compatible con: “El único susto ocurrió junto a un armario que se sacudía.”
+- Reveal EN: Compatible with: “The masked actor appeared beside a rattling cupboard.”
+- Reveal ES: Compatible con: “El actor con máscara apareció junto a un armario que se sacudía.”
 - Follow-up: “Who appeared?” / “¿Quién apareció?”
 
 | id | kind | EN | ES | states | reveal (EN) |
 |---|---|---|---|---|---|
-| q5c1 | Compatible with the case file | An actor in a mask. | Un actor con máscara. | incident.who=masked-actor | Compatible with: “The only scare was a masked actor.” |
-| q5c2 | Contradicts the case file | An actor with no mask. | Un actor sin máscara. | incident.who=unmasked-actor | Contradicts: “The only scare was a masked actor.” The case file says the only scare was a masked actor. Could both be true? Face paint could be under a mask, but this says there was no mask, and it was the only scare. |
+| q5c1 | Compatible with the case file | An actor in a mask. | Un actor con máscara. | incident.who=masked-actor | Compatible with: “The actor who appeared beside the rattling cupboard wore a mask.” |
+| q5c2 | Contradicts the case file | An actor with no mask. | Un actor sin máscara. | incident.who=unmasked-actor | Contradicts: “The actor who appeared beside the rattling cupboard wore a mask.” The case file says the actor who appeared beside the rattling cupboard wore a mask. Could both be true? Considered: two people appearing at the cupboard. But the answer says who appeared there, and "no mask" also rules out paint under a mask. |
 | q5c3 | Vague or evasive | I didn't get a good look. | No alcancé a verlo bien. | — | Says nothing checkable. Being vague doesn't prove anyone is lying. |
 
-### q5d · Contradicts the case file
-- EN: “Someone jumped down a creaky staircase. There was no cupboard.”
-- ES: “Alguien bajó de un salto por una escalera que crujía. No había ningún armario.”
-- States: incident.place=staircase
-- Reveal EN: Contradicts: “The only scare happened beside a rattling cupboard.” The case file says the only scare happened beside a rattling cupboard. Could both be true? None: it was the only scare, and it happened beside the cupboard.
-- Reveal ES: Contradice: “El único susto ocurrió junto a un armario que se sacudía.” Según el expediente, el único susto ocurrió junto a un armario que se sacudía. ¿Pueden ser ciertas las dos cosas? Ninguna: fue el único susto y ocurrió junto al armario.
+### q5d · Unsupported extra detail
+- EN: “Someone jumped down a creaky staircase.”
+- ES: “Alguien bajó de un salto por una escalera que crujía.”
+- States: —
+- Reveal EN: Other actors or moments are never ruled out, so an unmasked actor or a staircase can't be checked. Not automatically false.
+- Reveal ES: El expediente no descarta otros actores ni otros momentos, así que un actor sin máscara o una escalera no se pueden comprobar. No es falso por eso.
 - Follow-up: “Who was on the staircase?” / “¿Quién estaba en la escalera?”
 
 | id | kind | EN | ES | states | reveal (EN) |
 |---|---|---|---|---|---|
-| q5d1 | Contradicts the case file | An actor with no mask. | Un actor sin máscara. | incident.who=unmasked-actor | Contradicts: “The only scare was a masked actor.” The case file says the only scare was a masked actor. Could both be true? Face paint could be under a mask, but this says there was no mask, and it was the only scare. |
-| q5d2 | Compatible with the case file · correction | Wait, it was a masked actor beside a rattling cupboard. Not a staircase. | Espera, era un actor con máscara junto a un armario que se sacudía. No una escalera. | incident.who=masked-actor, incident.place=cupboard | Compatible with: “The only scare was a masked actor.” Compatible with: “The only scare happened beside a rattling cupboard.” Corrects what this person said earlier. It lowers confidence, but it is not a contradiction by itself. |
+| q5d1 | Unsupported extra detail | An actor with no mask. | Un actor sin máscara. | — | Other actors or moments are never ruled out, so an unmasked actor or a staircase can't be checked. Not automatically false. |
+| q5d2 | Compatible with the case file · correction | Wait, it was a masked actor beside a rattling cupboard. Not a staircase. | Espera, era un actor con máscara junto a un armario que se sacudía. No una escalera. | incident.who=masked-actor, incident.place=cupboard | Compatible with: “The actor who appeared beside the rattling cupboard wore a mask.” Compatible with: “The masked actor appeared beside a rattling cupboard.” Corrects what this person said earlier. It lowers confidence, but it is not a contradiction by itself. |
 | q5d3 | Vague or evasive | I didn't get a good look. | No alcancé a verlo bien. | — | Says nothing checkable. Being vague doesn't prove anyone is lying. |
 
 ### q5e · Unsupported extra detail
@@ -364,8 +364,8 @@ Kinds (compatible / contradiction / unsupported extra detail / vague) are manual
 
 | id | kind | EN | ES | states | reveal (EN) |
 |---|---|---|---|---|---|
-| q5e1 | Compatible with the case file | A masked actor, right by a rattling cupboard. | Un actor con máscara, justo al lado de un armario que se sacudía. | incident.who=masked-actor, incident.place=cupboard | Compatible with: “The only scare was a masked actor.” Compatible with: “The only scare happened beside a rattling cupboard.” |
-| q5e2 | Contradicts the case file | An actor with no mask, on a staircase. | Un actor sin máscara, en una escalera. | incident.who=unmasked-actor, incident.place=staircase | Contradicts: “The only scare was a masked actor.” Contradicts: “The only scare happened beside a rattling cupboard.” The case file says the only scare was a masked actor. Could both be true? Face paint could be under a mask, but this says there was no mask, and it was the only scare. |
+| q5e1 | Compatible with the case file | A masked actor, right by a rattling cupboard. | Un actor con máscara, justo al lado de un armario que se sacudía. | incident.who=masked-actor, incident.place=cupboard | Compatible with: “The actor who appeared beside the rattling cupboard wore a mask.” Compatible with: “The masked actor appeared beside a rattling cupboard.” |
+| q5e2 | Unsupported extra detail | An actor with no mask, on a staircase. | Un actor sin máscara, en una escalera. | — | Other actors or moments are never ruled out, so an unmasked actor or a staircase can't be checked. Not automatically false. |
 | q5e3 | Vague or evasive | I didn't turn around to look. | No me volteé a ver. | — | Says nothing checkable. Being vague doesn't prove anyone is lying. |
 
 ## q6 · Incident — “After everyone moved suddenly, where did your group go?” / “Cuando todos se movieron de repente, ¿a dónde fue tu grupo?”
@@ -380,8 +380,8 @@ Kinds (compatible / contradiction / unsupported extra detail / vague) are manual
 
 | id | kind | EN | ES | states | reveal (EN) |
 |---|---|---|---|---|---|
-| q6a1 | Compatible with the case file | A masked actor by a rattling cupboard. | De un actor con máscara junto a un armario que se sacudía. | incident.who=masked-actor, incident.place=cupboard | Compatible with: “The only scare was a masked actor.” Compatible with: “The only scare happened beside a rattling cupboard.” |
-| q6a2 | Contradicts the case file | An actor with no mask, on a staircase. | De un actor sin máscara, en una escalera. | incident.who=unmasked-actor, incident.place=staircase | Contradicts: “The only scare was a masked actor.” Contradicts: “The only scare happened beside a rattling cupboard.” The case file says the only scare was a masked actor. Could both be true? Face paint could be under a mask, but this says there was no mask, and it was the only scare. |
+| q6a1 | Compatible with the case file | A masked actor by a rattling cupboard. | De un actor con máscara junto a un armario que se sacudía. | incident.who=masked-actor, incident.place=cupboard | Compatible with: “The actor who appeared beside the rattling cupboard wore a mask.” Compatible with: “The masked actor appeared beside a rattling cupboard.” |
+| q6a2 | Unsupported extra detail | An actor with no mask, on a staircase. | De un actor sin máscara, en una escalera. | — | Other actors or moments are never ruled out, so an unmasked actor or a staircase can't be checked. Not automatically false. |
 | q6a3 | Vague or evasive | Something scary behind us. | De algo que daba miedo detrás de nosotros. | — | Says nothing checkable. Being vague doesn't prove anyone is lying. |
 
 ### q6b · Contradicts the case file
@@ -402,8 +402,8 @@ Kinds (compatible / contradiction / unsupported extra detail / vague) are manual
 - EN: “We hurried away from the rattling cupboard.”
 - ES: “Nos alejamos deprisa del armario que se sacudía.”
 - States: incident.place=cupboard
-- Reveal EN: Compatible with: “The only scare happened beside a rattling cupboard.”
-- Reveal ES: Compatible con: “El único susto ocurrió junto a un armario que se sacudía.”
+- Reveal EN: Compatible with: “The masked actor appeared beside a rattling cupboard.”
+- Reveal ES: Compatible con: “El actor con máscara apareció junto a un armario que se sacudía.”
 - Follow-up: “Where did you go?” / “¿A dónde fueron?”
 
 | id | kind | EN | ES | states | reveal (EN) |
@@ -446,6 +446,6 @@ Kinds (compatible / contradiction / unsupported extra detail / vague) are manual
 - **entry.group**: “How did visitors go in?” / “¿Cómo entraban los visitantes?” — In small groups / En grupos pequeños · One at a time / De uno en uno · All at once, as a big crowd / Todos a la vez, en multitud
 - **route.light**: “What were the corridors like?” / “¿Cómo eran los pasillos?” — Dark / Oscuros · Brightly lit / Muy iluminados · Full of flashing colored lights / Llenos de luces de colores
 - **route.marker**: “What marked the route?” / “¿Qué marcaba el camino?” — A line on the floor / Una línea en el piso · Glowing signs on the walls / Letreros luminosos en las paredes · A rope to hold on to / Una cuerda para sujetarse · Nothing; visitors found their own way / Nada; cada quien encontraba el camino
-- **incident.who**: “Who caused the scare?” / “¿Quién causó el susto?” — A masked actor / Un actor con máscara · An actor with face paint and no mask / Un actor con la cara pintada y sin máscara · A giant puppet / Una marioneta gigante · A magician / Un mago
-- **incident.place**: “Where did the scare happen?” / “¿Dónde ocurrió el susto?” — Beside a rattling cupboard / Junto a un armario que se sacudía · On a creaky staircase / En una escalera que crujía · Out of a coffin / De un ataúd · Behind a mirror / Detrás de un espejo
+- **incident.who**: “Who appeared beside the rattling cupboard?” / “¿Quién apareció junto al armario que se sacudía?” — A masked actor / Un actor con máscara · An actor with face paint and no mask / Un actor con la cara pintada y sin máscara · A giant puppet / Una marioneta gigante · A magician / Un mago
+- **incident.place**: “Where did the masked actor appear?” / “¿Dónde apareció el actor con máscara?” — Beside a rattling cupboard / Junto a un armario que se sacudía · On a creaky staircase / En una escalera que crujía · Out of a coffin / De un ataúd · Behind a mirror / Detrás de un espejo
 - **incident.after**: “What did the group do right after?” / “¿Qué hizo el grupo justo después?” — Hurried toward the exit / Se apresuró hacia la salida · Ran back to the entrance / Regresó corriendo a la entrada · Stopped and stayed to watch / Se detuvo a mirar · Sat down on the floor / Se sentó en el piso

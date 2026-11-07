@@ -21,6 +21,7 @@ import {
   TRUTH,
   classify,
   claimById,
+  responseById,
   relateToFacts,
   type T,
 } from '../caseData';
@@ -91,7 +92,9 @@ for (const q of QUESTIONS) {
     }
     for (const r of c.followUp.responses) {
       const changes = r.asserts.some((x) => c.asserts.some((y) => y.slot === x.slot && y.value !== x.value));
-      ok(!!r.revises === changes, `${r.id}: marked correction=${!!r.revises} but changes its own claim=${changes}`);
+      // a correction either replaces a checkable detail, or takes back an unchecked extra detail
+      if (changes) ok(!!r.revises, `${r.id}: changes its own claim but is not marked as a correction`);
+      else if (r.revises) ok(c.kind === 'extra' && c.asserts.length === 0 && r.asserts.length > 0, `${r.id}: marked correction but changes nothing checkable`);
     }
   }
 }
@@ -353,7 +356,13 @@ section('whole-exchange judging');
   // personality changes confidence, not facts: a cautious bot wants two matching details
   ok(bots.judge(det, ex('q6a'), 2).judgment === 'unclear' && bots.judge(det, ex('q6a'), 1).judgment === 'fits', 'cautious threshold: one match is not enough');
   ok(bots.judge(det, ex('q6a', 'q6a1'), 2).judgment === 'fits', 'cautious threshold: three matches are enough');
-  ok(bots.judge(det, ex('q5b'), 2).judgment === 'conflict', 'a contradiction is a contradiction for every personality');
+  ok(bots.judge(det, ex('q5c', 'q5c2'), 2).judgment === 'conflict', 'a contradiction is a contradiction for every personality');
+  // review 3: an unmasked actor or a staircase could be another moment, so it is not a contradiction
+  for (const id of ['q4e2', 'q5b', 'q5d', 'q5d1', 'q5e2', 'q6a2']) {
+    const line = id.length === 3 ? claimById(id).claim : responseById(id).response;
+    ok(line.kind === 'extra' && line.asserts.length === 0, id + ' must be an unsupported extra detail');
+  }
+  ok(bots.judge(det, ex('q5b'), 1).judgment === 'unclear', 'face paint alone: not enough information');
   for (const [cid, rid, want, why] of cases) {
     const got = bots.judge(det, ex(cid, rid)).judgment;
     ok(got === want, `judge ${cid}${rid ? '+' + rid : ''}: expected ${want}, got ${got} (${why})`);

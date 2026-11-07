@@ -19,7 +19,7 @@ No physical iPhone test has been done. Browser checks used headless Chromium at 
 | "A ticket machine. It beeped when it was our turn." | A machine could signal turns while a guide collects tickets. | "Nobody. There was no staff, just a ticket machine." |
 | "Nothing. They just pointed us in." | The person pointing need not be the guide who collected tickets. | "Nothing. Nobody took tickets." |
 | "A staff member stood next to a blue door." | Several staff members can stand anywhere. | "A table full of rubber bats" (extra detail) |
-| Unmasked actor / staircase / coffin scares | A second actor or a second scare was never ruled out. | The evidence now says **"It was the only scare."**, and these lines are about *the* scare. |
+| Unmasked actor / staircase / coffin scares | A second actor or a second scare was never ruled out. | Review 3 (below): reclassified as unsupported extra details. |
 | "From the top of a creaky staircase" | The actor could come down stairs and then appear by the cupboard. | "Out of a coffin. There was no cupboard near it." |
 | "We sat in rows… we didn't walk much" | "Not much" still allows walking. | "We stayed in our seats the whole time." |
 | "Waved the whole line in at once" | The line could have been small. | "Waved a big crowd in all at once." |
@@ -29,12 +29,26 @@ No physical iPhone test has been done. Browser checks used headless Chromium at 
 
 **The red curtain is now never contradicted** (only confirmed), because every alternative entrance could coexist with it.
 
-- **33 contradictions remain.** Each has written evidence, a reason, and the reconciliation considered: see [contradiction-audit.md](contradiction-audit.md).
+- **27 contradictions remain** after review 3 (33 after review 2). Each has written evidence, a reason, and the reconciliation considered: see [contradiction-audit.md](contradiction-audit.md).
 - **Every line now has a reviewed kind:** compatible, contradiction, unsupported extra detail, or vague. Corrections are flagged separately.
 - **Reveal wording:**
   - Compatible lines say "Compatible with", never "matches".
   - Corrections say they lower confidence but are not contradictions.
   - Extra details say "can't be checked, not automatically false".
+
+## 1b. Review 3: the "only scare" sentence is removed
+
+Review 2 added "It was the only scare." to evidence C so that decoys about an unmasked actor or a staircase would be wrong. That sentence doesn't rule out a staircase, a coffin or an unmasked actor elsewhere in the house, and it was added only to make decoys fail. It is removed. The incident lines were re-reviewed with one rule: **a contradiction must be about the same event and make claims that cannot both be true.**
+
+| Line | Same event as the evidence? | Now |
+|---|---|---|
+| q5c → "An actor with no mask." (answering *who appeared beside the rattling cupboard*) | Yes: the cupboard appearance | **Contradiction** (masked vs. no mask) |
+| q5a → "Out of a coffin. There was no cupboard near it." (where *the masked actor* came from) | Yes: the masked actor | **Contradiction** (beside a cupboard vs. no cupboard near) |
+| q4e2 "…the scare: an actor with no mask" · q5b "An actor with no mask, just face paint" · q5d "Someone jumped down a creaky staircase" (the ", There was no cupboard." clause dropped, since it was only scoped to the staircase) · q5d1 · q5e2 · q6a2 | No: could be another actor or moment | **Unsupported extra detail** |
+
+- **Final-bluff questions.** They now name the event, because "the scare" is no longer unique: "Who appeared beside the rattling cupboard?" and "Where did the masked actor appear?"
+- **Corrections of an unchecked detail.** q5b2 and q5d2 take back an unchecked detail ("Wait… not a staircase") and stay marked as corrections in the reveal. Bots detect corrections only when a checkable value changes, so they don't treat these two as a change of story. Known limitation; not changed.
+- **Numbers.** The simulation figures in §5 were measured before review 3 and have not been re-run.
 
 ## 2. Judgments now follow the whole exchange
 
@@ -129,6 +143,8 @@ The tests only check that the reviewed labels and the stated details agree with 
 - **Vote:** Granny 3 votes, caught. *The human's reason is a pattern of answers with nothing checkable, not any single answer. That is weaker evidence, and the reveal says so.*
 
 ### C. A coherent bluff that escapes (seed p9)
+
+*Which tie: the bots' suspicion **scores** tied, so each bot picked among the tied players with seeded (reproducible) randomness. The final **tally** did not tie: the human had 2 votes, Bruno 1, Leo 1, so the human was identified. A tied highest tally would have identified nobody and the Liar would have escaped by the published rule (`result()` in engine.ts; tested with a 2–2 tie).*
 
 1. The human (Detective): "A guide took our tickets."
 2. The human asks Chef Bruno (the Liar) the same question. Bruno: **"A guide took our tickets."**

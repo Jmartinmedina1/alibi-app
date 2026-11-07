@@ -4,12 +4,13 @@ Branch: `prototype/case-logic` (never merged to `main`). Not validated with play
 
 ## Run it on your Mac, play it on your iPhone
 
-Cloudflare cannot give this project a preview link. The game server uses a Durable Object, and Cloudflare doesn't generate preview URLs for those Workers. A guard (`tools/branch-guard.mjs`) also stops any Cloudflare build of a non-`main` branch, so this branch can never reach the live game.
+Cloudflare cannot give this project a preview link: the game server uses a Durable Object, and Cloudflare doesn't generate preview URLs for those Workers. `tools/branch-guard.mjs` makes the build command exit with an error when Cloudflare reports a non-`main` branch. Cloudflare's check for this branch shows "failure", but the build log was not read, so it is not confirmed that the guard is what stopped it.
 
 1. In Terminal on your Mac:
    ```
-   cd ~/alibi-app
-   git fetch origin
+   # if you already have a clone, cd into it instead of cloning
+   git clone https://github.com/Jmartinmedina1/alibi-app.git alibi-prototype
+   cd alibi-prototype
    git checkout prototype/case-logic
    cd app
    npm install
@@ -17,8 +18,8 @@ Cloudflare cannot give this project a preview link. The game server uses a Durab
    ```
 2. On the Mac, open **http://localhost:8081/prototype**.
 3. On the iPhone (same Wi-Fi as the Mac):
-   - Find the Mac's IP address: System Settings → Wi-Fi → Details → IP Address (for example 192.168.1.23).
-   - In Safari on the iPhone, open **http://THAT-IP:8081/prototype**.
+   - In a second Terminal window on the Mac, run `ipconfig getifaddr en0`. It prints the Mac's Wi-Fi address (for example 192.168.1.23). If it prints nothing, try `ipconfig getifaddr en1`.
+   - In Safari on the iPhone, open `http://` + that address + `:8081/prototype`.
    - If the Mac asks whether to allow incoming connections for "node", click Allow.
 4. To stop: press **Control + C** in Terminal. To go back to the normal game: `git checkout main`.
 

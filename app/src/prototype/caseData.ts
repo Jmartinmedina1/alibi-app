@@ -86,8 +86,8 @@ export const EVIDENCE_BLOCKS: { block: 'A' | 'B' | 'C'; title: T; text: T }[] = 
     block: 'C',
     title: t('Incident', 'Incidente'),
     text: t(
-      'A masked actor appeared beside a rattling cupboard. It was the only scare. The group hurried toward the exit.',
-      'Un actor con máscara apareció junto a un armario que se sacudía. Fue el único susto. El grupo se apresuró hacia la salida.',
+      'A masked actor appeared beside a rattling cupboard. The group hurried toward the exit.',
+      'Un actor con máscara apareció junto a un armario que se sacudía. El grupo se apresuró hacia la salida.',
     ),
   },
 ];
@@ -99,8 +99,8 @@ export const FACTS: Fact[] = [
   { id: 'groups', block: 'A', text: t('Visitors entered in small groups.', 'Los visitantes entraban en grupos pequeños.'), truth: [a('entry.group', 'small')] },
   { id: 'corridors', block: 'B', text: t('Visitors walked through dark corridors.', 'Los visitantes recorrían pasillos oscuros.'), truth: [a('route.mode', 'walked'), a('route.light', 'dark')] },
   { id: 'line', block: 'B', text: t('A green floor line marked the route.', 'Una línea verde en el piso marcaba el camino.'), truth: [a('route.marker', 'green-line')] },
-  { id: 'actor', block: 'C', text: t('The only scare was a masked actor.', 'El único susto fue un actor con máscara.'), truth: [a('incident.who', 'masked-actor')] },
-  { id: 'cupboard', block: 'C', text: t('The only scare happened beside a rattling cupboard.', 'El único susto ocurrió junto a un armario que se sacudía.'), truth: [a('incident.place', 'cupboard')] },
+  { id: 'actor', block: 'C', text: t('The actor who appeared beside the rattling cupboard wore a mask.', 'El actor que apareció junto al armario que se sacudía llevaba máscara.'), truth: [a('incident.who', 'masked-actor')] },
+  { id: 'cupboard', block: 'C', text: t('The masked actor appeared beside a rattling cupboard.', 'El actor con máscara apareció junto a un armario que se sacudía.'), truth: [a('incident.place', 'cupboard')] },
   { id: 'exit', block: 'C', text: t('The group hurried toward the exit.', 'El grupo se apresuró hacia la salida.'), truth: [a('incident.after', 'exit')] },
 ];
 
@@ -148,8 +148,8 @@ const W = {
   dark: t('The case file says the corridors were dark.', 'Según el expediente, los pasillos estaban oscuros.'),
   line: t('The case file says a green floor line marked the route.', 'Según el expediente, una línea verde en el piso marcaba el camino.'),
   walked: t('The case file says visitors walked through the corridors.', 'Según el expediente, los visitantes recorrían los pasillos caminando.'),
-  masked: t('The case file says the only scare was a masked actor.', 'Según el expediente, el único susto fue un actor con máscara.'),
-  cupboard: t('The case file says the only scare happened beside a rattling cupboard.', 'Según el expediente, el único susto ocurrió junto a un armario que se sacudía.'),
+  masked: t('The case file says the actor who appeared beside the rattling cupboard wore a mask.', 'Según el expediente, el actor que apareció junto al armario que se sacudía llevaba máscara.'),
+  cupboard: t('The case file says the masked actor appeared beside a rattling cupboard.', 'Según el expediente, el actor con máscara apareció junto a un armario que se sacudía.'),
   exit: t('The case file says the group hurried toward the exit.', 'Según el expediente, el grupo se apresuró hacia la salida.'),
 };
 const NOREC = {
@@ -160,11 +160,12 @@ const NOREC = {
   lit: t('A dark corridor can have some dim light, but "bright" describes a well-lit route, not a dark one.', 'Un pasillo oscuro puede tener algo de luz tenue, pero "iluminado" describe un camino con buena luz, no uno oscuro.'),
   noLine: t('Someone could miss the line, but this says nothing marked the way, which the case denies.', 'Alguien podría no ver la línea, pero esto afirma que nada marcaba el camino, y el expediente lo contradice.'),
   seated: t('None: staying seated the whole time rules out walking the corridors.', 'Ninguna: quedarse sentado todo el tiempo descarta recorrer los pasillos.'),
-  unmasked: t('Face paint could be under a mask, but this says there was no mask, and it was the only scare.', 'Podría haber pintura bajo la máscara, pero esto dice que no había máscara, y fue el único susto.'),
-  place: t('None: it was the only scare, and it happened beside the cupboard.', 'Ninguna: fue el único susto y ocurrió junto al armario.'),
+  unmasked: t('Considered: two people appearing at the cupboard. But the answer says who appeared there, and "no mask" also rules out paint under a mask.', 'Considerado: dos personas apareciendo junto al armario. Pero la respuesta dice quién apareció ahí, y "sin máscara" también descarta pintura bajo una máscara.'),
+  place: t('Considered: a coffin next to the cupboard. But this says no cupboard was near where the masked actor came from.', 'Considerado: un ataúd junto al armario. Pero esto dice que no había ningún armario cerca de donde salió el actor con máscara.'),
   back: t('None: running back to the entrance is the opposite direction at the same moment.', 'Ninguna: regresar corriendo a la entrada es la dirección opuesta en el mismo momento.'),
   stayed: t('None: stopping to watch is not hurrying away.', 'Ninguna: quedarse a mirar no es alejarse deprisa.'),
 };
+const OTHER = t('Other actors or moments are never ruled out, so an unmasked actor or a staircase can\'t be checked. Not automatically false.', 'El expediente no descarta otros actores ni otros momentos, así que un actor sin máscara o una escalera no se pueden comprobar. No es falso por eso.');
 const CONTINUES = t('Can\'t be checked on its own; it only keeps the earlier conflicting story going.', 'No se puede comprobar por sí solo; solo sigue con la historia contradictoria anterior.');
 
 export const QUESTIONS: Question[] = [
@@ -303,7 +304,7 @@ export const QUESTIONS: Question[] = [
       ]),
       C(L('q4e', 'extra', 'Creepy music played the whole time.', 'Hubo música tétrica todo el tiempo.', none, { note: t('Music is never mentioned in the case file. It can\'t be checked, and it isn\'t automatically false.', 'La música no aparece en el expediente. No se puede comprobar y no es falsa por eso.') }), t('Did the music ever change?', '¿La música cambió en algún momento?'), [
         L('q4e1', 'compatible', 'It got loud when a cupboard started rattling.', 'Subió de volumen cuando un armario empezó a sacudirse.', [CUPBOARD]),
-        L('q4e2', 'contradiction', 'It got loud when the scare happened: an actor with no mask.', 'Subió de volumen con el susto: un actor sin máscara.', [a('incident.who', 'unmasked-actor')], { why: W.masked, reconcile: NOREC.unmasked }),
+        L('q4e2', 'extra', 'It got loud when the scare happened: an actor with no mask.', 'Subió de volumen con el susto: un actor sin máscara.', none, { note: OTHER }),
         L('q4e3', 'vague', 'Not that I noticed.', 'No que yo notara.', none),
       ]),
     ],
@@ -318,8 +319,8 @@ export const QUESTIONS: Question[] = [
         L('q5a2', 'contradiction', 'Out of a coffin. There was no cupboard near it.', 'De un ataúd. No había ningún armario cerca.', [a('incident.place', 'coffin')], { why: W.cupboard, reconcile: NOREC.place }),
         L('q5a3', 'vague', 'Somewhere on my left.', 'De algún lado a mi izquierda.', none),
       ]),
-      C(L('q5b', 'contradiction', 'An actor with no mask, just face paint.', 'Un actor sin máscara, solo con la cara pintada.', [a('incident.who', 'unmasked-actor')], { why: W.masked, reconcile: NOREC.unmasked }), t('What did the face paint look like?', '¿Cómo era la pintura de la cara?'), [
-        L('q5b1', 'extra', 'White, with big black eyes.', 'Blanca, con ojos negros enormes.', none, { note: CONTINUES }),
+      C(L('q5b', 'extra', 'An actor with no mask, just face paint.', 'Un actor sin máscara, solo con la cara pintada.', none, { note: OTHER }), t('What did the face paint look like?', '¿Cómo era la pintura de la cara?'), [
+        L('q5b1', 'extra', 'White, with big black eyes.', 'Blanca, con ojos negros enormes.', none, { note: OTHER }),
         L('q5b2', 'compatible', 'Hmm, maybe it was a mask, not paint.', 'Mmm, tal vez era una máscara, no pintura.', [MASKED], { revises: true }),
         L('q5b3', 'vague', 'Scary. I looked away.', 'Daba miedo. Aparté la mirada.', none),
       ]),
@@ -328,14 +329,14 @@ export const QUESTIONS: Question[] = [
         L('q5c2', 'contradiction', 'An actor with no mask.', 'Un actor sin máscara.', [a('incident.who', 'unmasked-actor')], { why: W.masked, reconcile: NOREC.unmasked }),
         L('q5c3', 'vague', "I didn't get a good look.", 'No alcancé a verlo bien.', none),
       ]),
-      C(L('q5d', 'contradiction', 'Someone jumped down a creaky staircase. There was no cupboard.', 'Alguien bajó de un salto por una escalera que crujía. No había ningún armario.', [a('incident.place', 'staircase')], { why: W.cupboard, reconcile: NOREC.place }), t('Who was on the staircase?', '¿Quién estaba en la escalera?'), [
-        L('q5d1', 'contradiction', 'An actor with no mask.', 'Un actor sin máscara.', [a('incident.who', 'unmasked-actor')], { why: W.masked, reconcile: NOREC.unmasked }),
+      C(L('q5d', 'extra', 'Someone jumped down a creaky staircase.', 'Alguien bajó de un salto por una escalera que crujía.', none, { note: OTHER }), t('Who was on the staircase?', '¿Quién estaba en la escalera?'), [
+        L('q5d1', 'extra', 'An actor with no mask.', 'Un actor sin máscara.', none, { note: OTHER }),
         L('q5d2', 'compatible', 'Wait, it was a masked actor beside a rattling cupboard. Not a staircase.', 'Espera, era un actor con máscara junto a un armario que se sacudía. No una escalera.', [MASKED, CUPBOARD], { revises: true }),
         L('q5d3', 'vague', "I didn't get a good look.", 'No alcancé a verlo bien.', none),
       ]),
       C(L('q5e', 'extra', 'Someone behind me screamed.', 'Alguien detrás de mí gritó.', none, { note: t('Fits a scare, but screams are never mentioned. Can\'t be checked.', 'Encaja con un susto, pero los gritos no aparecen en el expediente. No se puede comprobar.') }), t('What made them scream?', '¿Por qué gritó?'), [
         L('q5e1', 'compatible', 'A masked actor, right by a rattling cupboard.', 'Un actor con máscara, justo al lado de un armario que se sacudía.', [MASKED, CUPBOARD]),
-        L('q5e2', 'contradiction', 'An actor with no mask, on a staircase.', 'Un actor sin máscara, en una escalera.', [a('incident.who', 'unmasked-actor'), a('incident.place', 'staircase')], { why: W.masked, reconcile: NOREC.unmasked }),
+        L('q5e2', 'extra', 'An actor with no mask, on a staircase.', 'Un actor sin máscara, en una escalera.', none, { note: OTHER }),
         L('q5e3', 'vague', "I didn't turn around to look.", 'No me volteé a ver.', none),
       ]),
     ],
@@ -347,7 +348,7 @@ export const QUESTIONS: Question[] = [
     claims: [
       C(L('q6a', 'compatible', 'We hurried toward the exit.', 'Nos apresuramos hacia la salida.', [EXIT]), t('What were you hurrying away from?', '¿De qué se estaban alejando?'), [
         L('q6a1', 'compatible', 'A masked actor by a rattling cupboard.', 'De un actor con máscara junto a un armario que se sacudía.', [MASKED, CUPBOARD]),
-        L('q6a2', 'contradiction', 'An actor with no mask, on a staircase.', 'De un actor sin máscara, en una escalera.', [a('incident.who', 'unmasked-actor'), a('incident.place', 'staircase')], { why: W.masked, reconcile: NOREC.unmasked }),
+        L('q6a2', 'extra', 'An actor with no mask, on a staircase.', 'De un actor sin máscara, en una escalera.', none, { note: OTHER }),
         L('q6a3', 'vague', 'Something scary behind us.', 'De algo que daba miedo detrás de nosotros.', none),
       ]),
       C(L('q6b', 'contradiction', 'We ran back to the entrance.', 'Regresamos corriendo a la entrada.', [a('incident.after', 'back-to-entrance')], { why: W.exit, reconcile: NOREC.back }), t('Why go back to the entrance?', '¿Por qué regresar a la entrada?'), [
@@ -427,7 +428,7 @@ export const CHALLENGES: Challenge[] = [
   },
   {
     slot: 'incident.who',
-    q: t('Who caused the scare?', '¿Quién causó el susto?'),
+    q: t('Who appeared beside the rattling cupboard?', '¿Quién apareció junto al armario que se sacudía?'),
     options: [
       { value: 'masked-actor', text: t('A masked actor', 'Un actor con máscara') },
       { value: 'unmasked-actor', text: t('An actor with face paint and no mask', 'Un actor con la cara pintada y sin máscara') },
@@ -437,7 +438,7 @@ export const CHALLENGES: Challenge[] = [
   },
   {
     slot: 'incident.place',
-    q: t('Where did the scare happen?', '¿Dónde ocurrió el susto?'),
+    q: t('Where did the masked actor appear?', '¿Dónde apareció el actor con máscara?'),
     options: [
       { value: 'cupboard', text: t('Beside a rattling cupboard', 'Junto a un armario que se sacudía') },
       { value: 'staircase', text: t('On a creaky staircase', 'En una escalera que crujía') },
