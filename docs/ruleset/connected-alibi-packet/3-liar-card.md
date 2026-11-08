@@ -12,7 +12,7 @@
 - Dot went to sell the raffle tickets you gave her.
 
 **Lock one alibi (choose A, B, C or D):**
-- **A:** "I gave Dot the raffle box at 9:05, then stayed inside my truck restocking until 9:30."
+- **A:** "I gave Dot the raffle box at 9:05. I kept the truck open and restocked inside from 9:10 to 9:30."
 - **B:** "I gave Dot the raffle box at 9:05, watched the end of Leo's skate demo, then bought raffle tickets at the raffle table around 9:20."
 - **C:** Review your timeline.
 - **D:** Review the rules.

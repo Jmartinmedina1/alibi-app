@@ -22,7 +22,7 @@ At 9:20 the baking trophy went missing from the judges' tent. Three suspects say
 - **A. Open a record** (each can be opened once):
   - A: Food-truck register
   - B: Raffle committee sheet
-  - C: Ice vendor's delivery log
+  - C: Food-truck ice delivery — 9:18
   - D: Stage manager's sign-out sheet
 - **B. Ask a suspect** "Who did you see, and what did you do, between 9:10 and 9:30?":
   - A: Granny Dot

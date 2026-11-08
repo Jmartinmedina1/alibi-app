@@ -6,7 +6,7 @@
   - *Limit:* records sales only.
 - **B · Raffle committee sheet:** "9:05: Chef Bruno handed the raffle box to Granny Dot at his food truck. 9:10–9:30: every raffle ticket was sold at the raffle table by Granny Dot."
   - *Limit:* doesn't list who bought tickets.
-- **C · Ice vendor's delivery log:** "9:18: bag of ice for the food truck. The truck was padlocked from the outside, so I left the bag by the door."
+- **C · Food-truck ice delivery — 9:18:** "9:18: bag of ice for the food truck. The truck was padlocked from the outside, so I left the bag by the door."
   - *Limit:* covers 9:18 only.
 - **D · Stage manager's sheet:** "Microphone signed out to Skater Leo at 9:15."
   - *Limit:* shows who took it, not where it went.
