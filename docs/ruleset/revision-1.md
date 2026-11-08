@@ -1,4 +1,10 @@
-# Revision 1 (on paper): result — the design gate cannot be met with one fixed round
+# Revision 1 (on paper): result
+
+> **Correction (Nov 8):**
+> - The section "Why this is structural" below claimed the design gate cannot be met.
+> - That claim is **withdrawn**. The checker only showed that each tested *state* had (or lacked) a winning plan; it never tested whether one plan a player could follow wins across hidden states.
+> - See `setup-family.md` for the analysis that keeps those two apart.
+> - The checker findings in this report still stand.
 
 Riverside Fair is not being implemented. Its report (`riverside-fair-round.md`) and checker (`tools/round-check/round.py`, `tests.py`, `gen.py`) are unchanged.
 
