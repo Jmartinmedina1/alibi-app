@@ -1,5 +1,11 @@
 # Hidden-setup family: what the Detective can actually observe
 
+> **Correction (Nov 8):**
+> - The summary counts in §3 (heading) and §5 came from the six-setup run.
+> - The seven-setup family has 23 claim patterns: 16 guaranteed, 1 symmetric, 1 partial, 3 with no decision, and 2 that hold only with family knowledge.
+> - The group table itself is correct.
+> - See `public-lead.md` §1.
+
 Paper analysis only. No gameplay changes.
 
 **Checker** (in `tools/round-check/`):
